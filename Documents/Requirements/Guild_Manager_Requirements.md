@@ -1,7 +1,7 @@
 # Guild Manager — Requirements & Use Case Document
 
 | | |
-| --- | --- |
+|---|---|
 | **Project** | Guild Manager (working title) |
 | **Document type** | Requirements & Use Case Document |
 | **Genre** | Fantasy management simulation |
@@ -13,27 +13,32 @@
 ## Document History
 
 | Version | Date | Summary of changes |
-| --- | --- | --- |
+|---|---|---|
 | 0.1 | 2026-08-04 | Initial draft — concept, V1 pillars, use cases, V2 vision, open questions |
 | 0.2 | 2026-08-05 | Added quest structure (encounters, win condition), personality-driven resolution, and spectator-style quest updates |
 | 0.3 | 2026-08-06 | Restructured to standard requirements-doc format (metadata, changelog, target audience, glossary, risks, milestones); removed references to third-party games/products |
 | 0.4 | 2026-08-10 | Full content pass: core gameplay loop, reprioritized pillars, encounter resolution system, personality trait catalog, relationship/morale system, exhaustion/injury/death system, endgame, towns/shops/recruitment, V1 content scope, updated V2 vision, trimmed open questions |
+| 0.5 | 2026-08-13 | Scope reduction to a single static town for V1 (rotating recruitment roster, no travel); introduced the encounter builder and tag system as a first-class V1 feature; reframed the resolution system as a bespoke numerical system (loosely tabletop-inspired, no saving throws); reframed personality traits as reactive/stat-threshold-driven; added quest text presentation requirements (readability, colour-coding, visible calculations); restructured future scope into a V1 / V2 / V3+ roadmap |
+| 0.6 | 2026-08-13 | Resolved open questions: no cap on active traits (fully stat-driven); moved persistent antagonist memory from V3+ to V2 (V3+ is multiplayer-only for now); confirmed multiplayer stays in V3+; roster rotation is time-based; V1 quest count means 8 quests unique in main objective, with the encounter builder producing their functional encounters |
+| 0.7 | 2026-08-13 | Added the individual & party decision-making system (V2): multi-approach encounter resolution (combat/stealth/social/etc.), with a two-tier decision layer (individual stat-based evaluation vs. party-level social arbitration); clarified V1's decision-making as a simpler precursor to this system |
 
 ---
 
 ## 1. Concept Overview
 
-A fantasy guild management simulation in which the player runs an adventuring guild rather than a sports team or army: recruiting adventurers, negotiating contracts, managing finances and morale, sending parties out on quests, and growing the guild's wealth and reputation while moving between towns on a procedural world map.
+A fantasy guild management simulation in which the player runs a single adventuring guild operating out of **one town**: recruiting adventurers from a rotating local roster, negotiating contracts, managing finances and morale, sending parties out on quests assembled by a tag-driven **encounter builder**, and growing the guild's wealth and reputation. The wider world exists as background context in V1 but is not yet traversable or procedurally generated (see Section 9).
 
-**Tone/style direction:** A classic fantasy aesthetic — atmospheric menus and panels, with fantasy-styled typography rather than a modern management-sim look.
+**Tone/style direction:** a classic fantasy aesthetic — painterly, atmospheric menus and panels, with fantasy-styled typography rather than a generic or modern management-sim look.
 
-**Design touchstones:** Quest/encounter resolution draws inspiration from tabletop RPG encounter-balancing frameworks (turn-based combat resolution, ability-score-driven skill checks); the inter-character relationship system draws inspiration from persistent per-pair opinion systems found in character-driven strategy games; the exhaustion/attrition system draws inspiration from dungeon-crawler roguelites where risk accumulates the longer a party stays in the field. These are design references only, not technical dependencies.
+**Design touchstones:** quest/encounter resolution is being designed as a **bespoke numerical system** — its own stats, combat math, and check mechanics — loosely inspired by tabletop RPG frameworks rather than adapted wholesale from an existing one. Notably, there are no saving-throw-equivalent mechanics; only stats. The inter-character relationship system draws inspiration from persistent per-pair opinion systems found in character-driven strategy games. The exhaustion/attrition system draws inspiration from dungeon-crawler roguelites where risk accumulates the longer a party stays in the field. These remain design references only, not technical dependencies. *The full adventurer stat list is still being finalized — see Section 11.*
 
 ---
 
 ## 2. Vision Statement
 
-The player builds and manages a fantasy adventuring guild over time — recruiting and developing characters, taking on quests, managing finances and logistics, directing and observing the stories of the guild members, building reputation, and shaping the story of the world they live in (V1). The long-term goal is to add multiplayer - guilds interacting with each other through shared-world features like tournaments, bidding wars over quests, and large-scale world events (V2).
+The player builds and manages a fantasy adventuring guild over time — recruiting and developing characters, taking on quests, managing finances and logistics, directing and observing the personal stories of guild members, building reputation, and working toward becoming the most powerful guild in the land, all wrapped around a core of engaging questing (**V1**). The longer-term goal is a world that procedurally generates towns and quests, where the player's actions have real, lasting effects and the world reacts in kind (**V2**). Multiplayer — guilds interacting through tournaments, quest-bidding wars, and large-scale world events — is a further-out stretch goal (**V3+**).
+
+*This revision separates "procedural world" (V2) from "multiplayer" (V3+) rather than grouping both as V2, since multiplayer is a substantially larger and more speculative undertaking — confirmed.*
 
 ---
 
@@ -47,33 +52,33 @@ Classic fantasy fans, management/simulation game fans, tabletop RPG (TTRPG) fans
 
 The game has two nested loops:
 
-1. **Quest loop (in the field):** a party of adventurers is sent out, works through a series of encounters, and returns with an outcome (success/failure, rewards, injuries, relationship/morale shifts).
-2. **Guild loop (between quests):** the primary "management" layer — recruiting, training, healing, equipping, and negotiating — where most of the player's strategic decisions happen.
+1. **Quest loop (in the field):** a party of adventurers is sent out, works through a series of encounters assembled by the encounter builder, and returns with an outcome (success/failure, rewards, injuries, relationship/morale shifts).
+2. **Guild loop (at the town):** the primary "management" layer — recruiting, training, healing, equipping, and negotiating — where most of the player's strategic decisions happen.
 
 **Top-level loop:**
 
-> Find and/or accept an available quest → Execute the quest and receive the outcome/reward → While waiting for the next quest opportunity, improve the guild (recruit better adventurers, upgrade facilities, heal/train the roster, negotiate terms) → Repeat.
+> Find and/or accept an available quest → Execute the quest and receive the outcome/reward → While waiting for the next quest opportunity, improve the guild (recruit from the rotating roster, upgrade facilities, heal/train the roster, negotiate terms) → Repeat.
 
-The guild loop is considered the primary design focus for V1; the quest/encounter loop is intentionally scoped to lean on existing, well-understood resolution frameworks (see Section 6.6) rather than being designed from scratch, so that development effort concentrates on the guild-management layer.
+The guild loop remains the primary design focus for V1, but the quest loop has grown in scope compared to earlier drafts: making questing itself feel fun and varied — via the encounter builder, tag system, and quest text presentation — is now an explicit, co-equal focus rather than something leaned entirely on borrowed frameworks to de-risk.
 
 ---
 
 ## 5. V1 Scope — Core Pillars
 
-V1 is scoped as a **single-player management sim**, with pillars ranked by priority (most to least important — see Section 11 open item on trimming if scope needs to shrink):
+V1 is scoped as a **single-player management sim**, with pillars ranked by priority (most to least important — see Section 12 open item on trimming if scope needs to shrink):
 
 1. **Adventuring guild management** — the guild loop: recruitment, contracts, facilities, finances, roster health.
-2. **TTRPG-style quest storyteller** — the quest loop: multi-encounter quests resolved via an RNG/stat-driven system with narrative flavor text. Delivered as a text-based simulator for V1, but conceptually a "storyteller" system rather than strictly a text-only feature.
-3. **Comprehensive fantasy database** — characters, stats, items, quests, and enemies.
-4. **Randomised, procedural, and interactive world** — the world map and town network.
-5. **Generative encounter-creation tool** — a system/tool to help construct sensible, balanced encounters rather than requiring every encounter to be fully hand-authored.
+2. **Custom quest storyteller** — the quest loop: multi-encounter quests resolved via a bespoke, stat-driven system with narrative flavor text, loosely inspired by tabletop RPG frameworks.
+3. **Comprehensive fantasy database** — characters, stats, items, quests, enemies, encounter types, challenges, rewards, and the tags that connect them.
+4. **Encounter builder** — a tag-driven system that assembles sensible, thematically coherent, appropriately difficult encounters from the database, rather than requiring every encounter to be fully hand-authored.
+5. **Static world and town** — the guild exists in a larger world, but for V1 the guild operates from a **single, static town**; the world is not yet procedural or traversable.
 
 ### 5.1 Presentation Layer (per feature)
 
 | System | Interface Style |
-| --- | --- |
-| World Map | Graphical (GUI) |
-| Quests | Text-based |
+|---|---|
+| Town Hub | Graphical (GUI) — a static illustrated view of the guild's home town, not a travel map in V1 |
+| Quests | Text-based, with colour-coded formatting (see Section 6.5.6) |
 | Everything else (database, finance, team management, contracts, shops, facilities) | Text-based (panel UI) |
 
 **Visual style:** classic fantasy font and panel styling throughout — decorative, immersive UI rather than a generic/modern management-sim look.
@@ -82,42 +87,37 @@ V1 is scoped as a **single-player management sim**, with pillars ranked by prior
 
 ## 6. Use Cases (V1)
 
-### 6.1 World Map & Travel
+### 6.1 The Guild's Home Town
 
-- **As a player**, I want to move my guild between towns on a procedural world map, so that I can explore new opportunities and expand my reputation.
-- **As a player**, I want my choice of location to affect the quests, prices, and reputation available to me, so that travel is a meaningful strategic decision.
+- **As a player**, I want my guild to operate out of a single, static home town in V1, so that the scope stays achievable while the core loops are being built and tuned.
+- **As a player**, I want the town to have its own fixed, hand-authored identity and story, so that it feels like a real place rather than a generic hub.
+- **As a player**, I want the town to support recruiting, shopping, and healing, so that it functions as my guild's complete operational base for V1.
+- *Note: travel between towns and a procedural/interactive world map are deferred to V2 — see Section 9.*
 
-### 6.2 Towns
+### 6.2 Recruitment & Rotating Roster
 
-- **As a player**, I want towns to support recruiting, shopping, and healing, so that towns function as my guild's operational hubs.
-- **As a player**, I want some towns to have specialties (e.g., better recruits of a certain type, better prices on certain goods), so that where I travel is a meaningful choice.
-- **As a player**, I want larger towns to have their own fixed, hand-authored storyline (not randomly generated), so that key locations feel distinct and memorable rather than procedurally generic.
-
-### 6.3 Recruitment & Contracts
-
-- **As a player**, I want to see a pool of recruitable adventurers available in the town I'm currently in, so that I can decide who to bring into my guild.
-  - *Note: candidate pool is fully visible while in a town (no scouting/fog-of-war in V1 — see Section 9, Scouting is deferred to V2).*
-  - *Open sub-question: whether the pool itself is randomly generated per visit or drawn from a set/curated list — see Section 11.*
+- **As a player**, I want a rotating roster of recruitable adventurers available in my town, so that who I can recruit changes over time rather than being a single static list.
+  - The roster rotates based on a set duration of in-world time.
 - **As a player**, only adventurers (not support staff) should be recruitable in V1, so that the recruitment system stays scoped to the core roster (support-staff hiring is a V2 feature).
 - **As a player**, I want to negotiate a new recruit's salary and contract length, so that building my roster is a real cost/benefit decision.
 
-### 6.4 Guild Facilities
+### 6.3 Guild Facilities
 
 - **As a player**, I want to pay to upgrade support facilities (e.g., training, social, infirmary) that improve my adventurers over time, so that investing in my guild's infrastructure is a core strategic layer.
-  - *Crafting facilities are deferred to V2 (see Section 9); V1 equipment is static — see Section 6.10.*
-- **As a player**, I want to use my facilities to make my adventurers better, whether that be through training, healing, or building their bonds.
+- **As a player**, I want to use my facilities to make my adventurers better — through training, healing, or building their bonds — so that downtime between quests is productive, not just idle waiting.
+  - *Crafting facilities are deferred to V2 (see Section 9); V1 equipment is static — see Section 6.4.*
 
-### 6.5 Shops & Equipment
+### 6.4 Shops & Equipment
 
-- **As a player**, I want to buy equipment at town shops, so that I have a way to gear up my adventurers.
+- **As a player**, I want to buy equipment at my town's shop, so that I have a way to gear up my adventurers.
 - **As a player**, I want some equipment to be found as quest rewards, so that quests have loot incentive beyond gold.
   - *Equipment in V1 is static: it can be bought or found, but not crafted or upgraded (crafting is deferred to V2 — see Section 9).*
 
-### 6.6 Quests & Encounter Resolution
+### 6.5 Quests & Encounter Resolution
 
-#### 6.6.1 Quest Structure
+#### 6.5.1 Quest Structure
 
-A quest is composed of multiple **encounters**, each with its own difficulty rating, balanced using a tabletop-style encounter-balancing framework:
+A quest is composed of multiple **encounters**, each with its own difficulty rating:
 
 - **Main encounter** — the core objective of the quest; must be won for the quest to be considered complete.
 - **Lead-up encounters** — encountered on the way to the main encounter.
@@ -132,30 +132,63 @@ Side and lead-up encounters:
 
 **Win condition:** A quest is completed successfully if the party wins the main encounter with **at least one party member still alive**.
 
-**Quest failure consequences:** the guild loses a moderate amount of **reputation**, and party members may be injured or die (see Section 6.8).
+**Quest failure consequences:** the guild loses a moderate amount of **reputation**, and party members may be injured or die (see Section 6.7).
 
-#### 6.6.2 Encounter Categories
+#### 6.5.2 Encounter Categories
+
 Encounters fall into three categories:
 
 - **Combat encounters** — resolved as simplified turn-based combat: standard round-by-round resolution (no graphical battle rendering), with narrative flavor text describing attacks, spells, and outcomes.
-- **Non-combat encounters** — skill challenges resolved using core ability scores; typically attempted by whichever party member is best suited to the check.
-- **Character interactions** — small chance encounters between party members that influence the **relationship** stat between them (see Section 6.7).
+- **Non-combat encounters** — skill challenges resolved using core stats; typically attempted by whichever party member is best suited to the check.
+- **Character interactions** — small chance encounters between party members that influence the **relationship** stat between them (see Section 6.6).
 
-#### 6.6.3 Resolution System
-- Success/failure is determined by an RNG roll, heavily modified by character stats — following a tabletop-RPG-style modified-roll framework, dressed with narrative flavor text and inter-party interaction effects.
-- This system is intentionally scoped to lean on a well-understood, pre-existing style of resolution mechanics rather than being designed from scratch, so V1 development effort can focus on the guild-management layer (see Section 4).
+#### 6.5.3 Encounter Builder & Tag System
 
-#### 6.6.4 Party Autonomy & Retreat
-- **As a player**, I do not directly control party actions during a quest. The party **autonomously decides how to approach each encounter based on personality traits** (see Section 6.7), so outcomes feel emergent rather than player-scripted.
+- **As a developer/designer**, I want a database of individual encounter building blocks — enemies, encounter types, challenges, and rewards — each tagged with descriptive attributes, so that encounters can be assembled from reusable, well-defined pieces rather than fully hand-written each time.
+- **As a player**, I want the encounters I face to make thematic sense for the quest's context (e.g., a quest into a human settlement mostly featuring human enemies), so that the world feels coherent.
+- **As a system**, the encounter builder selects appropriate pieces for a quest based on the quest's parameters — **difficulty**, **environment type**, and **enemy type** — matching them against the tags on each database element.
+- *This tag system also underpins Section 6.11 (thematic and reactive tags more broadly) — this subsection covers its use specifically within the encounter builder.*
+
+#### 6.5.4 Resolution System
+
+- Success/failure is determined by an RNG roll, heavily modified by character stats, following a **bespoke stat-driven framework** (see Section 1) rather than a direct adaptation of an existing tabletop ruleset. There are no saving-throw-equivalent mechanics — only stats.
+- The specific stat list, and exactly how stats modify rolls, is still being finalized and will be incorporated once available (see Section 11).
+- This system is dressed with narrative flavor text and inter-party interaction effects to keep quests feeling distinct from one another.
+
+#### 6.5.5 Party Autonomy & Retreat
+
+- **As a player**, I do not directly control party actions during a quest and want to see the party autonomously deciding how to approach each encounter based on personality traits (see Section 6.6), so outcomes feel emergent rather than player-scripted.
 - **As a player**, I want my party to be able to retreat from a quest, so that not every dangerous situation ends in death. The decision to retreat is made autonomously by the adventurers themselves, based on their personality traits and current morale — not a direct player choice.
+- *V1 scope note: this is a comparatively simple decision layer (engage/retreat, trait/morale-driven). A deeper, multi-approach decision-making system — where encounters can be tackled via different methods (combat, stealth, social, etc.) and the party's actual choice is arbitrated by individual and group stats rather than always picking the objectively best option — is planned for V2. See Section 9.2 and 6.5.8.*
 
-#### 6.6.5 Spectating Quests
+#### 6.5.6 Quest Text Presentation
+
+- **As a player**, I want the text describing quest events to be well-articulated and varied, so that questing doesn't feel repetitive over time.
+- **As a player**, I want the text feed to use colour-coding to distinguish different kinds of information — e.g., different encounter types, or unusually high-level/dangerous enemies — so that important information is scannable at a glance.
+- **As a player**, I want to be able to see the calculations behind a success or failure result, so that outcomes feel transparent and fair rather than arbitrary.
+
+#### 6.5.7 Spectating Quests
+
 - **As a player**, I want frequent text updates as my party progresses through a quest, so I stay engaged with the outcome despite not directly controlling the action.
 - Update cadence: **before and after every encounter, after every roll, after every round of combat, and before and after every quest.**
 
-### 6.7 Personality Traits & Relationships
+#### 6.5.8 Individual & Party Decision-Making System *(V2)*
 
-Each adventurer has **three personality traits**, which must not be mutually contradictory (see exclusion groups below). Each trait has exactly one positive and one negative effect.
+- **As a player**, I want encounters (main or lead-up) to be tackle-able through multiple distinct approaches — such as sneaking, fighting, or charming — so that how a party gets through a quest varies and feels character-driven.
+- **As a player**, I want the approach chosen to determine how the encounter actually resolves — e.g., a successfully snuck-past or talked-down encounter never escalates to combat, while a failed or aggressive approach does — so that combat isn't the only, or default, outcome.
+- **As a player**, I want this decision-making to happen on two levels:
+  - **Individual level:** a character's own stats determine how well they personally evaluate the situation — e.g., a character with high Intelligence is more likely to correctly identify the approach with the best odds of success.
+  - **Party level:** the approach the party actually takes isn't guaranteed to be the individually-optimal one. It's arbitrated by social/personality stats — e.g., a lower-Intelligence but high-Charisma, stubborn character can win out and have the party follow their (worse-odds) suggestion instead.
+- This system is a deeper evolution of the V1 engage/retreat decision layer (Section 6.5.5) rather than a separate mechanic, and depends on the finalized adventurer stat list (see Section 11).
+- *No formal name has been settled on for this system yet — described here as the "individual & party decision-making system" pending further design.*
+
+### 6.6 Personality Traits & Relationships
+
+Each adventurer's personality traits are **reactive**, emerging automatically from their underlying stats rather than being assigned directly. For example: a character whose Bravery stat exceeds a threshold (e.g., 80) automatically gains the **Brave** trait, with its associated positive and negative effects.
+
+There is no cap on the number of active traits — a character can hold any number of traits at once, depending on how many of their stats have crossed a threshold. Traits can also change over time as stats change (a character could gain or lose a trait mid-game as their stats shift). *The exact thresholds depend on the finalized stat list — see Section 11.*
+
+The trait effects themselves (originally defined under a "pick three at creation" model) remain valid definitions of what each trait does once present, and carry forward as follows:
 
 | Trait | Positive Effect | Negative Effect |
 |---|---|---|
@@ -185,50 +218,64 @@ Each adventurer has **three personality traits**, which must not be mutually con
 | **Superstitious** | Better at avoiding unusually dangerous side-encounters | Morale penalty following "bad omen"-flavored events |
 | **Claustrophobic** | Bonus in open/outdoor encounters | Penalty in enclosed environments (dungeons, caves) |
 
-**Trait exclusion groups (traits within a group cannot be combined on one character):**
+**Trait exclusion groups (traits within a group cannot be active on one character simultaneously):**
 - Greedy / Frugal
 - Loyalist / Mercenary
 - Bloodthirsty / Peacemaker
-- Reckless / Survivalist-type caution *(see Section 11 — Cowardly's exclusion-group membership still to be confirmed)*
-- Brave / Cautious / Reckless (max one of the three)
+- Brave / Cautious / Reckless / Cowardly (max one of the three)
 
-#### 6.7.1 Relationship Stat
+*Note: under the reactive/stat-threshold model, some of these exclusions may resolve naturally (e.g., if Brave and Cautious key off opposite ends of the same stat, a character can never cross both thresholds at once) — this depends on the final stat design and doesn't need to be manually enforced in every case. To be confirmed once the stat list exists.*
+
+#### 6.6.1 Relationship Stat
 - A single, persistent **per-pair relationship value** between two characters, starting at 0 and moving up or down over time.
 - Influenced by: personality-trait baseline modifiers, and how a character perceives another character's individual successes/failures during encounters.
 - Crossing certain positive/negative thresholds applies modifiers to **party morale**.
 
-#### 6.7.2 Party Morale
+#### 6.6.2 Party Morale
 - A tracked party-wide stat, influenced by quest outcomes, relationship thresholds, and individual trait effects (see table above).
 - Morale affects combat/non-combat performance and retreat likelihood for trait-sensitive characters (e.g., Peacemaker, Lone Wolf).
 
-### 6.8 Adventurer Health, Injury, Exhaustion & Death
+### 6.7 Adventurer Health, Injury, Exhaustion & Death
 - **As a player**, I want character death to be permanent, so that risk in quests feels meaningful.
 - **As a player**, I want characters to pass through progressive injury stages before dying (rather than dying outright), so that injuries feel like a warning system rather than instant loss.
 - **As a player**, I want injured characters to heal by resting for a set amount of time back at the guild, so that recovery has a real time cost.
-- **As a player**, I want adventurers to accumulate **exhaustion** the more encounters (combat and non-combat) they go through on a quest, so that sending a party on back-to-back quests without rest carries real risk (attrition-based risk, in the style of dungeon-crawler roguelites).
+- **As a player**, I want adventurers to accumulate **exhaustion** the more encounters (combat and non-combat) they go through on a quest, so that sending a party on back-to-back quests without rest carries real risk.
 - **As a player**, I want exhausted or injured adventurers to require downtime at the guild to recover, so that roster management (who's fit to deploy) is an ongoing decision, not a one-time setup.
 - **Party size:** up to **8 characters** may be sent on a single quest.
 
-### 6.9 Finance
+### 6.8 Finance
 - **As a player**, I want to track my guild's income and expenses, so that I can keep the guild financially solvent.
 - **As a player**, I want financial state to constrain my decisions (hiring, equipment, travel), so that money management is a real strategic layer.
 
-### 6.10 Progression & Reputation
-- **As a player**, I want my guild's reputation to grow based on completed quests and choices, so that I unlock access to better towns, quests, and members over time.
+### 6.9 Progression & Reputation
+- **As a player**, I want my guild's reputation to grow based on completed quests and choices, so that I unlock access to better quests, recruits, and shop inventory over time within my town.
 - **As a player**, I want quest failure to cost reputation, so that failure has weight beyond just the immediate quest outcome.
+  - *In V1, reputation gates what's available within the single town; unlocking access to other towns becomes relevant once travel exists in V2.*
 
-### 6.11 Endgame
+### 6.10 Endgame
 - **As a player**, I want the game to end meaningfully rather than continuing indefinitely once my guild is dominant.
 - **V1 endgame:** the game ends upon the **retirement of the guild master**, fixed at **age 75**.
 - **(V2 direction, not built in V1):** playable races with different natural lifespans, and means for the guild master to unnaturally extend their lifespan — see Section 9.
+
+### 6.11 Tag System (Thematic & Reactive)
+
+Beyond their role in the encounter builder (Section 6.5.3), tags are intended to be a general-purpose association system applied across the game's content:
+
+- **As a designer**, I want every meaningful game element (characters, enemies, items, quests, environments) to carry descriptive tags, so that thematic coherence and cross-references between systems are possible (e.g., matching "human" enemies to "human settlement" quests).
+- **As a player**, I want characters to be able to gain tags reactively, based on what happens to them during play — for example, gaining a "fear of zombies" tag after being downed by one — so that the world remembers and reflects what my adventurers have been through.
+- **As a player**, I want the possibility of persistent, recurring antagonists who remember prior interactions with specific characters, so that the world feels like it has memory and continuity.
+
+*This rolls out in phases: static/thematic tagging that powers the encounter builder (6.5.3) is V1, since the encounter builder depends on it. Reactive/event-driven character tags and persistent-antagonist memory are both V2 — there is currently no planned V3+ expansion of the tag system beyond this.*
 
 ---
 
 ## 7. Non-Functional Requirements
 
-- **Save/Load:** the game should support saving and loading guild state (roster, finances, world position, quest/reputation progress) between sessions.
-- **Performance:** world map and panel UI should remain responsive on typical PC hardware; the text simulator should not require heavy real-time computation.
-- **Data-driven design:** characters, items, quests, and enemies should be defined in a way that allows content (new quests, items, enemies) to be added without code changes, to support future content growth and V2 features.
+- **Save/Load:** the game should support saving and loading guild state (roster, finances, town/quest/reputation progress) between sessions.
+- **Performance:** the town hub and panel UI should remain responsive on typical PC hardware; the text simulator should not require heavy real-time computation.
+- **Data-driven design:** characters, items, quests, enemies, encounter pieces, and tags should be defined in a way that allows content to be added without code changes, to support the encounter builder and future content growth.
+- **Text variety:** the quest narration system should be built to minimize repeated phrasing across quests, per Section 6.5.6.
+- **Accessibility consideration:** colour-coded quest text (Section 6.5.6) should be paired with a non-colour indicator (e.g., icon or label) where practical, so the information isn't colour-dependent only.
 
 ---
 
@@ -238,36 +285,42 @@ A complete V1 (for now) is defined as shipping with:
 
 | Content type | Target quantity |
 |---|---|
-| Towns | 2 |
-| Adventurers (recruitable pool, total) | 8 |
-| Quests | 8 |
+| Towns | 1 |
+| Adventurers (recruitable pool feeding the rotating roster) | 8 |
+| Quests | 8, each unique in main objective |
 | Enemies | 30 |
 | Items | 20 |
-| Encounter-creation tool | A generative tool for constructing sensible, balanced encounters (Section 5, Pillar 5) |
+| Encounter builder | Functional tag-driven system, capable of producing all 8 quests' worth of functional encounters (Section 5, Pillar 4) |
+
+*"8 quests" means 8 quests that are unique in terms of their main objective; the encounter builder is responsible for producing the functional (lead-up/side) encounters that populate each one.*
 
 This is a content floor, not a ceiling — intended to validate that the full guild loop + quest loop is complete and playable end-to-end before expanding content volume.
 
 ---
 
-## 9. Post-V1 / Future Vision (V2+)
+## 9. Version Roadmap
 
-Explicitly **out of scope for V1**, but worth keeping in mind while architecting V1 systems so they aren't precluded later:
+### 9.1 V1 — Single Town, Core Loops
+Everything in Sections 5–8: one static town, rotating recruitment roster, guild facilities, static equipment via shop/quest rewards, the encounter builder and its tag-driven content database, the bespoke resolution system, reactive personality traits, and the age-75 retirement endgame.
 
-- **Playable races** with different natural lifespans, and mechanisms for the guild master to unnaturally extend their lifespan (extending the endgame beyond the fixed V1 age-75 retirement).
-- **Support staff** as a hireable, separate category from adventurers.
-- **Scouting** — revealing/vetting recruitment candidates before they're available to recruit (currently the full pool is visible in V1 — see Section 6.3).
-- **Crafting** — creating and upgrading equipment (V1 equipment is static — see Section 6.5).
-- **Deeper logistics** — real mechanics for transport, food/survival, etc. (V1 logistics are intentionally light).
-- **Combat/encounter simulator** as a deeper standalone system.
-- **Multiplayer / shared-world guild interaction**, including:
-  - **Guild vs. Guild tournaments** — competing in a shared dungeon or duel format.
-  - **Quest bidding** — guilds competing against each other for the same contracts.
-  - **Rival-guild roster poaching ("buyout")** — some V1 personality traits (Mercenary, Loyalist) already reference buyout risk/immunity; whether this activates against AI-controlled rival guilds within V1 or stays dormant until V2 is still to be decided (see Section 11).
-  - **Limited direct operations** between rival guilds.
-  - **World events** — large, occasional events where every guild chooses a stance (help / hinder / do nothing).
-  - **Collaborative quests** — guilds working together, not just competing.
+### 9.2 V2 — Expanding the World
+- **Multiple towns and travel** between them; the world map becomes interactive.
+- **Individual & party decision-making system** — multi-approach encounter resolution (combat, stealth, social, etc.) arbitrated by individual and social stats rather than always the objectively best option (see Section 6.5.8).
+- **Support staff** as a hireable category separate from adventurers.
+- **Scouting** — revealing/vetting recruitment candidates before they're available.
+- **Crafting** — creating and upgrading equipment.
+- **Deeper logistics** — real mechanics for transport, food/survival, etc.
+- **Playable races** with different natural lifespans, and means to unnaturally extend the guild master's lifespan.
+- **Reactive/event-driven character tags** (e.g., fear-of-X after a bad encounter).
+- **Persistent antagonist memory** — recurring named enemies who remember specific past interactions with characters.
+- **Rival-guild roster poaching ("buyout")** — some V1 traits (Mercenary, Loyalist) already reference this; whether it needs active AI rival guilds in V1 or stays dormant until here is open — see Section 11.
+- **Procedural world/quest generation**, where the world reacts to the player's actions.
 
-The intent is that two friends could eventually run their own guilds in a shared world, crossing paths through tournaments, world events, or quest competition — but this depends on V1 first establishing a working simulation core.
+### 9.3 V3+ — Stretch Goals
+- **Multiplayer / shared-world guild interaction:** guild-vs-guild tournaments, quest bidding, limited direct operations between rival guilds, large-scale world events, collaborative quests.
+- *No other systems are currently planned for this tier — it's reserved for multiplayer specifically.*
+
+The intent is that two people could eventually run their own guilds in a shared world, crossing paths through tournaments, world events, or quest competition — but this depends on V1 first establishing a working, fun simulation core.
 
 ---
 
@@ -275,9 +328,10 @@ The intent is that two friends could eventually run their own guilds in a shared
 
 | Risk | Notes |
 |---|---|
-| Scope creep toward V2 features | The multiplayer/tournament vision is compelling and could distract from shipping a solid V1 core loop. |
-| Two-person team bandwidth | Guild management, quest resolution, and a generative encounter tool is a substantial scope for two people; pillar priority (Section 5) exists to guide trimming if needed. |
-| Encounter resolution complexity | The team has deliberately chosen to lean on an existing tabletop-style resolution framework rather than design one from scratch, specifically to manage this risk — but tuning/balancing still requires real effort. |
+| Scope creep toward V2/V3 features | The wider-world and multiplayer vision is compelling and could distract from shipping a solid, fun V1 core. |
+| Two-person team bandwidth | Guild management, a bespoke resolution system, and an encounter builder is a substantial scope for two people; pillar priority (Section 5) exists to guide trimming if needed. |
+| Bespoke numerical system design & balancing | Building a fully custom stat/combat/check system (rather than adapting an existing framework) is a large undertaking, and carries real balancing risk — early prototyping and playtesting will matter more than usual here. |
+| Encounter builder & content variety | The "non-repetitive, well-articulated" quest text goal depends on having enough tagged content variety and flavor-text templates; underestimating this could make quests feel samey despite the builder's flexibility. |
 | Trait/relationship/morale system tuning | A fully custom system (24 traits, per-pair relationships, party morale) will need playtesting to balance; current trait effects are a strong first draft, not final numbers. |
 
 ---
@@ -285,16 +339,10 @@ The intent is that two friends could eventually run their own guilds in a shared
 ## 11. Open Questions / Design Decisions Needed
 
 ### V1 — Still Open
-- **Recruitment pool generation:** is the town candidate pool randomly generated per visit, or drawn from a set/curated list?
-- **Rival-guild buyout activation:** do the Mercenary/Loyalist buyout effects require active AI-controlled rival guilds in V1, or do they stay dormant until guild rivalry ships in V2?
-- **Cowardly's exclusion group:** should Cowardly join the Brave/Cautious/Reckless exclusion group (i.e., become a 4-way "max one" group), given its "more prone to retreat" effect echoes Cautious?
-- **Claustrophobic's environment tag:** Claustrophobic requires encounters to be tagged indoor/enclosed vs. outdoor/open — no other system currently requires this. Confirm whether this tag gets added to the V1 encounter data model, or the trait is adjusted to not require it.
+- **Adventurer stat list:** full stat list; several systems (resolution system, reactive traits) depend on it and are placeholders until it's available.
 
-### V2 — Deferred (revisit after V1 is underway/complete)
-- **Guild interactivity shape:** how much direct interaction vs. indirect/asynchronous competition (bidding, world events) between guilds?
-- **Multiplayer architecture direction:** real-time, server-based, or asynchronous/turn-based interaction between guilds?
-- **Quest bidding mechanics:** how does competing for the same quest against another guild actually resolve?
-- **World event structure:** how often do these occur, and how are simultaneous player choices (help/hinder/nothing) reconciled into one outcome?
+### V2 — Needs Confirmation
+- **Rival-guild buyout activation:** do the Mercenary/Loyalist buyout effects require active AI-controlled rival guilds, and if so, which phase introduces that?
 
 ---
 
@@ -302,11 +350,11 @@ The intent is that two friends could eventually run their own guilds in a shared
 
 | Milestone | Description |
 |---|---|
-| **M0 — Data model & schema** | Define the character/item/quest/enemy database structure, including trait, relationship, morale, and exhaustion fields. |
-| **M1 — Core loop prototype** | Minimal, possibly non-graphical prototype of the quest simulator (select quest → resolve encounters → outcome), to validate the loop is engaging before engine work begins. |
-| **M2 — Vertical slice** | One full loop in Godot: world map → quest selection → text-based quest resolution → finance/reputation update → return to map, with placeholder art. |
+| **M0 — Data model & schema** | Define the character/item/quest/enemy/encounter-piece/tag database structure, including trait, relationship, morale, and exhaustion fields. Depends on the finalized stat list. |
+| **M1 — Core loop prototype** | Minimal, possibly non-graphical prototype of the quest simulator and encounter builder (select quest → assemble encounters → resolve → outcome), to validate both the resolution system and the builder before engine work begins. |
+| **M2 — Vertical slice** | One full loop in Godot: town hub → quest selection → text-based quest resolution → finance/reputation update → return to town, with placeholder art. |
 | **M3 — Alpha** | All V1 pillars implemented at a rough-but-functional level; internal playtesting. |
-| **M4 — Beta** | Visual style pass, content population to the Section 8 targets (2 towns, 8 adventurers, 8 quests, 30 enemies, 20 items), balancing. |
+| **M4 — Beta** | Visual style pass, content population to the Section 8 targets (1 town, 8 adventurers, 8 quests, 30 enemies, 20 items), balancing. |
 | **M5 — V1 Release** | Polish, save/load, bug fixing, release build. |
 
 ---
@@ -317,6 +365,10 @@ The intent is that two friends could eventually run their own guilds in a shared
 - **Encounter** — a discrete challenge within a quest, with its own difficulty rating; categorized as combat, non-combat, or character interaction.
 - **Main encounter** — the encounter that determines quest success or failure.
 - **Lead-up / side-encounter** — encounters that occur before, or optionally alongside, the main encounter.
+- **Encounter builder** — the tag-driven system that assembles encounters from the database based on a quest's difficulty, environment type, and enemy type.
+- **Approach** — a distinct method of tackling an encounter (e.g., combat, stealth, social) — see individual & party decision-making system (V2).
+- **Individual & party decision-making system** *(V2)* — the two-tier system by which a party chooses its approach to an encounter: individual stats determine how well a character evaluates the options, while party-level social stats determine whether the group actually follows the best-evaluated suggestion.
+- **Tag** — a descriptive label attached to a game element (character, enemy, item, quest, environment) used to drive thematic coherence and, in later phases, reactive behavior.
 - **Party** — the subset of guild members (up to 8) sent on a given quest.
 - **Relationship stat** — a persistent per-pair value tracking how one character views another.
 - **Morale** — a tracked party-wide stat affecting performance and retreat likelihood.
@@ -327,11 +379,12 @@ The intent is that two friends could eventually run their own guilds in a shared
 
 ## 14. Next Steps
 
-1. Finalize individual panel designs (world map, character sheet, quest log, finance, contracts, shops, facilities) — noted as already in progress.
-2. Define the data model for the comprehensive database (characters, stats, items, quests, enemies, traits, relationships) so V1 systems and future V2 multiplayer features share the same schema.
-3. Prototype the quest/encounter resolution system as the core quest-loop mechanic (M1), since it gates the vertical slice.
-4. Resolve the remaining V1 open questions in Section 11, particularly recruitment pool generation and the encounter environment tag, since both affect the data model (M0).
-5. Establish the visual style guide (fonts, panel frames, color palette).
+1. Finalize the adventurer stat list — this gates the resolution system, reactive trait thresholds, and the M0 data model.
+2. Finalize individual panel designs (town hub, character sheet, quest log, finance, contracts, shops, facilities).
+3. Define the data model for the comprehensive database (characters, stats, items, quests, enemies, encounter pieces, tags, traits, relationships), incorporating the stat list once available.
+4. Prototype the encounter builder and resolution system together (M1), since they're now the highest-risk, highest-focus systems in V1.
+5. Resolve the remaining open questions in Section 11 (rival-guild buyout activation timing).
+6. Establish the visual style guide (fonts, panel frames, colour palette) — including the colour-coding scheme for quest text (Section 6.5.6).
 
 ---
 
