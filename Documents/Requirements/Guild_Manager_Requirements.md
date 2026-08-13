@@ -155,7 +155,7 @@ Encounters fall into three categories:
 
 ### 6.7 Personality Traits & Relationships
 
-Each adventurer has **three personality traits**, which must not be mutually contradictory (see exclusion groups below). Each trait has exactly one positive and one negative effect.
+Each adventurer has may have traits which must not be mutually contradictory (see exclusion groups below). Some traits have positive bonuses whilst others negative.
 
 | Trait | Positive Effect | Negative Effect |
 |---|---|---|
@@ -185,6 +185,8 @@ Each adventurer has **three personality traits**, which must not be mutually con
 | **Superstitious** | Better at avoiding unusually dangerous side-encounters | Morale penalty following "bad omen"-flavored events |
 | **Claustrophobic** | Bonus in open/outdoor encounters | Penalty in enclosed environments (dungeons, caves) |
 
+(examples)
+
 **Trait exclusion groups (traits within a group cannot be combined on one character):**
 - Greedy / Frugal
 - Loyalist / Mercenary
@@ -196,18 +198,20 @@ Each adventurer has **three personality traits**, which must not be mutually con
 - A single, persistent **per-pair relationship value** between two characters, starting at 0 and moving up or down over time.
 - Influenced by: personality-trait baseline modifiers, and how a character perceives another character's individual successes/failures during encounters.
 - Crossing certain positive/negative thresholds applies modifiers to **party morale**.
+- Having a positive link with a character will provide a bonus when the interact in a quest.
+- Whilst having a negative link between characters will make them suffer a debuff when interacting.
 
 #### 6.7.2 Party Morale
 - A tracked party-wide stat, influenced by quest outcomes, relationship thresholds, and individual trait effects (see table above).
-- Morale affects combat/non-combat performance and retreat likelihood for trait-sensitive characters (e.g., Peacemaker, Lone Wolf).
+- Morale affects combat/non-combat performance and retreat likelihood. Additionally it can lead to party members wanting to leave the guild.
 
 ### 6.8 Adventurer Health, Injury, Exhaustion & Death
-- **As a player**, I want character death to be permanent, so that risk in quests feels meaningful.
-- **As a player**, I want characters to pass through progressive injury stages before dying (rather than dying outright), so that injuries feel like a warning system rather than instant loss.
+- **As a player**, I want character death to be permanent, so that risk in quests feels meaningful. Dying outright can occur through situational failed roles whereby the result is death. Furthermore, should the damage dealt to the character in combat be double that of their maximum hp then they will have been slain. Alternatively if the whole party is defeated in combat only a character can perish given their stats.
+- **As a player**, I want characters to pass through progressive injury stages before dying from combat losses (rather than dying outright), so that injuries feel like a warning system rather than instant loss.
 - **As a player**, I want injured characters to heal by resting for a set amount of time back at the guild, so that recovery has a real time cost.
 - **As a player**, I want adventurers to accumulate **exhaustion** the more encounters (combat and non-combat) they go through on a quest, so that sending a party on back-to-back quests without rest carries real risk (attrition-based risk, in the style of dungeon-crawler roguelites).
 - **As a player**, I want exhausted or injured adventurers to require downtime at the guild to recover, so that roster management (who's fit to deploy) is an ongoing decision, not a one-time setup.
-- **Party size:** up to **8 characters** may be sent on a single quest.
+- **Party size:** up to **5 characters** may be sent on a single quest. World quests may allow up to 8. "Raids" will allow up to 20 (RAID A POSSIBLE IDEA FOR V2).
 
 ### 6.9 Finance
 - **As a player**, I want to track my guild's income and expenses, so that I can keep the guild financially solvent.
@@ -229,6 +233,7 @@ Each adventurer has **three personality traits**, which must not be mutually con
 - **Save/Load:** the game should support saving and loading guild state (roster, finances, world position, quest/reputation progress) between sessions.
 - **Performance:** world map and panel UI should remain responsive on typical PC hardware; the text simulator should not require heavy real-time computation.
 - **Data-driven design:** characters, items, quests, and enemies should be defined in a way that allows content (new quests, items, enemies) to be added without code changes, to support future content growth and V2 features.
+- **Continue button:** When the button is pressed the game simulates till the next event/instance that requires your attention. Time passes in game when this button is pressed.
 
 ---
 
@@ -238,7 +243,7 @@ A complete V1 (for now) is defined as shipping with:
 
 | Content type | Target quantity |
 |---|---|
-| Towns | 2 |
+| Towns | 1 |
 | Adventurers (recruitable pool, total) | 8 |
 | Quests | 8 |
 | Enemies | 30 |
@@ -285,7 +290,7 @@ The intent is that two friends could eventually run their own guilds in a shared
 ## 11. Open Questions / Design Decisions Needed
 
 ### V1 — Still Open
-- **Recruitment pool generation:** is the town candidate pool randomly generated per visit, or drawn from a set/curated list?
+- **Recruitment pool generation:** is the town candidate pool randomly generated per visit, or drawn from a set/curated list? - I think it should be generated upon first visit then overtime the pool empties and refreshes.
 - **Rival-guild buyout activation:** do the Mercenary/Loyalist buyout effects require active AI-controlled rival guilds in V1, or do they stay dormant until guild rivalry ships in V2?
 - **Cowardly's exclusion group:** should Cowardly join the Brave/Cautious/Reckless exclusion group (i.e., become a 4-way "max one" group), given its "more prone to retreat" effect echoes Cautious?
 - **Claustrophobic's environment tag:** Claustrophobic requires encounters to be tagged indoor/enclosed vs. outdoor/open — no other system currently requires this. Confirm whether this tag gets added to the V1 encounter data model, or the trait is adjusted to not require it.
@@ -306,7 +311,7 @@ The intent is that two friends could eventually run their own guilds in a shared
 | **M1 — Core loop prototype** | Minimal, possibly non-graphical prototype of the quest simulator (select quest → resolve encounters → outcome), to validate the loop is engaging before engine work begins. |
 | **M2 — Vertical slice** | One full loop in Godot: world map → quest selection → text-based quest resolution → finance/reputation update → return to map, with placeholder art. |
 | **M3 — Alpha** | All V1 pillars implemented at a rough-but-functional level; internal playtesting. |
-| **M4 — Beta** | Visual style pass, content population to the Section 8 targets (2 towns, 8 adventurers, 8 quests, 30 enemies, 20 items), balancing. |
+| **M4 — Beta** | Visual style pass, content population to the Section 8 targets (2 towns, generative adventurers, 8 quests, 30 enemies, 20 items), balancing. |
 | **M5 — V1 Release** | Polish, save/load, bug fixing, release build. |
 
 ---
