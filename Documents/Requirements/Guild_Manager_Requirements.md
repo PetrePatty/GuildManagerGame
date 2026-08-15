@@ -218,12 +218,12 @@ Each adventurer has may have traits which must not be mutually contradictory (se
 - **As a player**, I want financial state to constrain my decisions (hiring, equipment, travel), so that money management is a real strategic layer.
 
 ### 6.10 Progression & Reputation
-- **As a player**, I want my guild's reputation to grow based on completed quests and choices, so that I unlock access to better towns, quests, and members over time.
+- **As a player**, I want my guild's reputation to grow based on completed quests and choices, so that I unlock access to access to other towns, quests, and become more appealing for adventurers to join over time.
 - **As a player**, I want quest failure to cost reputation, so that failure has weight beyond just the immediate quest outcome.
 
 ### 6.11 Endgame
 - **As a player**, I want the game to end meaningfully rather than continuing indefinitely once my guild is dominant.
-- **V1 endgame:** the game ends upon the **retirement of the guild master**, fixed at **age 75**.
+- **V1 endgame:** the game ends upon the **retirement of the guild master**, capped at **age 75** or can be initiated early.
 - **(V2 direction, not built in V1):** playable races with different natural lifespans, and means for the guild master to unnaturally extend their lifespan — see Section 9.
 
 ---
@@ -263,13 +263,14 @@ Explicitly **out of scope for V1**, but worth keeping in mind while architecting
 - **Scouting** — revealing/vetting recruitment candidates before they're available to recruit (currently the full pool is visible in V1 — see Section 6.3).
 - **Crafting** — creating and upgrading equipment (V1 equipment is static — see Section 6.5).
 - **Deeper logistics** — real mechanics for transport, food/survival, etc. (V1 logistics are intentionally light).
+- **Squad tactics** - players can assign party members to be either dps/tank/healer for combat encounters which will influence their choices in combat but not dictate it. Additionally can provide instructions for how the party must act (aggressive, passive, etc.) for out of combat, again it will influence but not dictate their behavior. 
 - **Combat/encounter simulator** as a deeper standalone system.
+- **World events** — large, occasional events which can allow parties up to 10 characters to interact with. May have multiplayer elements where every guild chooses a stance (help / hinder / do nothing).
 - **Multiplayer / shared-world guild interaction**, including:
   - **Guild vs. Guild tournaments** — competing in a shared dungeon or duel format.
   - **Quest bidding** — guilds competing against each other for the same contracts.
   - **Rival-guild roster poaching ("buyout")** — some V1 personality traits (Mercenary, Loyalist) already reference buyout risk/immunity; whether this activates against AI-controlled rival guilds within V1 or stays dormant until V2 is still to be decided (see Section 11).
   - **Limited direct operations** between rival guilds.
-  - **World events** — large, occasional events where every guild chooses a stance (help / hinder / do nothing).
   - **Collaborative quests** — guilds working together, not just competing.
 
 The intent is that two friends could eventually run their own guilds in a shared world, crossing paths through tournaments, world events, or quest competition — but this depends on V1 first establishing a working simulation core.
