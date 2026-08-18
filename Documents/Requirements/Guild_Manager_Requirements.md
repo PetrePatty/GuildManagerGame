@@ -184,6 +184,27 @@ Encounters fall into three categories:
 
 - **As a player**, I want encounters (main, lead-up, and side) to be solveable through multiple distinct authored approaches — such as sneaking, fighting, or charming — so that how a party gets through a quest varies and feels character-driven.
 - **As a player**, I want the approach chosen to determine how the encounter actually resolves — e.g., a successfully snuck-past or talked-down encounter never escalates to combat, while a failed or aggressive approach does — so that combat isn't the only, or default, outcome.
+
+**Refined Proposal Phase Mechanics:**
+Each party member's proposal success chance is calculated using this formula:
+`Proposal Weight = Perceived Success Chance × (Leadership + Decision-Making) / 2`
+
+This weighting means:
+- A member with high Leadership but low Decision-Making can sway the party toward suboptimal choices
+- A member with high Decision-Making but low Leadership provides accurate assessments but less influence
+- The "shared perceived success chance" is the success chance of each proposal, after the leadership and decision-making weights are applied.
+
+Example: A party of 3 members faces multiple approaches. Each member's proposal gets weighted by their combined leadership/decision-making stats. This can lead to suboptimal choices being adopted if a high-leadership member advocates strongly for himself/herself, even if their assessment is inaccurate.
+
+**Worked Example:**
+A party of 3 (A: L70/D60, B: L80/D40, C: L50/D90) evaluates approaches Sneak/Fight/Bribe:
+- Appraisal Phase: C proposes Sneak (75% perceived), B proposes Fight (60%), A proposes Bribe (70%)
+- Proposal Phase: Weights calculated using (L+DM)/2 multiplier:
+  - A's Bribe: 70% × (70+60)/2 = 45.5%
+  - B's Fight: 60% × (80+40)/2 = 36.0%  
+  - C's Sneak: 75% × (50+90)/2 = 52.5%
+- Adoption: Highest weighted proposal (C's Sneak at 52.5%) wins
+
 - The party settles on an approach through four phases, run once per encounter:
 
   1. **Appraisal** — every party member independently evaluates every available approach, estimating their own perceived success chance for each. Accuracy of this estimate is governed by the member's **decision-making** stat (a poor decision-maker's perceived chance may diverge from the true probability). For combat encounters, the appraisal instead estimates the likely battle outcome. The approach with the highest perceived success chance becomes the party member's proposal.
@@ -258,6 +279,18 @@ The traits are as follow:
 - **As a player**, I want exhausted or injured adventurers to require downtime at the guild to recover, so that roster management (who's fit to deploy) is an ongoing decision, not a one-time setup.
 - **Party size:** up to **5 characters** may be sent on a single quest. World quests may allow up to 8. "Raids" will allow up to 20 (RAID A POSSIBLE IDEA FOR V2).
 
+**Death conditions:** Character death occurs when: (a) a situational failure results in death, OR (b) damage dealt ≥ (2 × current maximum HP), OR (c) total party defeat in combat where only one character can perish, determined by the member with the lowest Constitution stat.
+
+#### 6.7.1 Injury Types
+
+Injuries are categorized into progressive stages, each with specific mechanical effects:
+
+1. **Minor Scratch** — -5% current HP (heals naturally over time)
+2. **Bruised Limb** — -10% Strength/Agility for 3 quests
+3. **Concussion** — -15% Decision-Making stat for 2 quests
+4. **Sprained Ankle** — -20% movement speed, increases retreat likelihood by 25%
+5. **Deep Wound** — -25% maximum HP until healed at infirmary
+
 ### 6.8 Finance
 
 - **As a player**, I want to track my guild's income and expenses, so that I can keep the guild financially solvent.
@@ -324,6 +357,7 @@ This is a content floor, not a ceiling — intended to validate that the full gu
 - Everything in Sections 5–8: one static town, rotating recruitment roster, guild facilities, static equipment via shop/quest rewards, the encounter builder and its tag-driven content database, the bespoke resolution system, reactive personality traits, and the age-75 retirement endgame.
 - The Quest Generator (QGen), the system that generates quests based on the mentioned parameters.
 - Party arbitration mechanic, the four-phase (appraisal/proposal/adoption/execution) system for how the party settles on an approach to an encounter (see Section 6.5.8).
+- **Time Model:** V1 uses a hybrid time model — quest resolution is turn-based (actions occur when the player presses "Continue"), but time advances between quests based on a configurable calendar system. The "Continue" button advances time to the next scheduled event (quest completion, injury healing, contract expiration, etc.) rather than simulating continuous real-time.
 
 ### 9.2 V2 — Expanding the World
 
@@ -415,6 +449,8 @@ Explicitly **out of scope for V1**, but worth keeping in mind while architecting
 - **Morale** — a tracked party-wide stat affecting performance and retreat likelihood.
 - **Exhaustion** — accumulated fatigue from encounters that requires downtime to recover.
 - **Retirement** — the V1 endgame trigger, occurring when the guild master reaches age 75.
+- **Shared Perceived Success Chance** — the weighted average of party members' perceived success chances for a given approach, where weights are determined by each member's leadership and decision-making stats. See Section 6.5.8.
+- **Synergy** — the combined effect of relationship stats between participating characters that modifies roll outcomes during the execution phase. See Section 6.5.8.
 
 ---
 
