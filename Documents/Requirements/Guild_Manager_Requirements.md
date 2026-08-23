@@ -24,6 +24,7 @@
 | 0.8 | 2026-08-13 | Replaced the V2 decision-making draft with the confirmed Party Arbitration Mechanic (appraisal/proposal/adoption/execution); added quest type tag as a 4th quest-generator input alongside length, theme, and difficulty; added the approach database (hand-authored, skill-check-based) and clarified that the generator sets roll difficulty rather than approaches carrying a fixed difficulty |
 | 0.9 | 2026-08-14 | Cleanup pass: removed leftover duplicate "Section 9" content; confirmed Party Arbitration Mechanic + Approach Database as deliberate V1 scope (accepted risk); unified party size to 5, folded "world quests" into "world events" (V2) with raids as their V3+ form; confirmed the Proposal phase never merges/averages duplicate proposals; fixed 6.5.1/6.5.3 difficulty-rating inconsistency, the trait exclusion group count, a stray formatting artifact in 6.5.3, and removed the redundant duplicate phase description in 6.5.8 |
 | 0.10 | 2026-08-14 | Added the full Resolution System (3d6+modifiers, dual-track Ability Contribution/Proficiency Tier/Item-bonus modifiers, DC/AC baseline, crit rules); added the Combat System (turn-based, symmetric per-combatant aggro, four combat roles with role-based decision logic, combat skill database schema); added Adventurer Races (Human/Elf/Dwarf with lifespans) and Leveling & Progression (three XP sources, non-linear stat growth, age-related decline at 75% of lifespan); fixed a stale party-size reference in the glossary; fixed the 6.5.3 non-combat DC wording to reflect fixed, generator-selected values |
+| 0.11 | 2026-08-14 | Reworked the Party Arbitration Mechanic's math: Proposal now uses an additive modifier centered on the stat scale's midpoint (so strong Leadership/Decision-Making genuinely raises the shared success chance, not just shrinks it less); Appraisal noise now formalized as a normal-distribution formula driven by Decision-Making, replacing the earlier undefined "may diverge" language; updated worked example and glossary to match |
 
 ---
 
@@ -207,18 +208,33 @@ Encounters fall into three categories:
 
 The party settles on an approach through four phases, run once per encounter:
 
-1. **Appraisal** — every party member independently evaluates every available approach, estimating their own perceived success chance for each. Accuracy of this estimate is governed by the member's **decision-making** stat (a poor decision-maker's perceived chance may diverge from the true probability). For combat encounters, the appraisal instead estimates the likely battle outcome. The approach with the highest perceived success chance becomes that member's proposal.
-2. **Proposal** — each party member's proposal (their own highest-perceived approach) is weighted using their own Leadership and Decision-Making stats:
+1. **Appraisal** — every party member independently evaluates every available approach, estimating their own perceived success chance for each. For combat encounters, the appraisal instead estimates the likely battle outcome. The approach with the highest perceived success chance becomes that member's proposal.
 
-   `Proposal Weight = Perceived Success Chance × (Leadership + Decision-Making) / 2`
+   Accuracy of this estimate is governed by the member's **Decision-Making** stat, via added noise drawn from a **normal distribution**:
 
-   The result is that member's **shared perceived success chance** for their proposal. This weighting means a member with high Leadership but low Decision-Making can sway the party toward a suboptimal choice, while a member with high Decision-Making but low Leadership provides an accurate assessment with less influence. If two or more members happen to propose the same approach, their proposals are **not** merged or averaged — each is still scored independently on that proposing member's own stats, and stands as its own separate proposal.
+   ```
+   decision_making_left = (100 - decision_making) * j      # j = 0.4
+   std_dev = decision_making_left / 2
+   noise = randfn(0, std_dev)                                # normal distribution, mean 0
+   perceived_success_chance = clamp(success_chance + noise, 0, 100)
+   ```
 
-   *Worked example:* a party of 3 (A: Leadership 70/Decision-Making 60, B: L80/D40, C: L50/D90) appraises Sneak/Fight/Bribe. C proposes Sneak (75% perceived), B proposes Fight (60%), A proposes Bribe (70%). Weighted: A's Bribe = 70% × (70+60)/2 = 45.5%; B's Fight = 60% × (80+40)/2 = 36.0%; C's Sneak = 75% × (50+90)/2 = 52.5%.
-3. **Adoption** — the individual proposal with the highest shared perceived success chance is adopted by the party (in the example above, C's Sneak at 52.5%), regardless of whether other members proposed the same or a different approach.
+   Higher Decision-Making narrows the noise's typical spread (`std_dev`), so a skilled decision-maker's perceived chance clusters close to the true value; a poor decision-maker's estimate can diverge substantially, including — rarely, at very low Decision-Making — reading as flatly overconfident (perceiving near-100% on a task that isn't). Normal (rather than uniform) noise means small errors are the common case and large swings are rare, which is intentional.
+2. **Proposal** — each party member's proposal (their own highest-perceived approach) is adjusted using their own Leadership and Decision-Making stats, via an **additive modifier centered on the stat scale's midpoint (50)** — this ensures a genuinely strong Leadership/Decision-Making combination can raise the shared value above what the member personally perceived, not just shrink it less:
+
+   ```
+   stat_average = (leadership + decision_making) / 2
+   modifier = (stat_average - 50) * k                        # k = 0.4
+   shared_perceived_success_chance = clamp(perceived_success_chance + modifier, 0, 100)
+   ```
+
+   A member with high Leadership and high Decision-Making gets a genuine boost — reflecting a socially persuasive member proposing a plan that's *also* well-reasoned. A member weak in both gets pulled down. If two or more members happen to propose the same approach, their proposals are **not** merged or averaged — each is still scored independently on that proposing member's own stats, and stands as its own separate proposal.
+
+   *Worked example:* a party of 3 (A: Leadership 70/Decision-Making 60, B: L80/D40, C: L50/D90) appraises Sneak/Fight/Bribe. C proposes Sneak (75% perceived), B proposes Fight (60%), A proposes Bribe (70%). Modifiers: A's average = 65 → modifier +6 → 76%; B's average = 60 → modifier +4 → 64%; C's average = 70 → modifier +8 → 83%.
+3. **Adoption** — the individual proposal with the highest shared perceived success chance is adopted by the party (in the example above, C's Sneak at 83%), regardless of whether other members proposed the same or a different approach.
 4. **Execution** — the party carries out the adopted approach. The relevant character(s) make the required roll (RNG + stats, see Section 6.5.4), further modified by party morale and by "synergy" — meaning the established relationship system (Section 6.6.1), not a new stat. How many/which characters contribute to a given approach's roll is defined per-approach in the database, decided case by case rather than by a universal rule.
 
-This system is a deeper evolution of the engage/retreat decision layer described in Section 6.5.5, and depends on the finalized adventurer stat list (see Section 11).
+This system is a deeper evolution of the engage/retreat decision layer described in Section 6.5.5, and depends on the finalized adventurer stat list (see Section 11). *The `j` and `k` constants above are provisional starting points, not final — see Section 11.*
 
 #### 6.5.9 Combat System
 
@@ -480,6 +496,7 @@ This is a content floor, not a ceiling — intended to validate that the full gu
 - **Ability Contribution band widths:** exact stat-range bands (Section 6.5.4) are still being tuned; the current table is a provisional scaffold.
 - **Item bonus stacking:** do multiple item bonuses all stack, or only the single best one (Section 6.5.4)?
 - **Combat AC calculation:** confirm whether AC is calculated from the defender's own stats (current working assumption, Section 6.5.4) or handled some other way.
+- **Arbitration constants:** the `j` (Appraisal noise) and `k` (Proposal modifier) constants in Section 6.5.8 are provisional (both 0.4) and need playtesting to tune.
 
 ### V2 — Needs Confirmation
 
@@ -516,7 +533,7 @@ This is a content floor, not a ceiling — intended to validate that the full gu
 - **Morale** — a tracked party-wide stat affecting performance and retreat likelihood.
 - **Exhaustion** — accumulated fatigue from encounters that requires downtime to recover.
 - **Retirement** — the V1 endgame trigger, occurring when the guild master reaches age 75.
-- **Shared Perceived Success Chance** — an individual party member's proposal (their own highest-perceived approach), scaled by their own Leadership and Decision-Making stats. Each member's proposal is scored independently — proposals are never merged or averaged across members, even if two members propose the same approach. See Section 6.5.8.
+- **Shared Perceived Success Chance** — an individual party member's proposal (their own highest-perceived approach), adjusted by an additive modifier from their own Leadership and Decision-Making stats, centered on the stat scale's midpoint — a strong combination genuinely raises the value, a weak one lowers it. Each member's proposal is scored independently — proposals are never merged or averaged across members, even if two members propose the same approach. See Section 6.5.8.
 - **Synergy** — the combined effect of relationship stats between participating characters that modifies roll outcomes during the execution phase. See Section 6.5.8.
 - **Ability Contribution** — the small, banded modifier a stat contributes to a roll, derived from the 1–100 stat scale. See Section 6.5.4.
 - **Proficiency Tier** — a separate, training-based roll modifier, independent of raw stats. See Section 6.5.4.
