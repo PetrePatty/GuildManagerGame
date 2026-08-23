@@ -22,6 +22,8 @@
 | 0.6 | 2026-08-13 | Resolved open questions: no cap on active traits (fully stat-driven); moved persistent antagonist memory from V3+ to V2 (V3+ is multiplayer-only for now); confirmed multiplayer stays in V3+; roster rotation is time-based; V1 quest count means 8 quests unique in main objective, with the encounter builder producing their functional encounters |
 | 0.7 | 2026-08-13 | Added the individual & party decision-making system (V2): multi-approach encounter resolution (combat/stealth/social/etc.), with a two-tier decision layer (individual stat-based evaluation vs. party-level social arbitration); clarified V1's decision-making as a simpler precursor to this system |
 | 0.8 | 2026-08-13 | Replaced the V2 decision-making draft with the confirmed Party Arbitration Mechanic (appraisal/proposal/adoption/execution); added quest type tag as a 4th quest-generator input alongside length, theme, and difficulty; added the approach database (hand-authored, skill-check-based) and clarified that the generator sets roll difficulty rather than approaches carrying a fixed difficulty |
+| 0.9 | 2026-08-14 | Cleanup pass: removed leftover duplicate "Section 9" content; confirmed Party Arbitration Mechanic + Approach Database as deliberate V1 scope (accepted risk); unified party size to 5, folded "world quests" into "world events" (V2) with raids as their V3+ form; confirmed the Proposal phase never merges/averages duplicate proposals; fixed 6.5.1/6.5.3 difficulty-rating inconsistency, the trait exclusion group count, a stray formatting artifact in 6.5.3, and removed the redundant duplicate phase description in 6.5.8 |
+| 0.10 | 2026-08-14 | Added the full Resolution System (3d6+modifiers, dual-track Ability Contribution/Proficiency Tier/Item-bonus modifiers, DC/AC baseline, crit rules); added the Combat System (turn-based, symmetric per-combatant aggro, four combat roles with role-based decision logic, combat skill database schema); added Adventurer Races (Human/Elf/Dwarf with lifespans) and Leveling & Progression (three XP sources, non-linear stat growth, age-related decline at 75% of lifespan); fixed a stale party-size reference in the glossary; fixed the 6.5.3 non-combat DC wording to reflect fixed, generator-selected values |
 
 ---
 
@@ -118,7 +120,7 @@ V1 is scoped as a **single-player management sim**, with pillars ranked by prior
 
 #### 6.5.1 Quest Structure
 
-A quest is composed of multiple **encounters**, each with its own difficulty rating:
+A quest is composed of multiple **encounters**, whose approaches carry fixed, pre-authored difficulty values that the quest generator selects to match the quest's target difficulty (see Section 6.5.3):
 
 - **Main encounter** — the core objective of the quest; must be won for the quest to be considered complete.
 - **Lead-up encounters** — encountered on the way to the main encounter.
@@ -147,8 +149,8 @@ Encounters fall into three categories:
 
 - **As a developer/designer**, I want a database of individual encounter building blocks — enemies, encounter types, challenges, and rewards — each tagged with descriptive attributes, so that encounters can be assembled from reusable, well-defined pieces rather than fully hand-written each time.
 - **As a player**, I want the encounters I face to make thematic sense for the quest's context (e.g., a quest into a human settlement mostly featuring human enemies), so that the world feels coherent.
-- **As a system**, the quest generator assembles a quest from four inputs: **quest length**, **theme tag**, **quest type tag**, and **difficulty rating**. Encounters in the database are tagged for relevance to specific quest types and themes, and the generator selects/matches against those tags when assembling a quest. The tags "theme tag" describes flavor/setting (e.g., undead, bandits, human settlement), while "quest type tag" describes the structural objective (e.g., escort, retrieval, clear-out). Flag if this isn't the intended split.*
-- **As a system**, the quest generator also sets the target difficulty for individual rolls within an encounter, scaled from the quest's overall difficulty rating — encounters and approaches don't carry a single fixed difficulty on their own.
+- **As a system**, the quest generator assembles a quest from four inputs: **quest length**, **theme tag**, **quest type tag**, and **difficulty rating**. Encounters in the database are tagged for relevance to specific quest types and themes, and the generator selects/matches against those tags when assembling a quest. "Theme tag" describes flavor/setting (e.g., undead, bandits, human settlement), while "quest type tag" describes the structural objective (e.g., escort, retrieval, clear-out).
+- **As a system**, non-combat DCs are fixed values authored directly on each approach in the database (see Section 6.5.3a); the quest generator selects approaches/encounters whose stored DC matches the difficulty tier it's targeting for that quest, rather than computing or scaling a DC on the fly.
 - *This tag system also underpins Section 6.11 (thematic and reactive tags more broadly) — this subsection covers its use specifically within the encounter builder.*
 
 #### 6.5.3a Approach Database
@@ -159,15 +161,33 @@ Encounters fall into three categories:
 
 #### 6.5.4 Resolution System
 
-- Success/failure is determined by an RNG roll, heavily modified by character stats, following a **bespoke stat-driven framework** (see Section 1) rather than a direct adaptation of an existing tabletop ruleset. There are no saving-throw-equivalent mechanics — only stats.
-- The specific stat list, and exactly how stats modify rolls, is still being finalized and will be incorporated once available (see Section 11).
-- This system is dressed with narrative flavor text and inter-party interaction effects to keep quests feeling distinct from one another.
+- Rolls use **3d6 + modifiers**, chosen deliberately over a flatter distribution (e.g., a single d20) to produce a bell curve — this keeps outcomes less swingy and gives stats a bigger, more reliable influence on the result, in line with the goal of stats mattering more than in typical tabletop systems.
+- Adventurer stats are tracked on a **1–100 scale**, which may be displayed to the player directly for character-sheet "feel," even though the underlying roll math converts each stat into a small banded modifier rather than using the raw number directly.
+- **Modifiers are calculated across three independent categories, all of which sum together:**
+
+  1. **Ability Contribution** — each stat relevant to a given roll is converted into a small modifier via a banded lookup (not a continuous formula), so raw stats can't dominate the dice. Where a roll draws on more than one stat, each contributing stat's band is added — being good at multiple relevant stats helps additively. *Exact band widths are still being tuned; the table below is a provisional scaffold, not final:*
+
+     | Stat range | Ability Contribution |
+     | --- | --- |
+     | 1–20 | −2 |
+     | 21–40 | −1 |
+     | 41–60 | +0 |
+     | 61–80 | +1 |
+     | 81–100 | +2 |
+  2. **Proficiency Tier** — a separate progression axis representing training in a specific skill, independent of the raw stat (e.g., Untrained/Trained/Expert/Master, each a small flat bonus) — this gives a trained-but-not-naturally-gifted character a real path to competence, and vice versa.
+  3. **Item bonuses** — bonuses from equipment. Multiple item bonuses **stack** *(whether all items stack, or only the single best, is still open — see Section 11)*. There is deliberately **no circumstance bonus category**.
+- **Difficulty Class (DC)** for skill checks and **Armour Class (AC)** for combat to-hit share a common baseline range of roughly **8–16**, scaled by the quest's target difficulty. Rolling exactly the DC/AC counts as a **success** (meet-or-beat).
+- **Critical success/failure:** a result **10 or more above or below** the target number is a critical success or failure. Crit *effects* are defined per individual skill/action rather than following one universal rule.
+- Non-combat **DCs are fixed values authored per approach** in the database (see Section 6.5.3a); the quest generator selects approaches whose stored DC matches its target difficulty, rather than computing one dynamically.
+- Combat **AC** is calculated from the defending combatant's own relevant stats via the same Ability Contribution + Proficiency system above, rather than being a stored fixed value. *(Working assumption, not yet explicitly confirmed — see Section 11.)*
+- The specific stat list — which stats exist and which feed which rolls — is still being finalized (see Section 11).
+- Results are dressed with narrative flavor text and inter-party interaction effects to keep quests feeling distinct from one another.
 
 #### 6.5.5 Party Autonomy & Retreat
 
 - **As a player**, I do not directly control party actions during a quest. The party **autonomously decides how to approach each encounter based on personality traits** (see Section 6.6), so outcomes feel emergent rather than player-scripted.
 - **As a player**, I want my party to be able to retreat from a quest as an approach option, so that not every dangerous situation ends in death. The decision to retreat is made autonomously by the adventurers themselves, based on their personality traits and current morale — not a direct player choice.
-- **As a player**. I want my party to decide how to approach each encounter, based on their personalities and characteristics/stats. The engine to decide this will be called the **Party Arbitration Mechanic**, and is described in a section 6.5.8. This mechanic means the party's actual choice emerges from a weighted-average vote.
+- **As a player**. I want my party to decide how to approach each encounter, based on their personalities and characteristics/stats. The engine to decide this will be called the **Party Arbitration Mechanic**, and is described in a section 6.5.8. This mechanic means the party's actual choice emerges from each member's individually-weighted proposal, with the highest-scoring proposal winning.
 
 #### 6.5.6 Quest Text Presentation
 
@@ -185,34 +205,61 @@ Encounters fall into three categories:
 - **As a player**, I want encounters (main, lead-up, and side) to be solveable through multiple distinct authored approaches — such as sneaking, fighting, or charming — so that how a party gets through a quest varies and feels character-driven.
 - **As a player**, I want the approach chosen to determine how the encounter actually resolves — e.g., a successfully snuck-past or talked-down encounter never escalates to combat, while a failed or aggressive approach does — so that combat isn't the only, or default, outcome.
 
-**Refined Proposal Phase Mechanics:**
-Each party member's proposal success chance is calculated using this formula:
-`Proposal Weight = Perceived Success Chance × (Leadership + Decision-Making) / 2`
+The party settles on an approach through four phases, run once per encounter:
 
-This weighting means:
-- A member with high Leadership but low Decision-Making can sway the party toward suboptimal choices
-- A member with high Decision-Making but low Leadership provides accurate assessments but less influence
-- The "shared perceived success chance" is the success chance of each proposal, after the leadership and decision-making weights are applied.
+1. **Appraisal** — every party member independently evaluates every available approach, estimating their own perceived success chance for each. Accuracy of this estimate is governed by the member's **decision-making** stat (a poor decision-maker's perceived chance may diverge from the true probability). For combat encounters, the appraisal instead estimates the likely battle outcome. The approach with the highest perceived success chance becomes that member's proposal.
+2. **Proposal** — each party member's proposal (their own highest-perceived approach) is weighted using their own Leadership and Decision-Making stats:
 
-Example: A party of 3 members faces multiple approaches. Each member's proposal gets weighted by their combined leadership/decision-making stats. This can lead to suboptimal choices being adopted if a high-leadership member advocates strongly for himself/herself, even if their assessment is inaccurate.
+   `Proposal Weight = Perceived Success Chance × (Leadership + Decision-Making) / 2`
 
-**Worked Example:**
-A party of 3 (A: L70/D60, B: L80/D40, C: L50/D90) evaluates approaches Sneak/Fight/Bribe:
-- Appraisal Phase: C proposes Sneak (75% perceived), B proposes Fight (60%), A proposes Bribe (70%)
-- Proposal Phase: Weights calculated using (L+DM)/2 multiplier:
-  - A's Bribe: 70% × (70+60)/2 = 45.5%
-  - B's Fight: 60% × (80+40)/2 = 36.0%  
-  - C's Sneak: 75% × (50+90)/2 = 52.5%
-- Adoption: Highest weighted proposal (C's Sneak at 52.5%) wins
+   The result is that member's **shared perceived success chance** for their proposal. This weighting means a member with high Leadership but low Decision-Making can sway the party toward a suboptimal choice, while a member with high Decision-Making but low Leadership provides an accurate assessment with less influence. If two or more members happen to propose the same approach, their proposals are **not** merged or averaged — each is still scored independently on that proposing member's own stats, and stands as its own separate proposal.
 
-- The party settles on an approach through four phases, run once per encounter:
+   *Worked example:* a party of 3 (A: Leadership 70/Decision-Making 60, B: L80/D40, C: L50/D90) appraises Sneak/Fight/Bribe. C proposes Sneak (75% perceived), B proposes Fight (60%), A proposes Bribe (70%). Weighted: A's Bribe = 70% × (70+60)/2 = 45.5%; B's Fight = 60% × (80+40)/2 = 36.0%; C's Sneak = 75% × (50+90)/2 = 52.5%.
+3. **Adoption** — the individual proposal with the highest shared perceived success chance is adopted by the party (in the example above, C's Sneak at 52.5%), regardless of whether other members proposed the same or a different approach.
+4. **Execution** — the party carries out the adopted approach. The relevant character(s) make the required roll (RNG + stats, see Section 6.5.4), further modified by party morale and by "synergy" — meaning the established relationship system (Section 6.6.1), not a new stat. How many/which characters contribute to a given approach's roll is defined per-approach in the database, decided case by case rather than by a universal rule.
 
-  1. **Appraisal** — every party member independently evaluates every available approach, estimating their own perceived success chance for each. Accuracy of this estimate is governed by the member's **decision-making** stat (a poor decision-maker's perceived chance may diverge from the true probability). For combat encounters, the appraisal instead estimates the likely battle outcome. The approach with the highest perceived success chance becomes the party member's proposal.
-  2. **Proposal** — each party member's generates a proposal: the approach with which he/she has the highest perceived success chance. Each party member proposal's success chance is then modified with his/her leadership and decision-making stats. The resulting success chance becomes the shared perceived success chance for that proposal (i.e. the best perceived approach by that party member). A shared perceived success chance is calculated for each party member for his/her proposal.
-  3. **Adoption** — the proposal with the highest shared perceived success chance is adopted by the party.
-  4. **Execution** — the party carries out the adopted approach. The relevant character(s) make the required roll (RNG + stats, see Section 6.5.4), further modified by party morale and by "synergy" — which, meaning the established relationship system (Section 6.6.1), not a new stat. How many/which characters contribute to a given approach's roll is defined per-approach in the database, decided case by case rather than by a universal rule.
+This system is a deeper evolution of the engage/retreat decision layer described in Section 6.5.5, and depends on the finalized adventurer stat list (see Section 11).
 
-- This system is a deeper evolution of the V1 engage/retreat decision layer (Section 6.5.5) rather than a separate mechanic, and depends on the finalized adventurer stat list (see Section 11).
+#### 6.5.9 Combat System
+
+- **As a player**, I want combat to be turn-based and legible, so each actor's contribution to the outcome is clear. V1 has no positional movement — combat is resolved purely through actions, to-hit rolls, and damage rolls.
+- Each actor gets **one action per turn**, using an available skill (offensive, defensive, or hybrid).
+- Adventurers start combat-ready with **3 skills from their class and 1 from their race**, and unlock further class skills as they level — the player chooses which to unlock at each level-up threshold (see Section 6.13).
+
+**Combat Roles:** every combatant — adventurer or enemy — is assigned exactly one combat role: **Tank**, **DPS**, **Utility**, or **Healer**. The player assigns roles to their own adventurers; enemy roles are pre-set in the enemy database.
+
+**Aggro System:**
+
+- Aggro (threat) is tracked **independently per combatant, against each opposing combatant** — not as one shared party-wide number. This is symmetric: adventurers generate and react to aggro from enemies, and enemies generate and react to aggro from adventurers, using the same system.
+- **Generating aggro is a property of individual skills** (see the skill schema below), not a flat per-role multiplier — a Tank's high threat generation comes from having more threat-generating skills available by class design, not a separate system-level bonus.
+- **Starting aggro:** each combat role begins an encounter with a flat baseline aggro value, set by class (for adventurers) or by role (for enemies, using the same four roles).
+- **Decay:** aggro decays by **20% per round**.
+- **Reset:** aggro resets to starting values between encounters.
+- **Targeting:** absent a role-specific override (below), an attacker targets whoever currently holds the highest aggro against them — deterministic, no randomness.
+
+**Role-based decision logic** (evaluated each turn, in priority order):
+
+- **All roles:** if a combatant's own HP falls below a low-HP threshold and a defensive option is available, it's taken — this supersedes everything below. **DPS uses a stricter "exceptionally low" threshold** instead, reflecting a more aggressive playstyle that doesn't back off as readily.
+- **Tank:** use an aggro-generating skill on self if not already holding highest aggro against the active target(s); otherwise, attack the current priority (highest-aggro) target.
+- **DPS:** if a target is killable this turn, take the kill — **unless another target's aggro is exceptionally high**, in which case attack that high-aggro target instead; otherwise, attack the highest-aggro target.
+- **Utility:** apply a status effect to an eligible target that doesn't already have one, if available; otherwise, attack the highest-aggro target.
+- **Healer:** if an ally's HP is below a threshold, heal the most at-risk ally; otherwise, contribute offensively or defensively.
+- *There's no separate, hard-coded "protect an ally from a killing blow" rule — that kind of protective behavior is intended to emerge from the Tank's threat-holding priority combined with the DPS's aggro-based override, rather than a bolted-on exception. This will need playtesting to confirm it produces the intended effect.*
+
+**Skill Database** *(distinct from the non-combat Approach Database, Section 6.5.3a)* — each combat skill is defined by:
+
+| Field | Description |
+| --- | --- |
+| Skill type | Offensive / Defensive / Hybrid |
+| Target type | Self / single ally / all allies / single enemy / all enemies |
+| Success-chance formula | Which stat(s) and modifiers (Section 6.5.4) determine this skill's roll |
+| HP effect | Healing or damage amount/formula |
+| Status effect | Any status effect applied on success |
+| Uses per encounter | Limited-use resource |
+| Aggro change | How much threat this skill generates (or reduces) |
+| Source | Class / race / trait |
+
+*This is expected to be a large content-authoring effort, alongside the Approach Database (see Section 10, Risks).*
 
 ### 6.6 Personality Traits & Relationships
 
@@ -255,7 +302,7 @@ The traits are as follow:
 - Greedy / Frugal
 - Loyalist / Mercenary
 - Bloodthirsty / Peacemaker
-- Brave / Cautious / Reckless / Cowardly (max one of the three)
+- Brave / Cautious / Reckless / Cowardly (max one of the four)
 
 *Note: under the reactive/stat-threshold model, some of these exclusions may resolve naturally (e.g., if Brave and Cautious key off opposite ends of the same stat, a character can never cross both thresholds at once) — this depends on the final stat design and doesn't need to be manually enforced in every case. To be confirmed once the stat list exists.*
 
@@ -277,7 +324,7 @@ The traits are as follow:
 - **As a player**, I want injured characters to heal by resting for a set amount of time back at the guild, so that recovery has a real time cost.
 - **As a player**, I want adventurers to accumulate **exhaustion** the more encounters (combat and non-combat) they go through on a quest, so that sending a party on back-to-back quests without rest carries real risk.
 - **As a player**, I want exhausted or injured adventurers to require downtime at the guild to recover, so that roster management (who's fit to deploy) is an ongoing decision, not a one-time setup.
-- **Party size:** up to **5 characters** may be sent on a single quest. World quests may allow up to 8. "Raids" will allow up to 20 (RAID A POSSIBLE IDEA FOR V2).
+- **Party size:** up to **5 characters** may be sent on a single quest. Larger-scale outings (world events, and their largest form, raids) are addressed separately — see Section 9.2 and 9.3.
 
 **Death conditions:** Character death occurs when: (a) a situational failure results in death, OR (b) damage dealt ≥ (2 × current maximum HP), OR (c) total party defeat in combat where only one character can perish, determined by the member with the lowest Constitution stat.
 
@@ -306,7 +353,7 @@ Injuries are categorized into progressive stages, each with specific mechanical 
 
 - **As a player**, I want the game to end meaningfully rather than continuing indefinitely once my guild is dominant.
 - **V1 endgame:** the game ends upon the **retirement of the guild master**, capped at **age 75** or can be initiated early.
-- **(V2 direction, not built in V1):** playable races with different natural lifespans, and means for the guild master to unnaturally extend their lifespan — see Section 9.
+- **(V2 direction, not built in V1):** playable races for the guild master with different natural lifespans, and means to unnaturally extend the guild master's lifespan — see Section 9. *(Adventurer races are separate and already V1 — see Section 6.12.)*
 
 ### 6.11 Tag System (Thematic & Reactive)
 
@@ -317,6 +364,31 @@ Beyond their role in the encounter builder (Section 6.5.3), tags are intended to
 - **As a player**, I want the possibility of persistent, recurring antagonists who remember prior interactions with specific characters, so that the world feels like it has memory and continuity.
 
 *This rolls out in phases: static/thematic tagging that powers the encounter builder (6.5.3) is V1, since the encounter builder depends on it. Reactive/event-driven character tags and persistent-antagonist memory are both V2 — there is currently no planned V3+ expansion of the tag system beyond this.*
+
+### 6.12 Adventurer Races
+
+V1 introduces a small set of playable adventurer races, needed because several already-established V1 systems depend on race as a data dimension: stat growth rates during leveling (Section 6.13), starting skills (one of an adventurer's starting skills comes from race — Section 6.5.9), and lifespan-driven aging effects (Section 6.13).
+
+| Race | Lifespan |
+| --- | --- |
+| Human | 85 years |
+| Elf | 800 years |
+| Dwarf | 360 years |
+
+*Note: this is distinct from the V2 "playable races" item in Section 9.2, which is specifically about the player's own guild-master character and extending their lifespan — adventurer races, covered here, are already V1 scope.*
+
+### 6.13 Leveling & Progression
+
+- **As a player**, I want adventurers to grow more capable over time through play, so that investing in a roster member has a lasting payoff.
+- Adventurers gain **XP from three sources**, each contributing at a different rate:
+  - **Aging** — a slow, constant trickle of XP over time, kept deliberately small so that keeping an adventurer benched in reserve is never the optimal strategy.
+  - **Quests** — a lump sum of XP gained from attempting and/or completing a quest, **split evenly across all party members present**.
+  - **Training** — a medium trickle of XP gained during downtime at the guild's training facility (Section 6.3).
+  - *V1 scope note: aging XP applies only to adventurers already recruited into the guild — the wider world's recruitable pool isn't simulated over time until V2 (Section 9.2), consistent with V1's single-town scope.*
+- XP converts into stat growth **non-linearly** — it takes progressively more XP to raise a stat the higher that stat already is, producing a soft cap without a hard ceiling.
+- **Class and race act as multipliers** on how efficiently XP converts into growth for a given stat (e.g., a class/race combination suited to Strength converts XP into Strength growth faster than into an unrelated stat).
+- Adventurers unlock new skills at discrete XP thresholds; the player chooses which skill to unlock from a small set of options at each threshold (starting skills: 3 from class, 1 from race — see Section 6.5.9).
+- **Age-related decline:** once an adventurer passes **75% of their race's natural lifespan** (Section 6.12), their stats begin to decline rather than grow, giving older adventurers real "past their prime" texture rather than being strictly better with time forever.
 
 ---
 
@@ -366,16 +438,17 @@ This is a content floor, not a ceiling — intended to validate that the full gu
 - **Scouting** — revealing/vetting recruitment candidates before they're available.
 - **Crafting** — creating and upgrading equipment.
 - **Deeper logistics** — real mechanics for transport, food/survival, etc.
-- **Playable races** with different natural lifespans, and means to unnaturally extend the guild master's lifespan.
+- **Playable races (for the guild master)** with different natural lifespans, and means to unnaturally extend the guild master's lifespan, extending the endgame beyond the fixed V1 age-75 retirement. *(Distinct from adventurer races, which are already V1 scope — see Section 6.12.)*
 - **Reactive/event-driven character tags** (e.g., fear-of-X after a bad encounter).
 - **Persistent antagonist memory** — recurring named enemies who remember specific past interactions with characters.
 - **Rival-guild roster poaching ("buyout")** — some V1 traits (Mercenary, Loyalist) already reference this; whether it needs active AI rival guilds in V1 or stays dormant until here is open — see Section 11.
 - **Procedural world/quest generation**, where the world reacts to the player's actions.
 - **Squad tactics** - players can assign party members to be either dps/tank/healer for combat encounters which will influence their choices in combat but not dictate it. Additionally can provide instructions for how the party must act (aggressive, passive, etc.) for out of combat, again it will influence but not dictate their behavior.
+- **World events** — large-scale events that appear as special quests in the world, supporting larger party sizes than the standard 5. *(Exact party size not yet set — see Section 11.)*
 
 ### 9.3 V3+ — Stretch Goals
 
-- **World events** — large, occasional events which can allow parties up to 10 characters to interact with. May have multiplayer elements where every guild chooses a stance (help / hinder / do nothing).
+- **Raids** — the largest-scale form of world events, supporting parties of up to 20, tied into multiplayer guild interaction (e.g., every guild choosing a stance: help / hinder / do nothing).
 - **Multiplayer / shared-world guild interaction**, including:
   - **Guild vs. Guild tournaments** — competing in a shared dungeon or duel format.
   - **Quest bidding** — guilds competing against each other for the same contracts.
@@ -383,18 +456,6 @@ This is a content floor, not a ceiling — intended to validate that the full gu
   - **Limited direct operations** between rival guilds.
   - **Collaborative quests** — guilds working together, not just competing.
   The intent is that two people could eventually run their own guilds in a shared world, crossing paths through tournaments, world events, or quest competition — but this depends on V1 first establishing a working, fun simulation core.
-
-## 9. Post-V1 / Future Vision (V2+)
-
-Explicitly **out of scope for V1**, but worth keeping in mind while architecting V1 systems so they aren't precluded later:
-
-- **Playable races** with different natural lifespans, and mechanisms for the guild master to unnaturally extend their lifespan (extending the endgame beyond the fixed V1 age-75 retirement).
-- **Support staff** as a hireable, separate category from adventurers.
-- **Scouting** — revealing/vetting recruitment candidates before they're available to recruit (currently the full pool is visible in V1 — see Section 6.3).
-- **Crafting** — creating and upgrading equipment (V1 equipment is static — see Section 6.5).
-- **Deeper logistics** — real mechanics for transport, food/survival, etc. (V1 logistics are intentionally light).
-
----
 
 ## 10. Risks
 
@@ -405,6 +466,8 @@ Explicitly **out of scope for V1**, but worth keeping in mind while architecting
 | Bespoke numerical system design & balancing | Building a fully custom stat/combat/check system (rather than adapting an existing framework) is a larger undertaking than originally scoped, and carries real balancing risk — early prototyping and playtesting will matter more than usual here. |
 | Encounter builder & content variety | The "non-repetitive, well-articulated" quest text goal depends on having enough tagged content variety and flavor-text templates; underestimating this could make quests feel samey despite the builder's flexibility. |
 | Trait/relationship/morale system tuning | A fully custom system (24 traits, per-pair relationships, party morale) will need playtesting to balance; current trait effects are a strong first draft, not final numbers. |
+| Skill Database authoring effort | Alongside the Approach Database, a full combat skill database (offensive/defensive/hybrid, per-skill formulas, status effects) is a second large writing effort for a two-person team — see Section 6.5.9. |
+| Combat role emergent behavior | Protective behaviors (e.g., a Tank shielding a low-HP ally) are intended to emerge from role logic and aggro interactions rather than being explicitly coded — this needs real playtesting to confirm it produces the intended feel rather than degenerate or exploitable behavior. |
 
 ---
 
@@ -414,10 +477,14 @@ Explicitly **out of scope for V1**, but worth keeping in mind while architecting
 
 - **Adventurer stat list:** Nik finalising the full stat list; several systems (resolution system, reactive traits) depend on it and are placeholders until it's available.
 - **Reactive traits:** how do they interact with the resolution system?
+- **Ability Contribution band widths:** exact stat-range bands (Section 6.5.4) are still being tuned; the current table is a provisional scaffold.
+- **Item bonus stacking:** do multiple item bonuses all stack, or only the single best one (Section 6.5.4)?
+- **Combat AC calculation:** confirm whether AC is calculated from the defender's own stats (current working assumption, Section 6.5.4) or handled some other way.
 
 ### V2 — Needs Confirmation
 
 - **Rival-guild buyout activation:** do the Mercenary/Loyalist buyout effects require active AI-controlled rival guilds, and if so, which phase introduces that?
+- **World event party size:** exact larger-than-5 party size for world events still needs to be set (previous drafts inconsistently suggested 8 or 10).
 
 ---
 
@@ -425,8 +492,8 @@ Explicitly **out of scope for V1**, but worth keeping in mind while architecting
 
 | Milestone | Description |
 | --- | --- |
-| **M0 — Data model & schema** | Define the character/item/quest/enemy/encounter-piece/tag database structure, including trait, relationship, morale, and exhaustion fields. Depends on the finalized stat list. |
-| **M1 — Core loop prototype** | Minimal, possibly non-graphical prototype of the quest simulator and encounter builder (select quest → assemble encounters → resolve → outcome), to validate both the resolution system and the builder before engine work begins. |
+| **M0 — Data model & schema** | Define the character/item/quest/enemy/encounter-piece/tag/skill/race database structure, including trait, relationship, morale, exhaustion, aggro, and XP fields. Depends on the finalized stat list. |
+| **M1 — Core loop prototype** | Minimal, possibly non-graphical prototype of the quest simulator, encounter builder, and combat system (select quest → assemble encounters → resolve, including combat rounds → outcome), to validate the resolution system, builder, and combat roles before engine work begins. |
 | **M2 — Vertical slice** | One full loop in Godot: town hub → quest selection → text-based quest resolution → finance/reputation update → return to town, with placeholder art. |
 | **M3 — Alpha** | All V1 pillars implemented at a rough-but-functional level; internal playtesting. |
 | **M4 — Beta** | Visual style pass, content population to the Section 8 targets (1 town, 8 adventurers, 8 quests, 30 enemies, 20 items), balancing. |
@@ -437,20 +504,25 @@ Explicitly **out of scope for V1**, but worth keeping in mind while architecting
 ## 13. Glossary
 
 - **Guild** — the player's organization of adventurers, managed across finances, roster, and reputation.
-- **Encounter** — a discrete challenge within a quest, with its own difficulty rating; categorized as combat, non-combat, or character interaction.
+- **Encounter** — a discrete challenge within a quest, categorized as combat, non-combat, or character interaction; difficulty lives on its approaches (Section 6.5.3a), not the encounter itself.
 - **Main encounter** — the encounter that determines quest success or failure.
 - **Lead-up / side-encounter** — encounters that occur before, or optionally alongside, the main encounter.
 - **Encounter builder** — the tag-driven system that assembles encounters from the database based on a quest's length, theme tag, quest type tag, and difficulty rating.
 - **Approach** — a distinct, hand-authored method of tackling an encounter (e.g., combat, stealth, social) — see Party Arbitration Mechanic.
 - **Party Arbitration Mechanic** — the four-phase system (appraisal, proposal, adoption, execution) by which a party settles on its approach to an encounter: individual stat-based appraisal, weighted-average aggregation into a shared party score, adoption of the highest-scoring approach, and stat-modified execution.
 - **Tag** — a descriptive label attached to a game element (character, enemy, item, quest, environment) used to drive thematic coherence and, in later phases, reactive behavior.
-- **Party** — the subset of guild members (up to 8) sent on a given quest.
+- **Party** — the subset of guild members (up to 5) sent on a given quest.
 - **Relationship stat** — a persistent per-pair value tracking how one character views another.
 - **Morale** — a tracked party-wide stat affecting performance and retreat likelihood.
 - **Exhaustion** — accumulated fatigue from encounters that requires downtime to recover.
 - **Retirement** — the V1 endgame trigger, occurring when the guild master reaches age 75.
-- **Shared Perceived Success Chance** — the weighted average of party members' perceived success chances for a given approach, where weights are determined by each member's leadership and decision-making stats. See Section 6.5.8.
+- **Shared Perceived Success Chance** — an individual party member's proposal (their own highest-perceived approach), scaled by their own Leadership and Decision-Making stats. Each member's proposal is scored independently — proposals are never merged or averaged across members, even if two members propose the same approach. See Section 6.5.8.
 - **Synergy** — the combined effect of relationship stats between participating characters that modifies roll outcomes during the execution phase. See Section 6.5.8.
+- **Ability Contribution** — the small, banded modifier a stat contributes to a roll, derived from the 1–100 stat scale. See Section 6.5.4.
+- **Proficiency Tier** — a separate, training-based roll modifier, independent of raw stats. See Section 6.5.4.
+- **Aggro (Threat)** — a value tracked independently per combatant against each opposing combatant, determining targeting priority in combat; generated by individual skills, decays 20% per round, resets between encounters. See Section 6.5.9.
+- **Combat Role** — one of four roles (Tank, DPS, Utility, Healer) assigned to every combatant, determining their turn-by-turn decision logic in combat. See Section 6.5.9.
+- **Adventurer Race** — Human, Elf, or Dwarf in V1, each with its own lifespan affecting stat growth multipliers, starting skills, and age-related decline. See Section 6.12.
 
 ---
 
@@ -459,8 +531,8 @@ Explicitly **out of scope for V1**, but worth keeping in mind while architecting
 1. Finalize the adventurer stat list (Nik) — this gates the resolution system, reactive trait thresholds, and the M0 data model.
 2. Finalize individual panel designs (town hub, character sheet, quest log, finance, contracts, shops, facilities).
 3. Define the data model for the comprehensive database (characters, stats, items, quests, enemies, encounter pieces, tags, traits, relationships), incorporating the stat list once available.
-4. Prototype the encounter builder and resolution system together (M1), since they're now the highest-risk, highest-focus systems in V1.
-5. Resolve the remaining open questions in Section 11 (Cowardly's exclusion group, rival-guild buyout activation timing).
+4. Prototype the encounter builder, resolution system, and combat system together (M1), since they're now the highest-risk, highest-focus systems in V1.
+5. Resolve the remaining open questions in Section 11 (Ability Contribution band widths, item bonus stacking, combat AC calculation, rival-guild buyout activation timing, world event party size).
 6. Establish the visual style guide (fonts, panel frames, colour palette) — including the colour-coding scheme for quest text (Section 6.5.6).
 
 ---

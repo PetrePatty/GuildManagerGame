@@ -17,3 +17,5 @@ data_*/
 mono_crash.*.json
 .kilo/kilo.jsonc
 .kilo/kilo.json
+.kilo/plans/1786909100294-guild-manager-requirements-update.md
+AGENTS.md
