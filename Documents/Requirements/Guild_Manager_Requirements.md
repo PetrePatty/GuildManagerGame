@@ -175,6 +175,7 @@ Encounters fall into three categories:
      | 41–60 | +0 |
      | 61–80 | +1 |
      | 81–100 | +2 |
+
   2. **Proficiency Tier** — a separate progression axis representing training in a specific skill, independent of the raw stat (e.g., Untrained/Trained/Expert/Master, each a small flat bonus) — this gives a trained-but-not-naturally-gifted character a real path to competence, and vice versa.
   3. **Item bonuses** — bonuses from equipment. Multiple item bonuses **stack** *(whether all items stack, or only the single best, is still open — see Section 11)*. There is deliberately **no circumstance bonus category**.
 - **Difficulty Class (DC)** for skill checks and **Armour Class (AC)** for combat to-hit share a common baseline range of roughly **8–16**, scaled by the quest's target difficulty. Rolling exactly the DC/AC counts as a **success** (meet-or-beat).
