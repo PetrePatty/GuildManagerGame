@@ -25,6 +25,7 @@
 | 0.9 | 2026-08-14 | Cleanup pass: removed leftover duplicate "Section 9" content; confirmed Party Arbitration Mechanic + Approach Database as deliberate V1 scope (accepted risk); unified party size to 5, folded "world quests" into "world events" (V2) with raids as their V3+ form; confirmed the Proposal phase never merges/averages duplicate proposals; fixed 6.5.1/6.5.3 difficulty-rating inconsistency, the trait exclusion group count, a stray formatting artifact in 6.5.3, and removed the redundant duplicate phase description in 6.5.8 |
 | 0.10 | 2026-08-14 | Added the full Resolution System (3d6+modifiers, dual-track Ability Contribution/Proficiency Tier/Item-bonus modifiers, DC/AC baseline, crit rules); added the Combat System (turn-based, symmetric per-combatant aggro, four combat roles with role-based decision logic, combat skill database schema); added Adventurer Races (Human/Elf/Dwarf with lifespans) and Leveling & Progression (three XP sources, non-linear stat growth, age-related decline at 75% of lifespan); fixed a stale party-size reference in the glossary; fixed the 6.5.3 non-combat DC wording to reflect fixed, generator-selected values |
 | 0.11 | 2026-08-14 | Reworked the Party Arbitration Mechanic's math: Proposal now uses an additive modifier centered on the stat scale's midpoint (so strong Leadership/Decision-Making genuinely raises the shared success chance, not just shrinks it less); Appraisal noise now formalized as a normal-distribution formula driven by Decision-Making, replacing the earlier undefined "may diverge" language; updated worked example and glossary to match |
+| 0.12 | 2026-08-15 | Added new reference sections 6.14 (Stats Reference) and 6.15 (Skills & Abilities Reference), separating stat/skill/ability data from use-case narrative; realigned terminology so "Skill" = non-combat approach implementation and "Ability" = combat approach implementation throughout Section 6.5, the Risks table, and the glossary; fixed the 1–20/1–100 stat scale contradiction in 6.5.4 by documenting both as open candidates (Section 6.14) rather than asserting one |
 
 ---
 
@@ -121,7 +122,7 @@ V1 is scoped as a **single-player management sim**, with pillars ranked by prior
 
 #### 6.5.1 Quest Structure
 
-A quest is composed of multiple **encounters**, whose approaches carry fixed, pre-authored difficulty values that the quest generator selects to match the quest's target difficulty (see Section 6.5.3):
+A quest is composed of multiple **encounters**, whose skill checks carry fixed, pre-authored difficulty values that the quest generator selects to match the quest's target difficulty (see Section 6.5.3):
 
 - **Main encounter** — the core objective of the quest; must be won for the quest to be considered complete.
 - **Lead-up encounters** — encountered on the way to the main encounter.
@@ -151,22 +152,22 @@ Encounters fall into three categories:
 - **As a developer/designer**, I want a database of individual encounter building blocks — enemies, encounter types, challenges, and rewards — each tagged with descriptive attributes, so that encounters can be assembled from reusable, well-defined pieces rather than fully hand-written each time.
 - **As a player**, I want the encounters I face to make thematic sense for the quest's context (e.g., a quest into a human settlement mostly featuring human enemies), so that the world feels coherent.
 - **As a system**, the quest generator assembles a quest from four inputs: **quest length**, **theme tag**, **quest type tag**, and **difficulty rating**. Encounters in the database are tagged for relevance to specific quest types and themes, and the generator selects/matches against those tags when assembling a quest. "Theme tag" describes flavor/setting (e.g., undead, bandits, human settlement), while "quest type tag" describes the structural objective (e.g., escort, retrieval, clear-out).
-- **As a system**, non-combat DCs are fixed values authored directly on each approach in the database (see Section 6.5.3a); the quest generator selects approaches/encounters whose stored DC matches the difficulty tier it's targeting for that quest, rather than computing or scaling a DC on the fly.
+- **As a system**, non-combat DCs are fixed values authored directly on each skill check in the database (see Section 6.5.3a); the quest generator selects encounters whose stored DC matches the difficulty tier it's targeting for that quest, rather than computing or scaling a DC on the fly.
 - *This tag system also underpins Section 6.11 (thematic and reactive tags more broadly) — this subsection covers its use specifically within the encounter builder.*
 
-#### 6.5.3a Approach Database
+#### 6.5.3a Skill Database (Non-Combat)
 
-- **As a designer**, I want a database of hand-authored approaches for each encounter, so that the party has a defined, curated set of ways to tackle it rather than an open-ended choice.
-- Each approach is, mechanically, a **skill check** — unless the encounter is a straight combat encounter, in which case it resolves via the combat rules (Section 6.5.2) instead.
-- A skill check's outcome is determined by a combination of **RNG and the stats of the character(s) attempting it** (see Section 6.5.4).
+- **As a designer**, I want a database of hand-authored skills for each encounter — the non-combat implementation of an approach (Section 6.5.8) — so that the party has a defined, curated set of ways to tackle it rather than an open-ended choice.
+- Combat encounters resolve via the Ability Database instead (Section 6.5.9).
+- *Full schema: see Section 6.15.*
 
 #### 6.5.4 Resolution System
 
 - Rolls use **3d6 + modifiers**, chosen deliberately over a flatter distribution (e.g., a single d20) to produce a bell curve — this keeps outcomes less swingy and gives stats a bigger, more reliable influence on the result, in line with the goal of stats mattering more than in typical tabletop systems.
-- Adventurer stats are tracked on a **1–100 scale**, which may be displayed to the player directly for character-sheet "feel," even though the underlying roll math converts each stat into a small banded modifier rather than using the raw number directly.
+- Adventurer stats' scale is not yet finalized — two candidate systems (1–100 and 1–20) are under consideration; see Section 6.14 for both, with their respective Ability Contribution bands. The rest of this section describes the modifier math in general, using the 1–100 candidate as its worked example.
 - **Modifiers are calculated across three independent categories, all of which sum together:**
 
-  1. **Ability Contribution** — each stat relevant to a given roll is converted into a small modifier via a banded lookup (not a continuous formula), so raw stats can't dominate the dice. Where a roll draws on more than one stat, each contributing stat's band is added — being good at multiple relevant stats helps additively. *Exact band widths are still being tuned; the table below is a provisional scaffold, not final:*
+  1. **Ability Contribution** — each stat relevant to a given roll is converted into a small modifier via a banded lookup (not a continuous formula), so raw stats can't dominate the dice. Where a roll draws on more than one stat, each contributing stat's band is added — being good at multiple relevant stats helps additively. *Shown here for the 1–100 candidate; see Section 6.14 for the 1–20 equivalent. Exact band widths for either are still being tuned — the table below is a provisional scaffold, not final:*
 
      | Stat range | Ability Contribution |
      | --- | --- |
@@ -179,8 +180,8 @@ Encounters fall into three categories:
   2. **Proficiency Tier** — a separate progression axis representing training in a specific skill, independent of the raw stat (e.g., Untrained/Trained/Expert/Master, each a small flat bonus) — this gives a trained-but-not-naturally-gifted character a real path to competence, and vice versa.
   3. **Item bonuses** — bonuses from equipment. Multiple item bonuses **stack** *(whether all items stack, or only the single best, is still open — see Section 11)*. There is deliberately **no circumstance bonus category**.
 - **Difficulty Class (DC)** for skill checks and **Armour Class (AC)** for combat to-hit share a common baseline range of roughly **8–16**, scaled by the quest's target difficulty. Rolling exactly the DC/AC counts as a **success** (meet-or-beat).
-- **Critical success/failure:** a result **10 or more above or below** the target number is a critical success or failure. Crit *effects* are defined per individual skill/action rather than following one universal rule.
-- Non-combat **DCs are fixed values authored per approach** in the database (see Section 6.5.3a); the quest generator selects approaches whose stored DC matches its target difficulty, rather than computing one dynamically.
+- **Critical success/failure:** a result **10 or more above or below** the target number is a critical success or failure. Crit *effects* are defined per individual skill/ability rather than following one universal rule.
+- Non-combat **DCs are fixed values authored per skill** in the database (see Section 6.5.3a); the quest generator selects skills whose stored DC matches its target difficulty, rather than computing one dynamically.
 - Combat **AC** is calculated from the defending combatant's own relevant stats via the same Ability Contribution + Proficiency system above, rather than being a stored fixed value. *(Working assumption, not yet explicitly confirmed — see Section 11.)*
 - The specific stat list — which stats exist and which feed which rolls — is still being finalized (see Section 11).
 - Results are dressed with narrative flavor text and inter-party interaction effects to keep quests feeling distinct from one another.
@@ -240,15 +241,15 @@ This system is a deeper evolution of the engage/retreat decision layer described
 #### 6.5.9 Combat System
 
 - **As a player**, I want combat to be turn-based and legible, so each actor's contribution to the outcome is clear. V1 has no positional movement — combat is resolved purely through actions, to-hit rolls, and damage rolls.
-- Each actor gets **one action per turn**, using an available skill (offensive, defensive, or hybrid).
-- Adventurers start combat-ready with **3 skills from their class and 1 from their race**, and unlock further class skills as they level — the player chooses which to unlock at each level-up threshold (see Section 6.13).
+- Each actor gets **one action per turn**, using an available ability (offensive, defensive, or hybrid).
+- Adventurers start combat-ready with **3 abilities from their class and 1 from their race**, and unlock further class abilities as they level — the player chooses which to unlock at each level-up threshold (see Section 6.13).
 
 **Combat Roles:** every combatant — adventurer or enemy — is assigned exactly one combat role: **Tank**, **DPS**, **Utility**, or **Healer**. The player assigns roles to their own adventurers; enemy roles are pre-set in the enemy database.
 
 **Aggro System:**
 
 - Aggro (threat) is tracked **independently per combatant, against each opposing combatant** — not as one shared party-wide number. This is symmetric: adventurers generate and react to aggro from enemies, and enemies generate and react to aggro from adventurers, using the same system.
-- **Generating aggro is a property of individual skills** (see the skill schema below), not a flat per-role multiplier — a Tank's high threat generation comes from having more threat-generating skills available by class design, not a separate system-level bonus.
+- **Generating aggro is a property of individual abilities** (see the Ability Database, Section 6.15), not a flat per-role multiplier — a Tank's high threat generation comes from having more threat-generating abilities available by class design, not a separate system-level bonus.
 - **Starting aggro:** each combat role begins an encounter with a flat baseline aggro value, set by class (for adventurers) or by role (for enemies, using the same four roles).
 - **Decay:** aggro decays by **20% per round**.
 - **Reset:** aggro resets to starting values between encounters.
@@ -263,20 +264,7 @@ This system is a deeper evolution of the engage/retreat decision layer described
 - **Healer:** if an ally's HP is below a threshold, heal the most at-risk ally; otherwise, contribute offensively or defensively.
 - *There's no separate, hard-coded "protect an ally from a killing blow" rule — that kind of protective behavior is intended to emerge from the Tank's threat-holding priority combined with the DPS's aggro-based override, rather than a bolted-on exception. This will need playtesting to confirm it produces the intended effect.*
 
-**Skill Database** *(distinct from the non-combat Approach Database, Section 6.5.3a)* — each combat skill is defined by:
-
-| Field | Description |
-| --- | --- |
-| Skill type | Offensive / Defensive / Hybrid |
-| Target type | Self / single ally / all allies / single enemy / all enemies |
-| Success-chance formula | Which stat(s) and modifiers (Section 6.5.4) determine this skill's roll |
-| HP effect | Healing or damage amount/formula |
-| Status effect | Any status effect applied on success |
-| Uses per encounter | Limited-use resource |
-| Aggro change | How much threat this skill generates (or reduces) |
-| Source | Class / race / trait |
-
-*This is expected to be a large content-authoring effort, alongside the Approach Database (see Section 10, Risks).*
+*Ability schema: see Section 6.15.*
 
 ### 6.6 Personality Traits & Relationships
 
@@ -384,7 +372,7 @@ Beyond their role in the encounter builder (Section 6.5.3), tags are intended to
 
 ### 6.12 Adventurer Races
 
-V1 introduces a small set of playable adventurer races, needed because several already-established V1 systems depend on race as a data dimension: stat growth rates during leveling (Section 6.13), starting skills (one of an adventurer's starting skills comes from race — Section 6.5.9), and lifespan-driven aging effects (Section 6.13).
+V1 introduces a small set of playable adventurer races, needed because several already-established V1 systems depend on race as a data dimension: stat growth rates during leveling (Section 6.13), starting abilities (one of an adventurer's starting abilities comes from race — Section 6.5.9), and lifespan-driven aging effects (Section 6.13).
 
 | Race | Lifespan |
 | --- | --- |
@@ -404,8 +392,75 @@ V1 introduces a small set of playable adventurer races, needed because several a
   - *V1 scope note: aging XP applies only to adventurers already recruited into the guild — the wider world's recruitable pool isn't simulated over time until V2 (Section 9.2), consistent with V1's single-town scope.*
 - XP converts into stat growth **non-linearly** — it takes progressively more XP to raise a stat the higher that stat already is, producing a soft cap without a hard ceiling.
 - **Class and race act as multipliers** on how efficiently XP converts into growth for a given stat (e.g., a class/race combination suited to Strength converts XP into Strength growth faster than into an unrelated stat).
-- Adventurers unlock new skills at discrete XP thresholds; the player chooses which skill to unlock from a small set of options at each threshold (starting skills: 3 from class, 1 from race — see Section 6.5.9).
+- Adventurers unlock new abilities at discrete XP thresholds; the player chooses which ability to unlock from a small set of options at each threshold (starting abilities: 3 from class, 1 from race — see Section 6.5.9).
 - **Age-related decline:** once an adventurer passes **75% of their race's natural lifespan** (Section 6.12), their stats begin to decline rather than grow, giving older adventurers real "past their prime" texture rather than being strictly better with time forever.
+
+### 6.14 Stats Reference
+
+*This section is the canonical home for stat definitions, compiled from stats already referenced elsewhere in this document. It is not yet a complete list — the full stat list is still being finalized (see Section 11) — this is a starting scaffold, not a proposed final roster.*
+
+**Open decision: stat scale.** Two candidate systems are currently under consideration, not yet finalized (see Section 11):
+
+- **1–100 scale** — used in the Resolution System's worked examples (Section 6.5.4) and the Party Arbitration Mechanic (Section 6.5.8). Ability Contribution bands:
+
+  | Stat range | Ability Contribution |
+  | --- | --- |
+  | 1–20 | −2 |
+  | 21–40 | −1 |
+  | 41–60 | +0 |
+  | 61–80 | +1 |
+  | 81–100 | +2 |
+
+- **1–20 scale** — an alternative, with an analogous banded structure:
+
+  | Stat range | Ability Contribution |
+  | --- | --- |
+  | 1–4 | −2 |
+  | 5–8 | −1 |
+  | 9–12 | +0 |
+  | 13–16 | +1 |
+  | 17–20 | +2 |
+
+Both produce the same shape of modifier (five bands, −2 to +2) — the choice is really about which raw scale reads better elsewhere (trait thresholds, character-sheet display, XP/leveling granularity) rather than changing the underlying roll math. *This decision affects Sections 6.5.4, 6.6, and 6.13, and the worked examples throughout — once resolved, update all affected sections.*
+
+**Stats referenced so far in this document:**
+
+| Stat | Referenced in | Notes |
+| --- | --- | --- |
+| Leadership | Party Arbitration Mechanic (6.5.8) | Weights a member's Proposal alongside Decision-Making |
+| Decision-Making | Party Arbitration Mechanic (6.5.8), Concussion injury (6.7.1) | Governs Appraisal noise; also weights Proposal |
+| Bravery | Personality Traits (6.6) | Threshold example for the reactive Brave trait |
+| Strength | Bruised Limb injury (6.7.1) | |
+| Agility | Bruised Limb injury (6.7.1) | |
+| Constitution | Party-wipe death rule (6.7), Iron Constitution trait (6.6) | Determines which character perishes in a total party defeat |
+
+### 6.15 Skills & Abilities Reference
+
+*This section is the canonical home for the Skill and Ability schemas referenced throughout Section 6.5. Both are authored implementations of an **approach** (Section 6.5.8) — **Skills** for non-combat encounters, **Abilities** for combat.*
+
+**Skill Database** *(non-combat — see Section 6.5.3a for use-case context)*
+
+| Field | Description |
+| --- | --- |
+| Skill type | Skill check |
+| DC | Fixed, authored value; the quest generator selects skills whose DC matches its target difficulty (Section 6.5.3) |
+| Relevant stat(s) | Which stat(s) feed the Ability Contribution modifier for this check (Section 6.5.4) |
+| Outcome | Resolved via RNG + modifiers (Section 6.5.4) |
+
+**Ability Database** *(combat — see Section 6.5.9 for use-case context)*
+
+| Field | Description |
+| --- | --- |
+| Ability type | Offensive / Defensive / Hybrid |
+| Target type | Self / single ally / all allies / single enemy / all enemies |
+| Success-chance formula | Which stat(s) and modifiers (Section 6.5.4) determine this ability's roll |
+| HP effect | Healing or damage amount/formula |
+| Status effect | Any status effect applied on success |
+| Uses per encounter | Limited-use resource |
+| Aggro change | How much threat this ability generates (or reduces) |
+| Source | Class / race / trait |
+
+*Both databases are expected to be large content-authoring efforts — see Section 10, Risks.*
 
 ---
 
@@ -483,7 +538,7 @@ This is a content floor, not a ceiling — intended to validate that the full gu
 | Bespoke numerical system design & balancing | Building a fully custom stat/combat/check system (rather than adapting an existing framework) is a larger undertaking than originally scoped, and carries real balancing risk — early prototyping and playtesting will matter more than usual here. |
 | Encounter builder & content variety | The "non-repetitive, well-articulated" quest text goal depends on having enough tagged content variety and flavor-text templates; underestimating this could make quests feel samey despite the builder's flexibility. |
 | Trait/relationship/morale system tuning | A fully custom system (24 traits, per-pair relationships, party morale) will need playtesting to balance; current trait effects are a strong first draft, not final numbers. |
-| Skill Database authoring effort | Alongside the Approach Database, a full combat skill database (offensive/defensive/hybrid, per-skill formulas, status effects) is a second large writing effort for a two-person team — see Section 6.5.9. |
+| Ability Database authoring effort | Alongside the Skill Database, a full combat ability database (offensive/defensive/hybrid, per-ability formulas, status effects) is a second large writing effort for a two-person team — see Section 6.15. |
 | Combat role emergent behavior | Protective behaviors (e.g., a Tank shielding a low-HP ally) are intended to emerge from role logic and aggro interactions rather than being explicitly coded — this needs real playtesting to confirm it produces the intended feel rather than degenerate or exploitable behavior. |
 
 ---
@@ -493,6 +548,7 @@ This is a content floor, not a ceiling — intended to validate that the full gu
 ### V1 — Still Open
 
 - **Adventurer stat list:** Nik finalising the full stat list; several systems (resolution system, reactive traits) depend on it and are placeholders until it's available.
+- **Stat scale:** 1–100 vs. 1–20 — both candidates are documented in Section 6.14 but not yet decided between.
 - **Reactive traits:** how do they interact with the resolution system?
 - **Ability Contribution band widths:** exact stat-range bands (Section 6.5.4) are still being tuned; the current table is a provisional scaffold.
 - **Item bonus stacking:** do multiple item bonuses all stack, or only the single best one (Section 6.5.4)?
@@ -510,7 +566,7 @@ This is a content floor, not a ceiling — intended to validate that the full gu
 
 | Milestone | Description |
 | --- | --- |
-| **M0 — Data model & schema** | Define the character/item/quest/enemy/encounter-piece/tag/skill/race database structure, including trait, relationship, morale, exhaustion, aggro, and XP fields. Depends on the finalized stat list. |
+| **M0 — Data model & schema** | Define the character/item/quest/enemy/encounter-piece/tag/skill/ability/race database structure, including trait, relationship, morale, exhaustion, aggro, and XP fields. Depends on the finalized stat list. |
 | **M1 — Core loop prototype** | Minimal, possibly non-graphical prototype of the quest simulator, encounter builder, and combat system (select quest → assemble encounters → resolve, including combat rounds → outcome), to validate the resolution system, builder, and combat roles before engine work begins. |
 | **M2 — Vertical slice** | One full loop in Godot: town hub → quest selection → text-based quest resolution → finance/reputation update → return to town, with placeholder art. |
 | **M3 — Alpha** | All V1 pillars implemented at a rough-but-functional level; internal playtesting. |
@@ -522,11 +578,13 @@ This is a content floor, not a ceiling — intended to validate that the full gu
 ## 13. Glossary
 
 - **Guild** — the player's organization of adventurers, managed across finances, roster, and reputation.
-- **Encounter** — a discrete challenge within a quest, categorized as combat, non-combat, or character interaction; difficulty lives on its approaches (Section 6.5.3a), not the encounter itself.
+- **Encounter** — a discrete challenge within a quest, categorized as combat, non-combat, or character interaction; difficulty lives on its skills/abilities (Section 6.15), not the encounter itself.
 - **Main encounter** — the encounter that determines quest success or failure.
 - **Lead-up / side-encounter** — encounters that occur before, or optionally alongside, the main encounter.
 - **Encounter builder** — the tag-driven system that assembles encounters from the database based on a quest's length, theme tag, quest type tag, and difficulty rating.
-- **Approach** — a distinct, hand-authored method of tackling an encounter (e.g., combat, stealth, social) — see Party Arbitration Mechanic.
+- **Approach** — the umbrella concept for a distinct method of tackling an encounter (e.g., stealth, social, combat) — see Party Arbitration Mechanic (6.5.8). Implemented as either a Skill (non-combat) or an Ability (combat).
+- **Skill** — the hand-authored, non-combat implementation of an approach, resolved as a skill check. See the Skill Database (6.5.3a, 6.15).
+- **Ability** — the hand-authored, combat implementation of an approach, used during the Combat System's turn resolution. See the Ability Database (6.5.9, 6.15).
 - **Party Arbitration Mechanic** — the four-phase system (appraisal, proposal, adoption, execution) by which a party settles on its approach to an encounter: individual stat-based appraisal, weighted-average aggregation into a shared party score, adoption of the highest-scoring approach, and stat-modified execution.
 - **Tag** — a descriptive label attached to a game element (character, enemy, item, quest, environment) used to drive thematic coherence and, in later phases, reactive behavior.
 - **Party** — the subset of guild members (up to 5) sent on a given quest.

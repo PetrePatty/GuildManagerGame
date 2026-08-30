@@ -6,6 +6,14 @@ The following 3 elements contribute to the modfier total:
     1. Relevant stats
     2. Proficiency level
     3. Item bonuses
+
+The function will take inputs for the above 3 elements and return the total modifier as follows:
+    modifier = relevant_stat + proficiency_level + item_bonus
+
+Inputs:
+    - relevant_stat
+    - proficiency_level
+    - item_bonus
 """
 
 # Module Metadata & Future Imports
