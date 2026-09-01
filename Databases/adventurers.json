@@ -1,0 +1,3026 @@
+{
+  "races": [
+    {
+      "race_id": 1,
+      "name": "Human",
+      "description": "Adaptable and ambitious. A short, bright arc.",
+      "age_adult_min": 18,
+      "age_peak_start": 26,
+      "age_peak_end": 33,
+      "age_max": 90
+    },
+    {
+      "race_id": 2,
+      "name": "Elf",
+      "description": "Long-lived and graceful. Improves for centuries.",
+      "age_adult_min": 100,
+      "age_peak_start": 180,
+      "age_peak_end": 320,
+      "age_max": 750
+    },
+    {
+      "race_id": 3,
+      "name": "Halfling",
+      "description": "Small, nimble and cheerful.",
+      "age_adult_min": 20,
+      "age_peak_start": 30,
+      "age_peak_end": 45,
+      "age_max": 150
+    },
+    {
+      "race_id": 4,
+      "name": "Orc",
+      "description": "Powerful and fierce. Peaks brutally early.",
+      "age_adult_min": 14,
+      "age_peak_start": 20,
+      "age_peak_end": 28,
+      "age_max": 60
+    },
+    {
+      "race_id": 5,
+      "name": "Dwarf",
+      "description": "Hardy and stubborn. Slow to mature, slow to fade.",
+      "age_adult_min": 50,
+      "age_peak_start": 80,
+      "age_peak_end": 140,
+      "age_max": 350
+    },
+    {
+      "race_id": 6,
+      "name": "Gnome",
+      "description": "Inventive and endlessly curious.",
+      "age_adult_min": 40,
+      "age_peak_start": 65,
+      "age_peak_end": 110,
+      "age_max": 425
+    }
+  ],
+  "classes": [
+    {
+      "class_id": 1,
+      "name": "Warrior",
+      "description": "Front-line master of arms.",
+      "is_spellcaster": 0
+    },
+    {
+      "class_id": 2,
+      "name": "Wizard",
+      "description": "Scholar of arcane magic.",
+      "is_spellcaster": 1
+    },
+    {
+      "class_id": 3,
+      "name": "Rogue",
+      "description": "Stealth, precision and larceny.",
+      "is_spellcaster": 0
+    },
+    {
+      "class_id": 4,
+      "name": "Paladin",
+      "description": "Armoured holy warrior.",
+      "is_spellcaster": 1
+    },
+    {
+      "class_id": 5,
+      "name": "Druid",
+      "description": "Wielder of nature magic and wild shapes.",
+      "is_spellcaster": 1
+    },
+    {
+      "class_id": 6,
+      "name": "Bard",
+      "description": "Performer whose music carries real power.",
+      "is_spellcaster": 1
+    }
+  ],
+  "stat_categories": [
+    {
+      "category_id": 1,
+      "name": "Proficiencies",
+      "description": "Trained competencies - what they can do.",
+      "decays_with_age": 0,
+      "sort_order": 1
+    },
+    {
+      "category_id": 2,
+      "name": "Mentals",
+      "description": "Temperament and knowledge - how they think.",
+      "decays_with_age": 0,
+      "sort_order": 2
+    },
+    {
+      "category_id": 3,
+      "name": "Physicals",
+      "description": "Raw bodily attributes - what the body can do.",
+      "decays_with_age": 1,
+      "sort_order": 3
+    }
+  ],
+  "stats": [
+    {
+      "stat_id": 1,
+      "category_id": 1,
+      "code": "UNA",
+      "name": "Unarmed",
+      "description": "Fists, grapples and improvised blows.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 1
+    },
+    {
+      "stat_id": 2,
+      "category_id": 1,
+      "code": "ONE",
+      "name": "One-Handed Weapons",
+      "description": "Swords, axes, maces and other single-hand arms.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 2
+    },
+    {
+      "stat_id": 3,
+      "category_id": 1,
+      "code": "TWO",
+      "name": "Two-Handed Weapons",
+      "description": "Greatswords, polearms and heavy two-hand arms.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 3
+    },
+    {
+      "stat_id": 4,
+      "category_id": 1,
+      "code": "RNG",
+      "name": "Ranged Weapons",
+      "description": "Bows, crossbows, slings and thrown weapons.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 4
+    },
+    {
+      "stat_id": 5,
+      "category_id": 1,
+      "code": "SHD",
+      "name": "Shields",
+      "description": "Blocking, shield bashes and holding the line.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 5
+    },
+    {
+      "stat_id": 6,
+      "category_id": 1,
+      "code": "SPC",
+      "name": "Spell Casting",
+      "description": "Technical execution of spells - accuracy and control.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 6
+    },
+    {
+      "stat_id": 7,
+      "category_id": 1,
+      "code": "ALC",
+      "name": "Alchemy",
+      "description": "Brewing potions, poisons and identifying reagents.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 7
+    },
+    {
+      "stat_id": 8,
+      "category_id": 1,
+      "code": "STL",
+      "name": "Stealth",
+      "description": "Moving unseen and unheard.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 8
+    },
+    {
+      "stat_id": 9,
+      "category_id": 1,
+      "code": "THV",
+      "name": "Thieving",
+      "description": "Pickpocketing and lockpicking.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 9
+    },
+    {
+      "stat_id": 10,
+      "category_id": 1,
+      "code": "CRT",
+      "name": "Critical Thinking",
+      "description": "Solving puzzles, riddles and mechanisms.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 10
+    },
+    {
+      "stat_id": 11,
+      "category_id": 2,
+      "code": "BRV",
+      "name": "Bravery",
+      "description": "Willingness to attempt the riskier act.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 1
+    },
+    {
+      "stat_id": 12,
+      "category_id": 2,
+      "code": "DEC",
+      "name": "Decisions",
+      "description": "Judging whether the risky act will actually work.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 2
+    },
+    {
+      "stat_id": 13,
+      "category_id": 2,
+      "code": "WIL",
+      "name": "Willpower",
+      "description": "Resisting fear, magic, temptation and pain.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 3
+    },
+    {
+      "stat_id": 14,
+      "category_id": 2,
+      "code": "LDR",
+      "name": "Leadership",
+      "description": "Effectiveness when instructing the party.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 4
+    },
+    {
+      "stat_id": 15,
+      "category_id": 2,
+      "code": "TMW",
+      "name": "Teamwork",
+      "description": "Willingness to follow instructions and support.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 5
+    },
+    {
+      "stat_id": 16,
+      "category_id": 2,
+      "code": "VIS",
+      "name": "Vision",
+      "description": "Spotting hidden events, traps and enemies.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 6
+    },
+    {
+      "stat_id": 17,
+      "category_id": 2,
+      "code": "ARC",
+      "name": "Arcana",
+      "description": "Knowledge of magic, magical places, people, enemies.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 7
+    },
+    {
+      "stat_id": 18,
+      "category_id": 2,
+      "code": "WAR",
+      "name": "Warfare",
+      "description": "Reading a fight, tactics and exploiting openings.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 8
+    },
+    {
+      "stat_id": 19,
+      "category_id": 2,
+      "code": "NAT",
+      "name": "Nature",
+      "description": "Wild enemies, beasts and non-magical healing.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 9
+    },
+    {
+      "stat_id": 20,
+      "category_id": 2,
+      "code": "GUI",
+      "name": "Guile",
+      "description": "Persuasion, deception and reading people.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 10
+    },
+    {
+      "stat_id": 21,
+      "category_id": 3,
+      "code": "STR",
+      "name": "Strength",
+      "description": "Force, lifting and melee damage.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 1
+    },
+    {
+      "stat_id": 22,
+      "category_id": 3,
+      "code": "FIN",
+      "name": "Finesse",
+      "description": "Precision and sleight of hand.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 2
+    },
+    {
+      "stat_id": 23,
+      "category_id": 3,
+      "code": "SPD",
+      "name": "Speed",
+      "description": "Reactions, initiative and dodging.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 3
+    },
+    {
+      "stat_id": 24,
+      "category_id": 3,
+      "code": "END",
+      "name": "Endurance",
+      "description": "Stamina, resisting poison, cold and exhaustion.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 4
+    },
+    {
+      "stat_id": 25,
+      "category_id": 3,
+      "code": "ACR",
+      "name": "Acrobatics",
+      "description": "Balance and contortion.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 5
+    },
+    {
+      "stat_id": 26,
+      "category_id": 3,
+      "code": "ATH",
+      "name": "Athletics",
+      "description": "Running, jumping and climbing.",
+      "min_value": 1,
+      "max_value": 20,
+      "sort_order": 6
+    }
+  ],
+  "stat_modifier_scale": [
+    {
+      "band_id": 1,
+      "min_value": 1,
+      "max_value": 1,
+      "modifier": -5
+    },
+    {
+      "band_id": 2,
+      "min_value": 2,
+      "max_value": 3,
+      "modifier": -4
+    },
+    {
+      "band_id": 3,
+      "min_value": 4,
+      "max_value": 5,
+      "modifier": -3
+    },
+    {
+      "band_id": 4,
+      "min_value": 6,
+      "max_value": 7,
+      "modifier": -2
+    },
+    {
+      "band_id": 5,
+      "min_value": 8,
+      "max_value": 9,
+      "modifier": -1
+    },
+    {
+      "band_id": 6,
+      "min_value": 10,
+      "max_value": 10,
+      "modifier": 0
+    },
+    {
+      "band_id": 7,
+      "min_value": 11,
+      "max_value": 12,
+      "modifier": 1
+    },
+    {
+      "band_id": 8,
+      "min_value": 13,
+      "max_value": 14,
+      "modifier": 2
+    },
+    {
+      "band_id": 9,
+      "min_value": 15,
+      "max_value": 16,
+      "modifier": 3
+    },
+    {
+      "band_id": 10,
+      "min_value": 17,
+      "max_value": 18,
+      "modifier": 4
+    },
+    {
+      "band_id": 11,
+      "min_value": 19,
+      "max_value": 20,
+      "modifier": 5
+    }
+  ],
+  "race_stat_modifiers": [
+    {
+      "race_id": 2,
+      "stat_id": 22,
+      "modifier": 2
+    },
+    {
+      "race_id": 2,
+      "stat_id": 17,
+      "modifier": 1
+    },
+    {
+      "race_id": 2,
+      "stat_id": 16,
+      "modifier": 1
+    },
+    {
+      "race_id": 2,
+      "stat_id": 21,
+      "modifier": -2
+    },
+    {
+      "race_id": 2,
+      "stat_id": 24,
+      "modifier": -2
+    },
+    {
+      "race_id": 3,
+      "stat_id": 25,
+      "modifier": 2
+    },
+    {
+      "race_id": 3,
+      "stat_id": 8,
+      "modifier": 2
+    },
+    {
+      "race_id": 3,
+      "stat_id": 23,
+      "modifier": 1
+    },
+    {
+      "race_id": 3,
+      "stat_id": 21,
+      "modifier": -3
+    },
+    {
+      "race_id": 3,
+      "stat_id": 3,
+      "modifier": -2
+    },
+    {
+      "race_id": 4,
+      "stat_id": 21,
+      "modifier": 3
+    },
+    {
+      "race_id": 4,
+      "stat_id": 24,
+      "modifier": 2
+    },
+    {
+      "race_id": 4,
+      "stat_id": 11,
+      "modifier": 1
+    },
+    {
+      "race_id": 4,
+      "stat_id": 20,
+      "modifier": -3
+    },
+    {
+      "race_id": 4,
+      "stat_id": 17,
+      "modifier": -2
+    },
+    {
+      "race_id": 4,
+      "stat_id": 22,
+      "modifier": -1
+    },
+    {
+      "race_id": 5,
+      "stat_id": 24,
+      "modifier": 2
+    },
+    {
+      "race_id": 5,
+      "stat_id": 13,
+      "modifier": 2
+    },
+    {
+      "race_id": 5,
+      "stat_id": 21,
+      "modifier": 1
+    },
+    {
+      "race_id": 5,
+      "stat_id": 25,
+      "modifier": -3
+    },
+    {
+      "race_id": 5,
+      "stat_id": 23,
+      "modifier": -2
+    },
+    {
+      "race_id": 6,
+      "stat_id": 10,
+      "modifier": 2
+    },
+    {
+      "race_id": 6,
+      "stat_id": 7,
+      "modifier": 2
+    },
+    {
+      "race_id": 6,
+      "stat_id": 17,
+      "modifier": 1
+    },
+    {
+      "race_id": 6,
+      "stat_id": 21,
+      "modifier": -3
+    },
+    {
+      "race_id": 6,
+      "stat_id": 26,
+      "modifier": -2
+    }
+  ],
+  "class_stat_weights": [
+    {
+      "class_id": 6,
+      "stat_id": 1,
+      "weight": 0.2
+    },
+    {
+      "class_id": 6,
+      "stat_id": 2,
+      "weight": 0.2
+    },
+    {
+      "class_id": 6,
+      "stat_id": 3,
+      "weight": 0.2
+    },
+    {
+      "class_id": 6,
+      "stat_id": 4,
+      "weight": 0.2
+    },
+    {
+      "class_id": 6,
+      "stat_id": 5,
+      "weight": 0.2
+    },
+    {
+      "class_id": 6,
+      "stat_id": 6,
+      "weight": 1.8
+    },
+    {
+      "class_id": 6,
+      "stat_id": 7,
+      "weight": 0.2
+    },
+    {
+      "class_id": 6,
+      "stat_id": 8,
+      "weight": 0.2
+    },
+    {
+      "class_id": 6,
+      "stat_id": 9,
+      "weight": 0.2
+    },
+    {
+      "class_id": 6,
+      "stat_id": 10,
+      "weight": 1.3
+    },
+    {
+      "class_id": 6,
+      "stat_id": 11,
+      "weight": 0.45
+    },
+    {
+      "class_id": 6,
+      "stat_id": 12,
+      "weight": 0.45
+    },
+    {
+      "class_id": 6,
+      "stat_id": 13,
+      "weight": 0.45
+    },
+    {
+      "class_id": 6,
+      "stat_id": 14,
+      "weight": 1.8
+    },
+    {
+      "class_id": 6,
+      "stat_id": 15,
+      "weight": 1.8
+    },
+    {
+      "class_id": 6,
+      "stat_id": 16,
+      "weight": 1.1
+    },
+    {
+      "class_id": 6,
+      "stat_id": 17,
+      "weight": 1.1
+    },
+    {
+      "class_id": 6,
+      "stat_id": 18,
+      "weight": 0.45
+    },
+    {
+      "class_id": 6,
+      "stat_id": 19,
+      "weight": 0.45
+    },
+    {
+      "class_id": 6,
+      "stat_id": 20,
+      "weight": 2.8
+    },
+    {
+      "class_id": 6,
+      "stat_id": 21,
+      "weight": 0.4
+    },
+    {
+      "class_id": 6,
+      "stat_id": 22,
+      "weight": 1.2
+    },
+    {
+      "class_id": 6,
+      "stat_id": 23,
+      "weight": 0.4
+    },
+    {
+      "class_id": 6,
+      "stat_id": 24,
+      "weight": 0.4
+    },
+    {
+      "class_id": 6,
+      "stat_id": 25,
+      "weight": 0.4
+    },
+    {
+      "class_id": 6,
+      "stat_id": 26,
+      "weight": 0.4
+    },
+    {
+      "class_id": 5,
+      "stat_id": 1,
+      "weight": 0.2
+    },
+    {
+      "class_id": 5,
+      "stat_id": 2,
+      "weight": 0.2
+    },
+    {
+      "class_id": 5,
+      "stat_id": 3,
+      "weight": 0.2
+    },
+    {
+      "class_id": 5,
+      "stat_id": 4,
+      "weight": 0.2
+    },
+    {
+      "class_id": 5,
+      "stat_id": 5,
+      "weight": 0.2
+    },
+    {
+      "class_id": 5,
+      "stat_id": 6,
+      "weight": 2.2
+    },
+    {
+      "class_id": 5,
+      "stat_id": 7,
+      "weight": 1.5
+    },
+    {
+      "class_id": 5,
+      "stat_id": 8,
+      "weight": 0.2
+    },
+    {
+      "class_id": 5,
+      "stat_id": 9,
+      "weight": 0.2
+    },
+    {
+      "class_id": 5,
+      "stat_id": 10,
+      "weight": 0.2
+    },
+    {
+      "class_id": 5,
+      "stat_id": 11,
+      "weight": 0.45
+    },
+    {
+      "class_id": 5,
+      "stat_id": 12,
+      "weight": 0.45
+    },
+    {
+      "class_id": 5,
+      "stat_id": 13,
+      "weight": 1.5
+    },
+    {
+      "class_id": 5,
+      "stat_id": 14,
+      "weight": 0.45
+    },
+    {
+      "class_id": 5,
+      "stat_id": 15,
+      "weight": 0.45
+    },
+    {
+      "class_id": 5,
+      "stat_id": 16,
+      "weight": 1.3
+    },
+    {
+      "class_id": 5,
+      "stat_id": 17,
+      "weight": 1.2
+    },
+    {
+      "class_id": 5,
+      "stat_id": 18,
+      "weight": 0.45
+    },
+    {
+      "class_id": 5,
+      "stat_id": 19,
+      "weight": 2.8
+    },
+    {
+      "class_id": 5,
+      "stat_id": 20,
+      "weight": 0.45
+    },
+    {
+      "class_id": 5,
+      "stat_id": 21,
+      "weight": 0.4
+    },
+    {
+      "class_id": 5,
+      "stat_id": 22,
+      "weight": 0.4
+    },
+    {
+      "class_id": 5,
+      "stat_id": 23,
+      "weight": 0.4
+    },
+    {
+      "class_id": 5,
+      "stat_id": 24,
+      "weight": 1.3
+    },
+    {
+      "class_id": 5,
+      "stat_id": 25,
+      "weight": 0.4
+    },
+    {
+      "class_id": 5,
+      "stat_id": 26,
+      "weight": 0.4
+    },
+    {
+      "class_id": 4,
+      "stat_id": 1,
+      "weight": 0.2
+    },
+    {
+      "class_id": 4,
+      "stat_id": 2,
+      "weight": 2.0
+    },
+    {
+      "class_id": 4,
+      "stat_id": 3,
+      "weight": 0.2
+    },
+    {
+      "class_id": 4,
+      "stat_id": 4,
+      "weight": 0.2
+    },
+    {
+      "class_id": 4,
+      "stat_id": 5,
+      "weight": 2.0
+    },
+    {
+      "class_id": 4,
+      "stat_id": 6,
+      "weight": 1.5
+    },
+    {
+      "class_id": 4,
+      "stat_id": 7,
+      "weight": 0.2
+    },
+    {
+      "class_id": 4,
+      "stat_id": 8,
+      "weight": 0.2
+    },
+    {
+      "class_id": 4,
+      "stat_id": 9,
+      "weight": 0.2
+    },
+    {
+      "class_id": 4,
+      "stat_id": 10,
+      "weight": 0.2
+    },
+    {
+      "class_id": 4,
+      "stat_id": 11,
+      "weight": 1.8
+    },
+    {
+      "class_id": 4,
+      "stat_id": 12,
+      "weight": 0.45
+    },
+    {
+      "class_id": 4,
+      "stat_id": 13,
+      "weight": 2.0
+    },
+    {
+      "class_id": 4,
+      "stat_id": 14,
+      "weight": 2.0
+    },
+    {
+      "class_id": 4,
+      "stat_id": 15,
+      "weight": 1.3
+    },
+    {
+      "class_id": 4,
+      "stat_id": 16,
+      "weight": 0.45
+    },
+    {
+      "class_id": 4,
+      "stat_id": 17,
+      "weight": 0.45
+    },
+    {
+      "class_id": 4,
+      "stat_id": 18,
+      "weight": 0.45
+    },
+    {
+      "class_id": 4,
+      "stat_id": 19,
+      "weight": 0.45
+    },
+    {
+      "class_id": 4,
+      "stat_id": 20,
+      "weight": 0.45
+    },
+    {
+      "class_id": 4,
+      "stat_id": 21,
+      "weight": 1.5
+    },
+    {
+      "class_id": 4,
+      "stat_id": 22,
+      "weight": 0.4
+    },
+    {
+      "class_id": 4,
+      "stat_id": 23,
+      "weight": 0.4
+    },
+    {
+      "class_id": 4,
+      "stat_id": 24,
+      "weight": 1.5
+    },
+    {
+      "class_id": 4,
+      "stat_id": 25,
+      "weight": 0.4
+    },
+    {
+      "class_id": 4,
+      "stat_id": 26,
+      "weight": 0.4
+    },
+    {
+      "class_id": 3,
+      "stat_id": 1,
+      "weight": 0.2
+    },
+    {
+      "class_id": 3,
+      "stat_id": 2,
+      "weight": 1.5
+    },
+    {
+      "class_id": 3,
+      "stat_id": 3,
+      "weight": 0.2
+    },
+    {
+      "class_id": 3,
+      "stat_id": 4,
+      "weight": 1.2
+    },
+    {
+      "class_id": 3,
+      "stat_id": 5,
+      "weight": 0.2
+    },
+    {
+      "class_id": 3,
+      "stat_id": 6,
+      "weight": 0.2
+    },
+    {
+      "class_id": 3,
+      "stat_id": 7,
+      "weight": 0.2
+    },
+    {
+      "class_id": 3,
+      "stat_id": 8,
+      "weight": 2.5
+    },
+    {
+      "class_id": 3,
+      "stat_id": 9,
+      "weight": 2.5
+    },
+    {
+      "class_id": 3,
+      "stat_id": 10,
+      "weight": 1.3
+    },
+    {
+      "class_id": 3,
+      "stat_id": 11,
+      "weight": 0.45
+    },
+    {
+      "class_id": 3,
+      "stat_id": 12,
+      "weight": 0.45
+    },
+    {
+      "class_id": 3,
+      "stat_id": 13,
+      "weight": 0.45
+    },
+    {
+      "class_id": 3,
+      "stat_id": 14,
+      "weight": 0.45
+    },
+    {
+      "class_id": 3,
+      "stat_id": 15,
+      "weight": 0.45
+    },
+    {
+      "class_id": 3,
+      "stat_id": 16,
+      "weight": 1.3
+    },
+    {
+      "class_id": 3,
+      "stat_id": 17,
+      "weight": 0.45
+    },
+    {
+      "class_id": 3,
+      "stat_id": 18,
+      "weight": 0.45
+    },
+    {
+      "class_id": 3,
+      "stat_id": 19,
+      "weight": 0.45
+    },
+    {
+      "class_id": 3,
+      "stat_id": 20,
+      "weight": 1.6
+    },
+    {
+      "class_id": 3,
+      "stat_id": 21,
+      "weight": 0.4
+    },
+    {
+      "class_id": 3,
+      "stat_id": 22,
+      "weight": 2.0
+    },
+    {
+      "class_id": 3,
+      "stat_id": 23,
+      "weight": 1.5
+    },
+    {
+      "class_id": 3,
+      "stat_id": 24,
+      "weight": 0.4
+    },
+    {
+      "class_id": 3,
+      "stat_id": 25,
+      "weight": 1.5
+    },
+    {
+      "class_id": 3,
+      "stat_id": 26,
+      "weight": 0.4
+    },
+    {
+      "class_id": 1,
+      "stat_id": 1,
+      "weight": 1.2
+    },
+    {
+      "class_id": 1,
+      "stat_id": 2,
+      "weight": 2.5
+    },
+    {
+      "class_id": 1,
+      "stat_id": 3,
+      "weight": 2.5
+    },
+    {
+      "class_id": 1,
+      "stat_id": 4,
+      "weight": 0.2
+    },
+    {
+      "class_id": 1,
+      "stat_id": 5,
+      "weight": 2.0
+    },
+    {
+      "class_id": 1,
+      "stat_id": 6,
+      "weight": 0.2
+    },
+    {
+      "class_id": 1,
+      "stat_id": 7,
+      "weight": 0.2
+    },
+    {
+      "class_id": 1,
+      "stat_id": 8,
+      "weight": 0.2
+    },
+    {
+      "class_id": 1,
+      "stat_id": 9,
+      "weight": 0.2
+    },
+    {
+      "class_id": 1,
+      "stat_id": 10,
+      "weight": 0.2
+    },
+    {
+      "class_id": 1,
+      "stat_id": 11,
+      "weight": 1.3
+    },
+    {
+      "class_id": 1,
+      "stat_id": 12,
+      "weight": 0.45
+    },
+    {
+      "class_id": 1,
+      "stat_id": 13,
+      "weight": 0.45
+    },
+    {
+      "class_id": 1,
+      "stat_id": 14,
+      "weight": 0.45
+    },
+    {
+      "class_id": 1,
+      "stat_id": 15,
+      "weight": 0.45
+    },
+    {
+      "class_id": 1,
+      "stat_id": 16,
+      "weight": 0.45
+    },
+    {
+      "class_id": 1,
+      "stat_id": 17,
+      "weight": 0.45
+    },
+    {
+      "class_id": 1,
+      "stat_id": 18,
+      "weight": 1.6
+    },
+    {
+      "class_id": 1,
+      "stat_id": 19,
+      "weight": 0.45
+    },
+    {
+      "class_id": 1,
+      "stat_id": 20,
+      "weight": 0.45
+    },
+    {
+      "class_id": 1,
+      "stat_id": 21,
+      "weight": 2.0
+    },
+    {
+      "class_id": 1,
+      "stat_id": 22,
+      "weight": 0.4
+    },
+    {
+      "class_id": 1,
+      "stat_id": 23,
+      "weight": 1.1
+    },
+    {
+      "class_id": 1,
+      "stat_id": 24,
+      "weight": 1.8
+    },
+    {
+      "class_id": 1,
+      "stat_id": 25,
+      "weight": 0.4
+    },
+    {
+      "class_id": 1,
+      "stat_id": 26,
+      "weight": 1.2
+    },
+    {
+      "class_id": 2,
+      "stat_id": 1,
+      "weight": 0.2
+    },
+    {
+      "class_id": 2,
+      "stat_id": 2,
+      "weight": 0.2
+    },
+    {
+      "class_id": 2,
+      "stat_id": 3,
+      "weight": 0.2
+    },
+    {
+      "class_id": 2,
+      "stat_id": 4,
+      "weight": 0.2
+    },
+    {
+      "class_id": 2,
+      "stat_id": 5,
+      "weight": 0.2
+    },
+    {
+      "class_id": 2,
+      "stat_id": 6,
+      "weight": 3.0
+    },
+    {
+      "class_id": 2,
+      "stat_id": 7,
+      "weight": 1.3
+    },
+    {
+      "class_id": 2,
+      "stat_id": 8,
+      "weight": 0.2
+    },
+    {
+      "class_id": 2,
+      "stat_id": 9,
+      "weight": 0.2
+    },
+    {
+      "class_id": 2,
+      "stat_id": 10,
+      "weight": 1.6
+    },
+    {
+      "class_id": 2,
+      "stat_id": 11,
+      "weight": 0.45
+    },
+    {
+      "class_id": 2,
+      "stat_id": 12,
+      "weight": 1.3
+    },
+    {
+      "class_id": 2,
+      "stat_id": 13,
+      "weight": 1.8
+    },
+    {
+      "class_id": 2,
+      "stat_id": 14,
+      "weight": 0.45
+    },
+    {
+      "class_id": 2,
+      "stat_id": 15,
+      "weight": 0.45
+    },
+    {
+      "class_id": 2,
+      "stat_id": 16,
+      "weight": 1.1
+    },
+    {
+      "class_id": 2,
+      "stat_id": 17,
+      "weight": 2.5
+    },
+    {
+      "class_id": 2,
+      "stat_id": 18,
+      "weight": 0.45
+    },
+    {
+      "class_id": 2,
+      "stat_id": 19,
+      "weight": 0.45
+    },
+    {
+      "class_id": 2,
+      "stat_id": 20,
+      "weight": 0.45
+    },
+    {
+      "class_id": 2,
+      "stat_id": 21,
+      "weight": 0.4
+    },
+    {
+      "class_id": 2,
+      "stat_id": 22,
+      "weight": 0.4
+    },
+    {
+      "class_id": 2,
+      "stat_id": 23,
+      "weight": 0.4
+    },
+    {
+      "class_id": 2,
+      "stat_id": 24,
+      "weight": 0.4
+    },
+    {
+      "class_id": 2,
+      "stat_id": 25,
+      "weight": 0.4
+    },
+    {
+      "class_id": 2,
+      "stat_id": 26,
+      "weight": 0.4
+    }
+  ],
+  "race_stat_weights": [
+    {
+      "race_id": 2,
+      "stat_id": 6,
+      "weight": 1.5
+    },
+    {
+      "race_id": 2,
+      "stat_id": 17,
+      "weight": 1.5
+    },
+    {
+      "race_id": 2,
+      "stat_id": 4,
+      "weight": 1.3
+    },
+    {
+      "race_id": 2,
+      "stat_id": 19,
+      "weight": 1.2
+    },
+    {
+      "race_id": 2,
+      "stat_id": 21,
+      "weight": 0.6
+    },
+    {
+      "race_id": 2,
+      "stat_id": 1,
+      "weight": 0.7
+    },
+    {
+      "race_id": 3,
+      "stat_id": 8,
+      "weight": 1.6
+    },
+    {
+      "race_id": 3,
+      "stat_id": 9,
+      "weight": 1.5
+    },
+    {
+      "race_id": 3,
+      "stat_id": 25,
+      "weight": 1.4
+    },
+    {
+      "race_id": 3,
+      "stat_id": 20,
+      "weight": 1.2
+    },
+    {
+      "race_id": 3,
+      "stat_id": 3,
+      "weight": 0.5
+    },
+    {
+      "race_id": 3,
+      "stat_id": 21,
+      "weight": 0.6
+    },
+    {
+      "race_id": 4,
+      "stat_id": 21,
+      "weight": 1.6
+    },
+    {
+      "race_id": 4,
+      "stat_id": 3,
+      "weight": 1.5
+    },
+    {
+      "race_id": 4,
+      "stat_id": 1,
+      "weight": 1.4
+    },
+    {
+      "race_id": 4,
+      "stat_id": 11,
+      "weight": 1.3
+    },
+    {
+      "race_id": 4,
+      "stat_id": 17,
+      "weight": 0.5
+    },
+    {
+      "race_id": 4,
+      "stat_id": 6,
+      "weight": 0.6
+    },
+    {
+      "race_id": 5,
+      "stat_id": 24,
+      "weight": 1.5
+    },
+    {
+      "race_id": 5,
+      "stat_id": 5,
+      "weight": 1.4
+    },
+    {
+      "race_id": 5,
+      "stat_id": 2,
+      "weight": 1.3
+    },
+    {
+      "race_id": 5,
+      "stat_id": 13,
+      "weight": 1.3
+    },
+    {
+      "race_id": 5,
+      "stat_id": 25,
+      "weight": 0.6
+    },
+    {
+      "race_id": 5,
+      "stat_id": 8,
+      "weight": 0.7
+    },
+    {
+      "race_id": 6,
+      "stat_id": 7,
+      "weight": 1.5
+    },
+    {
+      "race_id": 6,
+      "stat_id": 10,
+      "weight": 1.5
+    },
+    {
+      "race_id": 6,
+      "stat_id": 17,
+      "weight": 1.3
+    },
+    {
+      "race_id": 6,
+      "stat_id": 6,
+      "weight": 1.2
+    },
+    {
+      "race_id": 6,
+      "stat_id": 21,
+      "weight": 0.5
+    },
+    {
+      "race_id": 6,
+      "stat_id": 3,
+      "weight": 0.6
+    }
+  ],
+  "race_class_affinity": [
+    {
+      "race_id": 1,
+      "class_id": 1,
+      "weight": 1.0
+    },
+    {
+      "race_id": 1,
+      "class_id": 2,
+      "weight": 1.0
+    },
+    {
+      "race_id": 1,
+      "class_id": 3,
+      "weight": 1.0
+    },
+    {
+      "race_id": 1,
+      "class_id": 4,
+      "weight": 1.0
+    },
+    {
+      "race_id": 1,
+      "class_id": 5,
+      "weight": 1.0
+    },
+    {
+      "race_id": 1,
+      "class_id": 6,
+      "weight": 1.0
+    },
+    {
+      "race_id": 2,
+      "class_id": 1,
+      "weight": 0.6
+    },
+    {
+      "race_id": 2,
+      "class_id": 2,
+      "weight": 2.2
+    },
+    {
+      "race_id": 2,
+      "class_id": 3,
+      "weight": 1.2
+    },
+    {
+      "race_id": 2,
+      "class_id": 4,
+      "weight": 0.7
+    },
+    {
+      "race_id": 2,
+      "class_id": 5,
+      "weight": 1.6
+    },
+    {
+      "race_id": 2,
+      "class_id": 6,
+      "weight": 1.3
+    },
+    {
+      "race_id": 3,
+      "class_id": 1,
+      "weight": 0.5
+    },
+    {
+      "race_id": 3,
+      "class_id": 2,
+      "weight": 0.8
+    },
+    {
+      "race_id": 3,
+      "class_id": 3,
+      "weight": 2.4
+    },
+    {
+      "race_id": 3,
+      "class_id": 4,
+      "weight": 0.4
+    },
+    {
+      "race_id": 3,
+      "class_id": 5,
+      "weight": 1.1
+    },
+    {
+      "race_id": 3,
+      "class_id": 6,
+      "weight": 1.6
+    },
+    {
+      "race_id": 4,
+      "class_id": 1,
+      "weight": 2.4
+    },
+    {
+      "race_id": 4,
+      "class_id": 2,
+      "weight": 0.2
+    },
+    {
+      "race_id": 4,
+      "class_id": 3,
+      "weight": 0.8
+    },
+    {
+      "race_id": 4,
+      "class_id": 4,
+      "weight": 0.4
+    },
+    {
+      "race_id": 4,
+      "class_id": 5,
+      "weight": 0.9
+    },
+    {
+      "race_id": 4,
+      "class_id": 6,
+      "weight": 0.3
+    },
+    {
+      "race_id": 5,
+      "class_id": 1,
+      "weight": 2.0
+    },
+    {
+      "race_id": 5,
+      "class_id": 2,
+      "weight": 0.5
+    },
+    {
+      "race_id": 5,
+      "class_id": 3,
+      "weight": 0.7
+    },
+    {
+      "race_id": 5,
+      "class_id": 4,
+      "weight": 1.4
+    },
+    {
+      "race_id": 5,
+      "class_id": 5,
+      "weight": 0.6
+    },
+    {
+      "race_id": 5,
+      "class_id": 6,
+      "weight": 0.5
+    },
+    {
+      "race_id": 6,
+      "class_id": 1,
+      "weight": 0.4
+    },
+    {
+      "race_id": 6,
+      "class_id": 2,
+      "weight": 1.8
+    },
+    {
+      "race_id": 6,
+      "class_id": 3,
+      "weight": 1.3
+    },
+    {
+      "race_id": 6,
+      "class_id": 4,
+      "weight": 0.5
+    },
+    {
+      "race_id": 6,
+      "class_id": 5,
+      "weight": 1.2
+    },
+    {
+      "race_id": 6,
+      "class_id": 6,
+      "weight": 1.4
+    }
+  ],
+  "locations": [
+    {
+      "location_id": 1,
+      "name": "Riverhold",
+      "region_type": "Human market town",
+      "description": "A busy crossroads town. Everyone passes through eventually.",
+      "population_size": 8,
+      "prosperity": 1.0,
+      "race_distribution": "weighted"
+    },
+    {
+      "location_id": 2,
+      "name": "Silverbough Vale",
+      "region_type": "Elven forest settlement",
+      "description": "Ancient woodland halls. Outsiders are tolerated, not welcomed.",
+      "population_size": 5,
+      "prosperity": 1.15,
+      "race_distribution": "weighted"
+    },
+    {
+      "location_id": 3,
+      "name": "Underbrook Hollow",
+      "region_type": "Halfling village",
+      "description": "Burrow-homes and long lunches. Little trouble, and few warriors.",
+      "population_size": 5,
+      "prosperity": 0.8,
+      "race_distribution": "weighted"
+    },
+    {
+      "location_id": 4,
+      "name": "Karak Dunmar",
+      "region_type": "Dwarven mountain hold",
+      "description": "Deep forges under stone. Grim, wealthy and heavily armed.",
+      "population_size": 7,
+      "prosperity": 1.2,
+      "race_distribution": "weighted"
+    },
+    {
+      "location_id": 5,
+      "name": "Grukmar Warcamp",
+      "region_type": "Orcish war camp",
+      "description": "A sprawl of tents and pit-fights. Blades are cheap here.",
+      "population_size": 6,
+      "prosperity": 0.7,
+      "race_distribution": "weighted"
+    },
+    {
+      "location_id": 6,
+      "name": "Tinkerspire",
+      "region_type": "Gnomish workshop city",
+      "description": "Clockwork spires and alchemical smog. Ideas outnumber people.",
+      "population_size": 6,
+      "prosperity": 1.1,
+      "race_distribution": "weighted"
+    },
+    {
+      "location_id": 7,
+      "name": "Saltmere Port",
+      "region_type": "Free city",
+      "description": "Every race, every trade, every kind of trouble. Nobody is a local.",
+      "population_size": 12,
+      "prosperity": 1.05,
+      "race_distribution": "equal"
+    },
+    {
+      "location_id": 8,
+      "name": "Aurum Vale",
+      "region_type": "Free city",
+      "description": "A banking republic of a hundred flags. Talent goes to the highest bid.",
+      "population_size": 14,
+      "prosperity": 1.35,
+      "race_distribution": "equal"
+    },
+    {
+      "location_id": 9,
+      "name": "The Thousand Gates",
+      "region_type": "Free city",
+      "description": "A caravan hub the size of a kingdom. The world empties through it.",
+      "population_size": 16,
+      "prosperity": 1.0,
+      "race_distribution": "equal"
+    }
+  ],
+  "location_race_weights": [
+    {
+      "location_id": 1,
+      "race_id": 1,
+      "weight": 6.0
+    },
+    {
+      "location_id": 1,
+      "race_id": 3,
+      "weight": 2.0
+    },
+    {
+      "location_id": 1,
+      "race_id": 5,
+      "weight": 1.5
+    },
+    {
+      "location_id": 1,
+      "race_id": 2,
+      "weight": 1.0
+    },
+    {
+      "location_id": 1,
+      "race_id": 6,
+      "weight": 1.2
+    },
+    {
+      "location_id": 1,
+      "race_id": 4,
+      "weight": 0.6
+    },
+    {
+      "location_id": 2,
+      "race_id": 2,
+      "weight": 10.0
+    },
+    {
+      "location_id": 2,
+      "race_id": 1,
+      "weight": 1.5
+    },
+    {
+      "location_id": 2,
+      "race_id": 3,
+      "weight": 1.0
+    },
+    {
+      "location_id": 2,
+      "race_id": 6,
+      "weight": 0.8
+    },
+    {
+      "location_id": 2,
+      "race_id": 5,
+      "weight": 0.3
+    },
+    {
+      "location_id": 2,
+      "race_id": 4,
+      "weight": 0.15
+    },
+    {
+      "location_id": 3,
+      "race_id": 3,
+      "weight": 10.0
+    },
+    {
+      "location_id": 3,
+      "race_id": 1,
+      "weight": 2.0
+    },
+    {
+      "location_id": 3,
+      "race_id": 6,
+      "weight": 1.5
+    },
+    {
+      "location_id": 3,
+      "race_id": 2,
+      "weight": 0.6
+    },
+    {
+      "location_id": 3,
+      "race_id": 5,
+      "weight": 0.5
+    },
+    {
+      "location_id": 3,
+      "race_id": 4,
+      "weight": 0.1
+    },
+    {
+      "location_id": 4,
+      "race_id": 5,
+      "weight": 10.0
+    },
+    {
+      "location_id": 4,
+      "race_id": 1,
+      "weight": 1.2
+    },
+    {
+      "location_id": 4,
+      "race_id": 6,
+      "weight": 1.5
+    },
+    {
+      "location_id": 4,
+      "race_id": 3,
+      "weight": 0.5
+    },
+    {
+      "location_id": 4,
+      "race_id": 4,
+      "weight": 0.3
+    },
+    {
+      "location_id": 4,
+      "race_id": 2,
+      "weight": 0.2
+    },
+    {
+      "location_id": 5,
+      "race_id": 4,
+      "weight": 10.0
+    },
+    {
+      "location_id": 5,
+      "race_id": 1,
+      "weight": 1.5
+    },
+    {
+      "location_id": 5,
+      "race_id": 5,
+      "weight": 0.5
+    },
+    {
+      "location_id": 5,
+      "race_id": 3,
+      "weight": 0.3
+    },
+    {
+      "location_id": 5,
+      "race_id": 6,
+      "weight": 0.3
+    },
+    {
+      "location_id": 5,
+      "race_id": 2,
+      "weight": 0.1
+    },
+    {
+      "location_id": 6,
+      "race_id": 6,
+      "weight": 10.0
+    },
+    {
+      "location_id": 6,
+      "race_id": 1,
+      "weight": 2.0
+    },
+    {
+      "location_id": 6,
+      "race_id": 5,
+      "weight": 1.5
+    },
+    {
+      "location_id": 6,
+      "race_id": 3,
+      "weight": 1.0
+    },
+    {
+      "location_id": 6,
+      "race_id": 2,
+      "weight": 0.8
+    },
+    {
+      "location_id": 6,
+      "race_id": 4,
+      "weight": 0.2
+    }
+  ],
+  "location_class_weights": [
+    {
+      "location_id": 5,
+      "class_id": 1,
+      "weight": 2.0
+    },
+    {
+      "location_id": 5,
+      "class_id": 2,
+      "weight": 0.4
+    },
+    {
+      "location_id": 6,
+      "class_id": 2,
+      "weight": 1.8
+    },
+    {
+      "location_id": 6,
+      "class_id": 1,
+      "weight": 0.5
+    },
+    {
+      "location_id": 2,
+      "class_id": 5,
+      "weight": 1.8
+    },
+    {
+      "location_id": 4,
+      "class_id": 1,
+      "weight": 1.5
+    },
+    {
+      "location_id": 4,
+      "class_id": 4,
+      "weight": 1.4
+    },
+    {
+      "location_id": 3,
+      "class_id": 3,
+      "weight": 1.4
+    },
+    {
+      "location_id": 7,
+      "class_id": 3,
+      "weight": 1.5
+    },
+    {
+      "location_id": 7,
+      "class_id": 6,
+      "weight": 1.4
+    }
+  ],
+  "guild": [
+    {
+      "guild_id": 1,
+      "name": "The Guild",
+      "location_id": 1,
+      "gold": 500
+    }
+  ],
+  "reputation_tiers": [
+    {
+      "tier": 1,
+      "name": "Hapless",
+      "description": "Barely competent. Cheap, and you get what you pay for.",
+      "ca_min": 1,
+      "ca_max": 59,
+      "spawn_weight": 24.0
+    },
+    {
+      "tier": 2,
+      "name": "Capable",
+      "description": "A solid pair of hands. The bulk of any tavern.",
+      "ca_min": 60,
+      "ca_max": 104,
+      "spawn_weight": 40.0
+    },
+    {
+      "tier": 3,
+      "name": "Seasoned",
+      "description": "Genuinely good. Worth paying for.",
+      "ca_min": 105,
+      "ca_max": 144,
+      "spawn_weight": 24.0
+    },
+    {
+      "tier": 4,
+      "name": "Elite",
+      "description": "Regionally famous. Rare on the open market.",
+      "ca_min": 145,
+      "ca_max": 174,
+      "spawn_weight": 9.0
+    },
+    {
+      "tier": 5,
+      "name": "Legendary",
+      "description": "Songs are written about them.",
+      "ca_min": 175,
+      "ca_max": 200,
+      "spawn_weight": 3.0
+    }
+  ],
+  "age_development_curve": [
+    {
+      "stage_id": 1,
+      "phase": "Youth",
+      "position_min": 0.0,
+      "position_max": 0.34,
+      "name": "Prodigy",
+      "description": "Raw and unproven. Enormous room to grow.",
+      "realised_min": 0.22,
+      "realised_max": 0.38,
+      "growth_rate": 0.3,
+      "physical_decay": 0.0,
+      "wage_multiplier": 0.85,
+      "potential_premium": 0.9,
+      "spawn_weight": 12.0
+    },
+    {
+      "stage_id": 2,
+      "phase": "Youth",
+      "position_min": 0.34,
+      "position_max": 0.67,
+      "name": "Developing",
+      "description": "Coming along nicely. Still cheap to hire.",
+      "realised_min": 0.38,
+      "realised_max": 0.58,
+      "growth_rate": 0.24,
+      "physical_decay": 0.0,
+      "wage_multiplier": 0.9,
+      "potential_premium": 0.75,
+      "spawn_weight": 18.0
+    },
+    {
+      "stage_id": 3,
+      "phase": "Youth",
+      "position_min": 0.67,
+      "position_max": 1.0,
+      "name": "Rising",
+      "description": "Nearly the finished article. Price is climbing.",
+      "realised_min": 0.58,
+      "realised_max": 0.78,
+      "growth_rate": 0.17,
+      "physical_decay": 0.0,
+      "wage_multiplier": 1.0,
+      "potential_premium": 0.55,
+      "spawn_weight": 16.0
+    },
+    {
+      "stage_id": 4,
+      "phase": "Prime",
+      "position_min": 0.0,
+      "position_max": 0.5,
+      "name": "Peak",
+      "description": "At the height of their powers.",
+      "realised_min": 0.82,
+      "realised_max": 0.95,
+      "growth_rate": 0.09,
+      "physical_decay": 0.0,
+      "wage_multiplier": 1.15,
+      "potential_premium": 0.3,
+      "spawn_weight": 22.0
+    },
+    {
+      "stage_id": 5,
+      "phase": "Prime",
+      "position_min": 0.5,
+      "position_max": 1.0,
+      "name": "Established",
+      "description": "Fully realised. What you see is what you get.",
+      "realised_min": 0.9,
+      "realised_max": 1.0,
+      "growth_rate": 0.04,
+      "physical_decay": 0.0,
+      "wage_multiplier": 1.1,
+      "potential_premium": 0.2,
+      "spawn_weight": 16.0
+    },
+    {
+      "stage_id": 6,
+      "phase": "Decline",
+      "position_min": 0.0,
+      "position_max": 0.25,
+      "name": "Fading",
+      "description": "Still formidable, but the body is slowing.",
+      "realised_min": 0.88,
+      "realised_max": 0.99,
+      "growth_rate": 0.02,
+      "physical_decay": 0.5,
+      "wage_multiplier": 0.95,
+      "potential_premium": 0.1,
+      "spawn_weight": 9.0
+    },
+    {
+      "stage_id": 7,
+      "phase": "Decline",
+      "position_min": 0.25,
+      "position_max": 0.6,
+      "name": "Declining",
+      "description": "Experience is all that remains, and it is not enough.",
+      "realised_min": 0.74,
+      "realised_max": 0.9,
+      "growth_rate": 0.0,
+      "physical_decay": 1.1,
+      "wage_multiplier": 0.8,
+      "potential_premium": 0.05,
+      "spawn_weight": 5.0
+    },
+    {
+      "stage_id": 8,
+      "phase": "Decline",
+      "position_min": 0.6,
+      "position_max": 1.01,
+      "name": "Twilight",
+      "description": "A name and a story. Hire for the tale, not the fight.",
+      "realised_min": 0.58,
+      "realised_max": 0.78,
+      "growth_rate": 0.0,
+      "physical_decay": 1.8,
+      "wage_multiplier": 0.65,
+      "potential_premium": 0.0,
+      "spawn_weight": 2.0
+    }
+  ],
+  "wage_scale": [
+    {
+      "band_id": 1,
+      "ca_min": 1,
+      "ca_max": 59,
+      "gold_min": 5.0,
+      "gold_max": 28.0
+    },
+    {
+      "band_id": 2,
+      "ca_min": 60,
+      "ca_max": 104,
+      "gold_min": 28.0,
+      "gold_max": 90.0
+    },
+    {
+      "band_id": 3,
+      "ca_min": 105,
+      "ca_max": 144,
+      "gold_min": 90.0,
+      "gold_max": 240.0
+    },
+    {
+      "band_id": 4,
+      "ca_min": 145,
+      "ca_max": 174,
+      "gold_min": 240.0,
+      "gold_max": 650.0
+    },
+    {
+      "band_id": 5,
+      "ca_min": 175,
+      "ca_max": 200,
+      "gold_min": 650.0,
+      "gold_max": 2200.0
+    }
+  ],
+  "wage_satisfaction_bands": [
+    {
+      "band_id": 1,
+      "ratio_min": 0.0,
+      "ratio_max": 0.6,
+      "name": "Furious",
+      "description": "Insulted by their pay. Actively looking to leave.",
+      "leave_risk": 0.55
+    },
+    {
+      "band_id": 2,
+      "ratio_min": 0.6,
+      "ratio_max": 0.8,
+      "name": "Unhappy",
+      "description": "Feels badly underpaid and says so.",
+      "leave_risk": 0.28
+    },
+    {
+      "band_id": 3,
+      "ratio_min": 0.8,
+      "ratio_max": 0.95,
+      "name": "Unsettled",
+      "description": "Grumbling. Would listen to a better offer.",
+      "leave_risk": 0.11
+    },
+    {
+      "band_id": 4,
+      "ratio_min": 0.95,
+      "ratio_max": 1.05,
+      "name": "Content",
+      "description": "Paid the going rate. No complaints.",
+      "leave_risk": 0.02
+    },
+    {
+      "band_id": 5,
+      "ratio_min": 1.05,
+      "ratio_max": 1.25,
+      "name": "Happy",
+      "description": "Paid above their worth and knows it.",
+      "leave_risk": 0.0
+    },
+    {
+      "band_id": 6,
+      "ratio_min": 1.25,
+      "ratio_max": 99.0,
+      "name": "Delighted",
+      "description": "Being paid a small fortune. Going nowhere.",
+      "leave_risk": 0.0
+    }
+  ],
+  "potential_growth_chance": [
+    {
+      "level": 2,
+      "chance": 0.07,
+      "max_gain": 6
+    },
+    {
+      "level": 3,
+      "chance": 0.07,
+      "max_gain": 6
+    },
+    {
+      "level": 4,
+      "chance": 0.065,
+      "max_gain": 6
+    },
+    {
+      "level": 5,
+      "chance": 0.065,
+      "max_gain": 5
+    },
+    {
+      "level": 6,
+      "chance": 0.055,
+      "max_gain": 5
+    },
+    {
+      "level": 7,
+      "chance": 0.05,
+      "max_gain": 5
+    },
+    {
+      "level": 8,
+      "chance": 0.045,
+      "max_gain": 4
+    },
+    {
+      "level": 9,
+      "chance": 0.045,
+      "max_gain": 4
+    },
+    {
+      "level": 10,
+      "chance": 0.04,
+      "max_gain": 4
+    },
+    {
+      "level": 11,
+      "chance": 0.03,
+      "max_gain": 3
+    },
+    {
+      "level": 12,
+      "chance": 0.03,
+      "max_gain": 3
+    },
+    {
+      "level": 13,
+      "chance": 0.025,
+      "max_gain": 3
+    },
+    {
+      "level": 14,
+      "chance": 0.025,
+      "max_gain": 3
+    },
+    {
+      "level": 15,
+      "chance": 0.02,
+      "max_gain": 2
+    },
+    {
+      "level": 16,
+      "chance": 0.015,
+      "max_gain": 2
+    },
+    {
+      "level": 17,
+      "chance": 0.012,
+      "max_gain": 2
+    },
+    {
+      "level": 18,
+      "chance": 0.01,
+      "max_gain": 2
+    },
+    {
+      "level": 19,
+      "chance": 0.008,
+      "max_gain": 1
+    },
+    {
+      "level": 20,
+      "chance": 0.008,
+      "max_gain": 1
+    }
+  ],
+  "game_config": [
+    {
+      "key": "max_level",
+      "value": "20",
+      "notes": "Hard cap on adventurer level."
+    },
+    {
+      "key": "gen_jitter_min",
+      "value": "0.45",
+      "notes": "Lower bound of per-stat random affinity at generation."
+    },
+    {
+      "key": "gen_jitter_max",
+      "value": "1.70",
+      "notes": "Upper bound of per-stat random affinity at generation."
+    },
+    {
+      "key": "class_weight_pull",
+      "value": "1.30",
+      "notes": "How strongly class weights steer where points land."
+    },
+    {
+      "key": "growth_randomness",
+      "value": "0.45",
+      "notes": "Random spread on each development step (0 = deterministic)."
+    },
+    {
+      "key": "pa_spread",
+      "value": "18",
+      "notes": "Random spread applied to PA within its tier band."
+    },
+    {
+      "key": "professionalism_pull",
+      "value": "0.60",
+      "notes": "How much the hidden professionalism stat swings growth."
+    },
+    {
+      "key": "signing_fee_ca",
+      "value": "6.0",
+      "notes": "Signing fee gold per point of current ability."
+    },
+    {
+      "key": "signing_fee_gap",
+      "value": "2.5",
+      "notes": "Signing fee gold per point of unrealised potential."
+    },
+    {
+      "key": "negotiation_floor",
+      "value": "0.88",
+      "notes": "Lowest wage ratio an adventurer will ever accept."
+    },
+    {
+      "key": "contract_periods",
+      "value": "12",
+      "notes": "Default contract length offered, in periods."
+    },
+    {
+      "key": "prosperity_pull",
+      "value": "2.0",
+      "notes": "How strongly location prosperity tilts recruit quality. 0 disables it."
+    }
+  ],
+  "items": [
+    {
+      "item_id": 1,
+      "name": "Longsword",
+      "item_type": "Weapon",
+      "slot": "MainHand",
+      "weight": 3.0,
+      "value_gold": 15,
+      "description": "A reliable straight blade."
+    },
+    {
+      "item_id": 2,
+      "name": "Dagger",
+      "item_type": "Weapon",
+      "slot": "MainHand",
+      "weight": 1.0,
+      "value_gold": 2,
+      "description": "Light, concealable."
+    },
+    {
+      "item_id": 3,
+      "name": "Quarterstaff",
+      "item_type": "Weapon",
+      "slot": "MainHand",
+      "weight": 4.0,
+      "value_gold": 1,
+      "description": "A stout length of wood."
+    },
+    {
+      "item_id": 4,
+      "name": "Shortbow",
+      "item_type": "Weapon",
+      "slot": "MainHand",
+      "weight": 2.0,
+      "value_gold": 25,
+      "description": "Ranged weapon."
+    },
+    {
+      "item_id": 5,
+      "name": "Wooden Shield",
+      "item_type": "Shield",
+      "slot": "OffHand",
+      "weight": 6.0,
+      "value_gold": 10,
+      "description": "Banded oak."
+    },
+    {
+      "item_id": 6,
+      "name": "Leather Armour",
+      "item_type": "Armour",
+      "slot": "Body",
+      "weight": 10.0,
+      "value_gold": 10,
+      "description": "Supple hardened hide."
+    },
+    {
+      "item_id": 7,
+      "name": "Chainmail",
+      "item_type": "Armour",
+      "slot": "Body",
+      "weight": 55.0,
+      "value_gold": 75,
+      "description": "Interlocking steel rings."
+    },
+    {
+      "item_id": 8,
+      "name": "Travelling Robes",
+      "item_type": "Armour",
+      "slot": "Body",
+      "weight": 4.0,
+      "value_gold": 1,
+      "description": "Plain, comfortable robes."
+    },
+    {
+      "item_id": 9,
+      "name": "Spellbook",
+      "item_type": "Focus",
+      "slot": "None",
+      "weight": 3.0,
+      "value_gold": 50,
+      "description": "Blank vellum awaiting theory."
+    },
+    {
+      "item_id": 10,
+      "name": "Holy Symbol",
+      "item_type": "Focus",
+      "slot": "Neck",
+      "weight": 1.0,
+      "value_gold": 5,
+      "description": "A token of faith."
+    },
+    {
+      "item_id": 11,
+      "name": "Sprig of Mistletoe",
+      "item_type": "Focus",
+      "slot": "None",
+      "weight": 0.1,
+      "value_gold": 1,
+      "description": "A druidic focus."
+    },
+    {
+      "item_id": 12,
+      "name": "Lute",
+      "item_type": "Focus",
+      "slot": "None",
+      "weight": 2.0,
+      "value_gold": 35,
+      "description": "Well-worn and well-tuned."
+    },
+    {
+      "item_id": 13,
+      "name": "Thieves Tools",
+      "item_type": "Tool",
+      "slot": "None",
+      "weight": 1.0,
+      "value_gold": 25,
+      "description": "Picks, wires and wedges."
+    },
+    {
+      "item_id": 14,
+      "name": "Rations (1 day)",
+      "item_type": "Consumable",
+      "slot": "None",
+      "weight": 2.0,
+      "value_gold": 1,
+      "description": "Dried food."
+    },
+    {
+      "item_id": 15,
+      "name": "Torch",
+      "item_type": "Consumable",
+      "slot": "None",
+      "weight": 1.0,
+      "value_gold": 1,
+      "description": "Burns for one hour."
+    }
+  ],
+  "abilities": [],
+  "class_abilities": [],
+  "spells": [],
+  "class_spells": [],
+  "class_starting_items": [
+    {
+      "class_id": 1,
+      "item_id": 1,
+      "quantity": 1,
+      "equipped": 1
+    },
+    {
+      "class_id": 1,
+      "item_id": 5,
+      "quantity": 1,
+      "equipped": 1
+    },
+    {
+      "class_id": 1,
+      "item_id": 7,
+      "quantity": 1,
+      "equipped": 1
+    },
+    {
+      "class_id": 1,
+      "item_id": 14,
+      "quantity": 3,
+      "equipped": 0
+    },
+    {
+      "class_id": 2,
+      "item_id": 3,
+      "quantity": 1,
+      "equipped": 1
+    },
+    {
+      "class_id": 2,
+      "item_id": 8,
+      "quantity": 1,
+      "equipped": 1
+    },
+    {
+      "class_id": 2,
+      "item_id": 9,
+      "quantity": 1,
+      "equipped": 0
+    },
+    {
+      "class_id": 2,
+      "item_id": 14,
+      "quantity": 3,
+      "equipped": 0
+    },
+    {
+      "class_id": 3,
+      "item_id": 2,
+      "quantity": 2,
+      "equipped": 1
+    },
+    {
+      "class_id": 3,
+      "item_id": 6,
+      "quantity": 1,
+      "equipped": 1
+    },
+    {
+      "class_id": 3,
+      "item_id": 13,
+      "quantity": 1,
+      "equipped": 0
+    },
+    {
+      "class_id": 3,
+      "item_id": 14,
+      "quantity": 3,
+      "equipped": 0
+    },
+    {
+      "class_id": 4,
+      "item_id": 1,
+      "quantity": 1,
+      "equipped": 1
+    },
+    {
+      "class_id": 4,
+      "item_id": 7,
+      "quantity": 1,
+      "equipped": 1
+    },
+    {
+      "class_id": 4,
+      "item_id": 10,
+      "quantity": 1,
+      "equipped": 1
+    },
+    {
+      "class_id": 4,
+      "item_id": 14,
+      "quantity": 3,
+      "equipped": 0
+    },
+    {
+      "class_id": 5,
+      "item_id": 3,
+      "quantity": 1,
+      "equipped": 1
+    },
+    {
+      "class_id": 5,
+      "item_id": 6,
+      "quantity": 1,
+      "equipped": 1
+    },
+    {
+      "class_id": 5,
+      "item_id": 11,
+      "quantity": 1,
+      "equipped": 0
+    },
+    {
+      "class_id": 5,
+      "item_id": 14,
+      "quantity": 3,
+      "equipped": 0
+    },
+    {
+      "class_id": 6,
+      "item_id": 2,
+      "quantity": 1,
+      "equipped": 1
+    },
+    {
+      "class_id": 6,
+      "item_id": 6,
+      "quantity": 1,
+      "equipped": 1
+    },
+    {
+      "class_id": 6,
+      "item_id": 12,
+      "quantity": 1,
+      "equipped": 0
+    },
+    {
+      "class_id": 6,
+      "item_id": 14,
+      "quantity": 3,
+      "equipped": 0
+    }
+  ],
+  "name_pool": [
+    {
+      "name_id": 1,
+      "race_id": 1,
+      "sex": "Male",
+      "name_part": "First",
+      "value": "Aldric"
+    },
+    {
+      "name_id": 2,
+      "race_id": 1,
+      "sex": "Male",
+      "name_part": "First",
+      "value": "Bertram"
+    },
+    {
+      "name_id": 3,
+      "race_id": 1,
+      "sex": "Female",
+      "name_part": "First",
+      "value": "Maerwen"
+    },
+    {
+      "name_id": 4,
+      "race_id": 1,
+      "sex": "Female",
+      "name_part": "First",
+      "value": "Isolde"
+    },
+    {
+      "name_id": 5,
+      "race_id": 1,
+      "sex": "Any",
+      "name_part": "Surname",
+      "value": "Ashdown"
+    },
+    {
+      "name_id": 6,
+      "race_id": 1,
+      "sex": "Any",
+      "name_part": "Surname",
+      "value": "Thorne"
+    },
+    {
+      "name_id": 7,
+      "race_id": 2,
+      "sex": "Male",
+      "name_part": "First",
+      "value": "Faelar"
+    },
+    {
+      "name_id": 8,
+      "race_id": 2,
+      "sex": "Female",
+      "name_part": "First",
+      "value": "Ilyrana"
+    },
+    {
+      "name_id": 9,
+      "race_id": 2,
+      "sex": "Any",
+      "name_part": "Surname",
+      "value": "Silverbough"
+    },
+    {
+      "name_id": 10,
+      "race_id": 3,
+      "sex": "Male",
+      "name_part": "First",
+      "value": "Milo"
+    },
+    {
+      "name_id": 11,
+      "race_id": 3,
+      "sex": "Female",
+      "name_part": "First",
+      "value": "Poppy"
+    },
+    {
+      "name_id": 12,
+      "race_id": 3,
+      "sex": "Any",
+      "name_part": "Surname",
+      "value": "Underbrook"
+    },
+    {
+      "name_id": 13,
+      "race_id": 4,
+      "sex": "Male",
+      "name_part": "First",
+      "value": "Grukk"
+    },
+    {
+      "name_id": 14,
+      "race_id": 4,
+      "sex": "Female",
+      "name_part": "First",
+      "value": "Shara"
+    },
+    {
+      "name_id": 15,
+      "race_id": 4,
+      "sex": "Any",
+      "name_part": "Surname",
+      "value": "Bonesplitter"
+    },
+    {
+      "name_id": 16,
+      "race_id": 5,
+      "sex": "Male",
+      "name_part": "First",
+      "value": "Thoric"
+    },
+    {
+      "name_id": 17,
+      "race_id": 5,
+      "sex": "Female",
+      "name_part": "First",
+      "value": "Berta"
+    },
+    {
+      "name_id": 18,
+      "race_id": 5,
+      "sex": "Any",
+      "name_part": "Surname",
+      "value": "Ironvein"
+    },
+    {
+      "name_id": 19,
+      "race_id": 6,
+      "sex": "Male",
+      "name_part": "First",
+      "value": "Fizwick"
+    },
+    {
+      "name_id": 20,
+      "race_id": 6,
+      "sex": "Female",
+      "name_part": "First",
+      "value": "Nyx"
+    },
+    {
+      "name_id": 21,
+      "race_id": 6,
+      "sex": "Any",
+      "name_part": "Surname",
+      "value": "Cogwhistle"
+    }
+  ],
+  "adventurers": [
+    {
+      "adventurer_id": 1,
+      "first_name": "Test",
+      "surname": "Case",
+      "race_id": 5,
+      "class_id": 6,
+      "sex": "Male",
+      "age": 30,
+      "level": 1,
+      "current_ability": 60,
+      "potential_ability": 120,
+      "potential_hidden": 1,
+      "professionalism": 10,
+      "greed": 10,
+      "wage_agreed": 50.0,
+      "contract_periods": 12,
+      "signed_at_ca": 60,
+      "recruit_cost": 0,
+      "is_recruited": 1,
+      "generated_at": "2026-08-10 18:02:58"
+    }
+  ],
+  "adventurer_stats": [
+    {
+      "adventurer_id": 1,
+      "stat_id": 25,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 7,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 17,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 26,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 11,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 10,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 12,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 24,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 22,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 20,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 14,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 19,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 2,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 4,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 5,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 23,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 6,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 8,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 21,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 15,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 9,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 3,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 1,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 16,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 18,
+      "base_value": 8
+    },
+    {
+      "adventurer_id": 1,
+      "stat_id": 13,
+      "base_value": 8
+    }
+  ],
+  "adventurer_items": [],
+  "adventurer_spells": [],
+  "development_log": []
+}

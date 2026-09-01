@@ -21,3 +21,4 @@ mono_crash.*.json
 AGENTS.md
 .kilo/plans/1787593766258-poc-non-combat-encounter-dice-roller.md
 Game/__pycache__/
+__pycache__/db_loader.cpython-314.pyc
