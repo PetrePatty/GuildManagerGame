@@ -53,7 +53,7 @@ Classic fantasy fans, management/simulation game fans, tabletop RPG (TTRPG) fans
 
 ---
 
-## 4. Core Gameplay Loop
+## 4. Core Gameplay Loops
 
 The game has two nested loops:
 
@@ -64,19 +64,19 @@ The game has two nested loops:
 
 > Find and/or accept an available quest → Execute the quest and receive the outcome/reward → While waiting for the next quest opportunity, improve the guild (recruit from the rotating roster, upgrade facilities, heal/train the roster, negotiate terms) → Repeat.
 
-The guild loop remains the primary design focus for V1, but the quest loop has grown in scope compared to earlier drafts: making questing itself feel fun and varied — via the encounter builder, tag system, and quest text presentation — is now an explicit, co-equal focus rather than something leaned entirely on borrowed frameworks to de-risk.
+*The guild loop remains the primary design focus for V1, but the quest loop has grown in scope compared to earlier drafts: making questing itself feel fun and varied — via the encounter builder, tag system, and quest text presentation — is now an explicit, co-equal focus rather than something leaned entirely on borrowed frameworks to de-risk.*
 
 ---
 
-## 5. V1 Scope — Core Pillars
+## 5. Core Pillars
 
-V1 is scoped as a **single-player management sim**, with pillars ranked by priority (most to least important — see Section 12 open item on trimming if scope needs to shrink):
+This game is scoped as a **fantasy guild management sim**, with pillars ranked by priority (most to least important — see Section 12 open item on trimming if scope needs to shrink):
 
-1. **Adventuring guild management** — the guild loop: recruitment, contracts, facilities, finances, roster health.
-2. **Custom quest storyteller** — the quest loop: multi-encounter quests resolved via a bespoke, stat-driven system with narrative flavor text, loosely inspired by tabletop RPG frameworks.
-3. **Comprehensive fantasy database** — characters, stats, items, quests, enemies, encounter types, challenges, rewards, and the tags that connect them.
-4. **Encounter builder** — a tag-driven system that assembles sensible, thematically coherent, appropriately difficult encounters from the database, rather than requiring every encounter to be fully hand-authored.
-5. **Static world and town** — the guild exists in a larger world, but for V1 the guild operates from a **single, static town**; the world is not yet procedural or traversable.
+1. **Fantasy questing engine** — a tag-driven quest generator that assembles sensible, thematically coherent, appropriately difficult encounters from the database.The quest loop: multi-encounter quests resolved via a bespoke, stat-driven system with narrative flavor text, ASCII art, and a simple, intuitive UI. The adventurers make all of the decisions, and the game presents the results. The player chooses the party composition, loadout and strategy for the party.
+2. **Adventuring guild management** — the guild loop: recruitment, contracts, facilities, finances, roster health, training, crafting, and reputation.
+3. **Comprehensive fantasy database** — characters, stats, items, materials, quests, enemies, encounter types, challenges, rewards, and the tags that connect them.
+4. **World map and factions** — the guild exists in a larger world, with many settlements, locations and rival factions. Interacting with and exploring different towns and regions will unlock new quests, items, and characters. The player can choose to travel to different settlements for the benefits offered by that settlement. The player can influence the world by completing quests, building facilities, and recruiting characters.
+5. **Fantasy character system** — a stat-driven character system with a focus on emergent storytelling and emergent character relationships.
 
 ### 5.1 Presentation Layer (per feature)
 
