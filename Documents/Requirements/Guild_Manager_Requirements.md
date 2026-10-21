@@ -163,26 +163,32 @@ Encounters fall into three categories:
 
 #### 6.5.4 Resolution System
 
-- Rolls use **3d6 + modifiers**, chosen deliberately over a flatter distribution (e.g., a single d20) to produce a bell curve — this keeps outcomes less swingy and gives stats a bigger, more reliable influence on the result, in line with the goal of stats mattering more than in typical tabletop systems.
-- Adventurer stats' scale is not yet finalized — two candidate systems (1–100 and 1–20) are under consideration; see Section 6.14 for both, with their respective Ability Contribution bands. The rest of this section describes the modifier math in general, using the 1–100 candidate as its worked example.
-- **Modifiers are calculated across three independent categories, all of which sum together:**
+- Two rolling systems are proposed for this game:
+  1. Rolls use **3d6 + modifiers versus a DC**, chosen deliberately over a flatter distribution (e.g., a single d20) to produce a bell curve — this keeps outcomes less swingy and gives stats a bigger, more reliable influence on the result, in line with the goal of stats mattering more than in typical tabletop systems. Modifiers are the weighted average of all the involved modifiers for a specific roll. This is rolled against a specific DC, as explained below.
+  2. Rolls use only a **d100 to roll lower than the weighted average of the stats involved**. That is, the weighted average of all stats are calculated as a percentage. Additions or subtractions are made, based on item bonuses and/or the difficulty of the roll. A d100 is rolled and checked to see if it is lower than the calculated percentage to be successful.
+- Adventurer stats' scale is not yet finalized — two candidate systems (1–20 and 1–100) are under consideration; see Section 6.14 for both, with their respective Ability Contribution bands.
 
-  1. **Ability Contribution** — each stat relevant to a given roll is converted into a small modifier via a banded lookup (not a continuous formula), so raw stats can't dominate the dice. Where a roll draws on more than one stat, each contributing stat's band is added — being good at multiple relevant stats helps additively. *Shown here for the 1–100 candidate; see Section 6.14 for the 1–20 equivalent. Exact band widths for either are still being tuned — the table below is a provisional scaffold, not final:*
+- **Modifiers are calculated across two independent categories:**
+
+  1. **Stat Contribution** — each stat relevant to a given roll is converted into a small modifier via a banded lookup (not a continuous formula), so raw stats can't dominate the dice. Where a roll draws on more than one stat, each contributing stat's band is added — being good at multiple relevant stats helps. *Shown here for the 20 candidate; see Section 6.14 for the 1–100 equivalent. Exact band widths for either are still being tuned — the table below is a provisional scaffold, not final:*
 
      | Stat range | Ability Contribution |
      | --- | --- |
-     | 1–20 | −2 |
-     | 21–40 | −1 |
-     | 41–60 | +0 |
-     | 61–80 | +1 |
-     | 81–100 | +2 |
+     | 2–3 | −4 |
+     | 4–5 | −3 |
+     | 6–7 | −2 |
+     | 8–9 | −1 |
+     | 10–11 | +0 |
+     | 12–13 | +1 |
+     | 14–15 | +2 |
+     | 16–17 | +3 |
+     | 18-19 | +4 |
 
-  2. **Proficiency Tier** — a separate progression axis representing training in a specific skill, independent of the raw stat (e.g., Untrained/Trained/Expert/Master, each a small flat bonus) — this gives a trained-but-not-naturally-gifted character a real path to competence, and vice versa.
-  3. **Item bonuses** — bonuses from equipment. Multiple item bonuses **stack** *(whether all items stack, or only the single best, is still open — see Section 11)*. There is deliberately **no circumstance bonus category**.
+  2. **Item bonuses** — bonuses from equipment. Multiple item bonuses **stack** *(whether all items stack, or only the single best, is still open — see Section 11)*. There is deliberately **no circumstance bonus category**.
 - **Difficulty Class (DC)** for skill checks and **Armour Class (AC)** for combat to-hit share a common baseline range of roughly **8–16**, scaled by the quest's target difficulty. Rolling exactly the DC/AC counts as a **success** (meet-or-beat).
 - **Critical success/failure:** a result **10 or more above or below** the target number is a critical success or failure. Crit *effects* are defined per individual skill/ability rather than following one universal rule.
 - Non-combat **DCs are fixed values authored per skill** in the database (see Section 6.5.3a); the quest generator selects skills whose stored DC matches its target difficulty, rather than computing one dynamically.
-- Combat **AC** is calculated from the defending combatant's own relevant stats via the same Ability Contribution + Proficiency system above, rather than being a stored fixed value. *(Working assumption, not yet explicitly confirmed — see Section 11.)*
+- Combat **AC** is calculated from the defending combatant's own relevant stats via the same Stat Contribution + Proficiency system above, rather than being a stored fixed value. *(Working assumption, not yet explicitly confirmed — see Section 11.)*
 - The specific stat list — which stats exist and which feed which rolls — is still being finalized (see Section 11).
 - Results are dressed with narrative flavor text and inter-party interaction effects to keep quests feeling distinct from one another.
 
@@ -210,7 +216,7 @@ Encounters fall into three categories:
 
 The party settles on an approach through four phases, run once per encounter:
 
-1. **Appraisal** — every party member independently evaluates every available approach, estimating their own perceived success chance for each. For combat encounters, the appraisal instead estimates the likely battle outcome. The approach with the highest perceived success chance becomes that member's proposal.
+1. **Appraisal** — every party member independently evaluates every available approach, estimating their own perceived success chance for each option. For combat encounters, the appraisal instead estimates the likely battle outcome. The approach with the highest perceived success chance becomes that member's proposal.
 
    Accuracy of this estimate is governed by the member's **Decision-Making** stat, via added noise drawn from a **normal distribution**:
 

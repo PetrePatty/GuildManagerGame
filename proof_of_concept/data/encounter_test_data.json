@@ -1,0 +1,670 @@
+{
+  "encounter": {
+    "encounter_id": "enc_noncombat_01",
+    "name": "Open the Dungeon Door",
+    "category": "non-combat",
+    "description": "A heavy reinforced wooden door blocks access to the dungeon. A guard stands nearby, and the lock mechanisms are visible.",
+    "difficulty_class": 12,
+    "approaches": [
+      {
+        "approach_id": "app_lockpicking",
+        "name": "Lockpicking",
+        "description": "Pick the mechanical lock on the door using thieving tools and analytical precision.",
+        "difficulty_class": 12,
+        "relevant_stats": [
+          "THV",
+          "FIN",
+          "CRT"
+        ],
+        "relevant_stat_names": [
+          "Thieving",
+          "Finesse",
+          "Critical Thinking"
+        ],
+        "relevant_stat_ids": [
+          9,
+          22,
+          10
+        ]
+      },
+      {
+        "approach_id": "app_bashing",
+        "name": "Bashing Down the Door",
+        "description": "Use raw strength and momentum to kick or bash through the reinforced wood.",
+        "difficulty_class": 14,
+        "relevant_stats": [
+          "STR",
+          "ATH",
+          "END"
+        ],
+        "relevant_stat_names": [
+          "Strength",
+          "Athletics",
+          "Endurance"
+        ],
+        "relevant_stat_ids": [
+          21,
+          26,
+          24
+        ]
+      },
+      {
+        "approach_id": "app_convincing",
+        "name": "Convincing a Guard",
+        "description": "Talk to the guard guarding the door and persuade them to unlock it.",
+        "difficulty_class": 10,
+        "relevant_stats": [
+          "GUI",
+          "LDR",
+          "DEC"
+        ],
+        "relevant_stat_names": [
+          "Guile",
+          "Leadership",
+          "Decisions"
+        ],
+        "relevant_stat_ids": [
+          20,
+          14,
+          12
+        ]
+      }
+    ]
+  },
+  "adventurers": [
+    {
+      "adventurer_id": 1,
+      "first_name": "Nique",
+      "surname": "Vane",
+      "race_id": 2,
+      "race_name": "Elf",
+      "class_id": 3,
+      "class_name": "Rogue",
+      "sex": "Female",
+      "age": 115,
+      "level": 1,
+      "stats": {
+        "UNA": 19,
+        "ONE": 7,
+        "TWO": 18,
+        "RNG": 12,
+        "SHD": 15,
+        "SPC": 2,
+        "ALC": 17,
+        "STL": 7,
+        "THV": 20,
+        "CRT": 8,
+        "BRV": 10,
+        "DEC": 16,
+        "WIL": 7,
+        "LDR": 11,
+        "TMW": 15,
+        "VIS": 3,
+        "ARC": 9,
+        "WAR": 7,
+        "NAT": 6,
+        "GUI": 3,
+        "STR": 15,
+        "FIN": 18,
+        "SPD": 12,
+        "END": 7,
+        "ACR": 16,
+        "ATH": 11
+      },
+      "stat_details": [
+        {
+          "stat_id": 1,
+          "code": "UNA",
+          "name": "Unarmed",
+          "base_value": 19
+        },
+        {
+          "stat_id": 2,
+          "code": "ONE",
+          "name": "One-Handed Weapons",
+          "base_value": 7
+        },
+        {
+          "stat_id": 3,
+          "code": "TWO",
+          "name": "Two-Handed Weapons",
+          "base_value": 18
+        },
+        {
+          "stat_id": 4,
+          "code": "RNG",
+          "name": "Ranged Weapons",
+          "base_value": 12
+        },
+        {
+          "stat_id": 5,
+          "code": "SHD",
+          "name": "Shields",
+          "base_value": 15
+        },
+        {
+          "stat_id": 6,
+          "code": "SPC",
+          "name": "Spell Casting",
+          "base_value": 2
+        },
+        {
+          "stat_id": 7,
+          "code": "ALC",
+          "name": "Alchemy",
+          "base_value": 17
+        },
+        {
+          "stat_id": 8,
+          "code": "STL",
+          "name": "Stealth",
+          "base_value": 7
+        },
+        {
+          "stat_id": 9,
+          "code": "THV",
+          "name": "Thieving",
+          "base_value": 20
+        },
+        {
+          "stat_id": 10,
+          "code": "CRT",
+          "name": "Critical Thinking",
+          "base_value": 8
+        },
+        {
+          "stat_id": 11,
+          "code": "BRV",
+          "name": "Bravery",
+          "base_value": 10
+        },
+        {
+          "stat_id": 12,
+          "code": "DEC",
+          "name": "Decisions",
+          "base_value": 16
+        },
+        {
+          "stat_id": 13,
+          "code": "WIL",
+          "name": "Willpower",
+          "base_value": 7
+        },
+        {
+          "stat_id": 14,
+          "code": "LDR",
+          "name": "Leadership",
+          "base_value": 11
+        },
+        {
+          "stat_id": 15,
+          "code": "TMW",
+          "name": "Teamwork",
+          "base_value": 15
+        },
+        {
+          "stat_id": 16,
+          "code": "VIS",
+          "name": "Vision",
+          "base_value": 3
+        },
+        {
+          "stat_id": 17,
+          "code": "ARC",
+          "name": "Arcana",
+          "base_value": 9
+        },
+        {
+          "stat_id": 18,
+          "code": "WAR",
+          "name": "Warfare",
+          "base_value": 7
+        },
+        {
+          "stat_id": 19,
+          "code": "NAT",
+          "name": "Nature",
+          "base_value": 6
+        },
+        {
+          "stat_id": 20,
+          "code": "GUI",
+          "name": "Guile",
+          "base_value": 3
+        },
+        {
+          "stat_id": 21,
+          "code": "STR",
+          "name": "Strength",
+          "base_value": 15
+        },
+        {
+          "stat_id": 22,
+          "code": "FIN",
+          "name": "Finesse",
+          "base_value": 18
+        },
+        {
+          "stat_id": 23,
+          "code": "SPD",
+          "name": "Speed",
+          "base_value": 12
+        },
+        {
+          "stat_id": 24,
+          "code": "END",
+          "name": "Endurance",
+          "base_value": 7
+        },
+        {
+          "stat_id": 25,
+          "code": "ACR",
+          "name": "Acrobatics",
+          "base_value": 16
+        },
+        {
+          "stat_id": 26,
+          "code": "ATH",
+          "name": "Athletics",
+          "base_value": 11
+        }
+      ]
+    },
+    {
+      "adventurer_id": 2,
+      "first_name": "Swollrich",
+      "surname": "Ironbreaker",
+      "race_id": 4,
+      "race_name": "Orc",
+      "class_id": 1,
+      "class_name": "Warrior",
+      "sex": "Male",
+      "age": 22,
+      "level": 1,
+      "stats": {
+        "UNA": 13,
+        "ONE": 16,
+        "TWO": 14,
+        "RNG": 7,
+        "SHD": 7,
+        "SPC": 13,
+        "ALC": 2,
+        "STL": 14,
+        "THV": 15,
+        "CRT": 15,
+        "BRV": 2,
+        "DEC": 17,
+        "WIL": 11,
+        "LDR": 7,
+        "TMW": 8,
+        "VIS": 16,
+        "ARC": 20,
+        "WAR": 17,
+        "NAT": 7,
+        "GUI": 13,
+        "STR": 16,
+        "FIN": 16,
+        "SPD": 5,
+        "END": 14,
+        "ACR": 15,
+        "ATH": 15
+      },
+      "stat_details": [
+        {
+          "stat_id": 1,
+          "code": "UNA",
+          "name": "Unarmed",
+          "base_value": 13
+        },
+        {
+          "stat_id": 2,
+          "code": "ONE",
+          "name": "One-Handed Weapons",
+          "base_value": 16
+        },
+        {
+          "stat_id": 3,
+          "code": "TWO",
+          "name": "Two-Handed Weapons",
+          "base_value": 14
+        },
+        {
+          "stat_id": 4,
+          "code": "RNG",
+          "name": "Ranged Weapons",
+          "base_value": 7
+        },
+        {
+          "stat_id": 5,
+          "code": "SHD",
+          "name": "Shields",
+          "base_value": 7
+        },
+        {
+          "stat_id": 6,
+          "code": "SPC",
+          "name": "Spell Casting",
+          "base_value": 13
+        },
+        {
+          "stat_id": 7,
+          "code": "ALC",
+          "name": "Alchemy",
+          "base_value": 2
+        },
+        {
+          "stat_id": 8,
+          "code": "STL",
+          "name": "Stealth",
+          "base_value": 14
+        },
+        {
+          "stat_id": 9,
+          "code": "THV",
+          "name": "Thieving",
+          "base_value": 15
+        },
+        {
+          "stat_id": 10,
+          "code": "CRT",
+          "name": "Critical Thinking",
+          "base_value": 15
+        },
+        {
+          "stat_id": 11,
+          "code": "BRV",
+          "name": "Bravery",
+          "base_value": 2
+        },
+        {
+          "stat_id": 12,
+          "code": "DEC",
+          "name": "Decisions",
+          "base_value": 17
+        },
+        {
+          "stat_id": 13,
+          "code": "WIL",
+          "name": "Willpower",
+          "base_value": 11
+        },
+        {
+          "stat_id": 14,
+          "code": "LDR",
+          "name": "Leadership",
+          "base_value": 7
+        },
+        {
+          "stat_id": 15,
+          "code": "TMW",
+          "name": "Teamwork",
+          "base_value": 8
+        },
+        {
+          "stat_id": 16,
+          "code": "VIS",
+          "name": "Vision",
+          "base_value": 16
+        },
+        {
+          "stat_id": 17,
+          "code": "ARC",
+          "name": "Arcana",
+          "base_value": 20
+        },
+        {
+          "stat_id": 18,
+          "code": "WAR",
+          "name": "Warfare",
+          "base_value": 17
+        },
+        {
+          "stat_id": 19,
+          "code": "NAT",
+          "name": "Nature",
+          "base_value": 7
+        },
+        {
+          "stat_id": 20,
+          "code": "GUI",
+          "name": "Guile",
+          "base_value": 13
+        },
+        {
+          "stat_id": 21,
+          "code": "STR",
+          "name": "Strength",
+          "base_value": 16
+        },
+        {
+          "stat_id": 22,
+          "code": "FIN",
+          "name": "Finesse",
+          "base_value": 16
+        },
+        {
+          "stat_id": 23,
+          "code": "SPD",
+          "name": "Speed",
+          "base_value": 5
+        },
+        {
+          "stat_id": 24,
+          "code": "END",
+          "name": "Endurance",
+          "base_value": 14
+        },
+        {
+          "stat_id": 25,
+          "code": "ACR",
+          "name": "Acrobatics",
+          "base_value": 15
+        },
+        {
+          "stat_id": 26,
+          "code": "ATH",
+          "name": "Athletics",
+          "base_value": 15
+        }
+      ]
+    },
+    {
+      "adventurer_id": 3,
+      "first_name": "Petrus",
+      "surname": "Lightbringer",
+      "race_id": 1,
+      "race_name": "Human",
+      "class_id": 4,
+      "class_name": "Paladin",
+      "sex": "Male",
+      "age": 29,
+      "level": 1,
+      "stats": {
+        "UNA": 2,
+        "ONE": 8,
+        "TWO": 7,
+        "RNG": 3,
+        "SHD": 19,
+        "SPC": 20,
+        "ALC": 9,
+        "STL": 19,
+        "THV": 17,
+        "CRT": 13,
+        "BRV": 6,
+        "DEC": 14,
+        "WIL": 16,
+        "LDR": 19,
+        "TMW": 3,
+        "VIS": 9,
+        "ARC": 17,
+        "WAR": 18,
+        "NAT": 2,
+        "GUI": 20,
+        "STR": 4,
+        "FIN": 13,
+        "SPD": 5,
+        "END": 16,
+        "ACR": 10,
+        "ATH": 1
+      },
+      "stat_details": [
+        {
+          "stat_id": 1,
+          "code": "UNA",
+          "name": "Unarmed",
+          "base_value": 2
+        },
+        {
+          "stat_id": 2,
+          "code": "ONE",
+          "name": "One-Handed Weapons",
+          "base_value": 8
+        },
+        {
+          "stat_id": 3,
+          "code": "TWO",
+          "name": "Two-Handed Weapons",
+          "base_value": 7
+        },
+        {
+          "stat_id": 4,
+          "code": "RNG",
+          "name": "Ranged Weapons",
+          "base_value": 3
+        },
+        {
+          "stat_id": 5,
+          "code": "SHD",
+          "name": "Shields",
+          "base_value": 19
+        },
+        {
+          "stat_id": 6,
+          "code": "SPC",
+          "name": "Spell Casting",
+          "base_value": 20
+        },
+        {
+          "stat_id": 7,
+          "code": "ALC",
+          "name": "Alchemy",
+          "base_value": 9
+        },
+        {
+          "stat_id": 8,
+          "code": "STL",
+          "name": "Stealth",
+          "base_value": 19
+        },
+        {
+          "stat_id": 9,
+          "code": "THV",
+          "name": "Thieving",
+          "base_value": 17
+        },
+        {
+          "stat_id": 10,
+          "code": "CRT",
+          "name": "Critical Thinking",
+          "base_value": 13
+        },
+        {
+          "stat_id": 11,
+          "code": "BRV",
+          "name": "Bravery",
+          "base_value": 6
+        },
+        {
+          "stat_id": 12,
+          "code": "DEC",
+          "name": "Decisions",
+          "base_value": 14
+        },
+        {
+          "stat_id": 13,
+          "code": "WIL",
+          "name": "Willpower",
+          "base_value": 16
+        },
+        {
+          "stat_id": 14,
+          "code": "LDR",
+          "name": "Leadership",
+          "base_value": 19
+        },
+        {
+          "stat_id": 15,
+          "code": "TMW",
+          "name": "Teamwork",
+          "base_value": 3
+        },
+        {
+          "stat_id": 16,
+          "code": "VIS",
+          "name": "Vision",
+          "base_value": 9
+        },
+        {
+          "stat_id": 17,
+          "code": "ARC",
+          "name": "Arcana",
+          "base_value": 17
+        },
+        {
+          "stat_id": 18,
+          "code": "WAR",
+          "name": "Warfare",
+          "base_value": 18
+        },
+        {
+          "stat_id": 19,
+          "code": "NAT",
+          "name": "Nature",
+          "base_value": 2
+        },
+        {
+          "stat_id": 20,
+          "code": "GUI",
+          "name": "Guile",
+          "base_value": 20
+        },
+        {
+          "stat_id": 21,
+          "code": "STR",
+          "name": "Strength",
+          "base_value": 4
+        },
+        {
+          "stat_id": 22,
+          "code": "FIN",
+          "name": "Finesse",
+          "base_value": 13
+        },
+        {
+          "stat_id": 23,
+          "code": "SPD",
+          "name": "Speed",
+          "base_value": 5
+        },
+        {
+          "stat_id": 24,
+          "code": "END",
+          "name": "Endurance",
+          "base_value": 16
+        },
+        {
+          "stat_id": 25,
+          "code": "ACR",
+          "name": "Acrobatics",
+          "base_value": 10
+        },
+        {
+          "stat_id": 26,
+          "code": "ATH",
+          "name": "Athletics",
+          "base_value": 1
+        }
+      ]
+    }
+  ]
+}
