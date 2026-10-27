@@ -392,9 +392,8 @@ V1 introduces a small set of playable adventurer races, needed because several a
 
 - **As a player**, I want adventurers to grow more capable over time through play, so that investing in a roster member has a lasting payoff.
 - Adventurers gain **XP from three sources**, each contributing at a different rate:
-  - **Aging** — a slow, constant trickle of XP over time, kept deliberately small so that keeping an adventurer benched in reserve is never the optimal strategy.
   - **Quests** — a lump sum of XP gained from attempting and/or completing a quest, **split evenly across all party members present**.
-  - **Training** — a medium trickle of XP gained during downtime at the guild's training facility (Section 6.3).
+  - **Training** — a small trickle of XP gained during downtime at the guild's training facility (Section 6.3).
   - *V1 scope note: aging XP applies only to adventurers already recruited into the guild — the wider world's recruitable pool isn't simulated over time until V2 (Section 9.2), consistent with V1's single-town scope.*
 - XP converts into stat growth **non-linearly** — it takes progressively more XP to raise a stat the higher that stat already is, producing a soft cap without a hard ceiling.
 - **Class and race act as multipliers** on how efficiently XP converts into growth for a given stat (e.g., a class/race combination suited to Strength converts XP into Strength growth faster than into an unrelated stat).
